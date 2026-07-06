@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ian Crvenković — Graphic Designer</title>
+    <meta name="description" content="Ian Crvenković — graphic designer based in Berlin. Selected work across brand identity, art direction, and logo design.">
+    <meta name="author" content="Ian Crvenković">
+    <meta property="og:title" content="Ian Crvenković — Graphic Designer">
+    <meta property="og:description" content="Graphic designer based in Berlin. Selected work across brand identity, art direction, and logo design.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #F4F2EE;
+            --text: #1A1A1A;
+            --muted: #9A9690;
+            --border: #D8D4CE;
+            /* left/right inset that lines up with the centered, max-width content */
+            --edge: max(36px, calc(50vw - 684px));
+            /* adjustable section spacing (dev sliders) */
+            --gap-nav: 30px;
+            --gap-intro: 30px;
+            --gap-head: 22px;
+            --gap-section: 40px;
+        }
+
+        /* ── Dark mode ── */
+        body.dark {
+            --bg: #000000;
+            --text: #F0EBE3;
+            --muted: #78716C;
+            --border: #3C3835;
+        }
+        body.dark .city-dropdown { background: #242424; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+        body.dark .city-dropdown-item:hover { background: rgba(255,255,255,0.05); }
+        body.dark .project-image { filter: brightness(0.9); }
+        body.dark .modal-panel { background: #222222; }
+        body.dark .modal-hero { filter: brightness(0.88); }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-size: var(--body-size, 15px);
+            letter-spacing: var(--body-tracking, 0em);
+            line-height: var(--body-leading, 1.5);
+            padding: 28px 36px;
+            max-width: 1440px;
+            margin: 0 auto;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ── Nav ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg);
+            padding: 14px 0;
+            margin-bottom: var(--gap-nav, 40px);
+        }
+        .nav-star {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            height: 15px; width: auto;
+            color: #fff;
+            pointer-events: none;
+        }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .nav-desc { text-align: right; font-size: 13px; color: var(--muted); line-height: 1.5; letter-spacing: 0.01em; }
+        .nav-desc .footer-bio { color: var(--text); }
+        .nav-desc .company-link { color: var(--text); }
+        .nav-desc .fp-bayes:hover { color: #2BE2AE; }
+        .nav-desc .fp-bb:hover { color: #09ACB4; }
+        .nav-info { background: none; border: none; cursor: pointer; color: var(--muted); padding: 0; display: inline-flex; align-items: center; transition: color 0.15s ease; }
+        .nav-info:hover { color: var(--text); }
+        .nav-info svg { width: 20px; height: 20px; display: block; }
+        /* linked hover: card <-> name text */
+        .fp-bayes.lit, .nav-desc .fp-bayes.lit, .site-footer .fp-bayes.lit { color: #2BE2AE; }
+        .fp-bb.lit, .nav-desc .fp-bb.lit, .site-footer .fp-bb.lit { color: #09ACB4; }
+        .fp-bayes.lit::after { width: 100%; background-color: #2BE2AE; }
+        .fp-bb.lit::after { width: 100%; background-color: #09ACB4; }
+        .project-card.linked-hover .card-overlay { opacity: 1; }
+        /* Say hello fab (bottom-right) */
+        .hello-fab { position: fixed; bottom: 16px; right: 16px; z-index: 60; display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45); }
+        .hello-link { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
+        .hello-link:hover { color: var(--text); }
+        .hello-copy { background: none; border: none; cursor: pointer; color: var(--muted); display: inline-flex; align-items: center; padding: 0; transition: color 0.15s ease; }
+        .hello-copy:hover { color: var(--text); }
+        .hello-copy svg { width: 13px; height: 13px; }
+        .hello-copy .icon-check { display: none; }
+        .hello-copy.copied { color: #2BBE8E; }
+        .hello-copy.copied .icon-copy { display: none; }
+        .hello-copy.copied .icon-check { display: block; }
+        .nav-name {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            color: var(--text);
+        }
+        /* Intro copy under the logo (mirrors footer text) */
+        .intro-copy { font-size: 13px; color: var(--muted); letter-spacing: 0.01em; line-height: 1.55; margin-bottom: var(--gap-intro, 30px); }
+        .intro-copy .footer-bio { color: var(--text); }
+        .intro-copy .fp-muted { color: var(--muted); }
+        .intro-copy .company-link { color: var(--text); }
+        .intro-copy .fp-bayes:hover { color: #2BE2AE; }
+        .intro-copy .fp-bb:hover { color: #09ACB4; }
+        .nav-links { display: flex; gap: 44px; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: color 0.2s;
+            color: var(--muted);
+        }
+        .nav-links a.active { color: var(--text); }
+        .nav-links a:hover { color: var(--text); }
+
+        /* ── Theme toggle ── */
+        .theme-toggle {
+            background: none; border: none; cursor: pointer;
+            padding: 2px; color: var(--muted);
+            display: flex; align-items: center;
+            transition: color 0.2s ease; flex-shrink: 0;
+            pointer-events: auto;
+        }
+        .theme-toggle:hover { color: var(--text); }
+        .theme-toggle svg { width: 16px; height: 16px; }
+        .icon-sun { display: none; }
+        .icon-moon { display: block; }
+        body.dark .icon-sun { display: block; }
+        body.dark .icon-moon { display: none; }
+
+        /* ── Bio ── */
+        .bio { margin-bottom: 44px; }
+        .bio-line {
+            font-size: 22px; line-height: 1.6;
+        }
+        .bio-line-2 { font-size: 16px; color: var(--muted); margin-top: 2px; }
+        .bio-name { font-family: 'Schibsted Grotesk', sans-serif; font-size: 22px; }
+
+        /* ── City dropdown ── */
+        .city-wrapper { position: relative; display: inline-block; }
+        .city-text {
+            cursor: pointer; position: relative;
+            display: inline-flex; align-items: center; gap: 4px;
+            border-bottom: 1.5px dashed var(--muted); padding-bottom: 1px;
+            transition: border-color 0.2s ease;
+        }
+        .city-text:hover, .city-text.open { border-bottom-color: var(--text); }
+        .city-chevron {
+            display: inline-block; width: 14px; height: 14px;
+            transition: transform 0.2s ease; flex-shrink: 0; color: var(--muted);
+        }
+        .city-text.open .city-chevron { transform: rotate(180deg); color: var(--text); }
+        .city-text:hover .city-chevron { color: var(--text); }
+        .city-dropdown {
+            position: absolute; top: calc(100% + 8px); left: 0;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 10px; padding: 5px 0; min-width: 170px;
+            z-index: 100; box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+            opacity: 0; transform: translateY(-4px); pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+        .city-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: all; }
+        .city-dropdown-item {
+            padding: 8px 18px; font-size: 14px; cursor: pointer;
+            transition: background 0.12s; color: var(--text); font-family: 'Schibsted Grotesk', sans-serif;
+        }
+        .city-dropdown-item:hover { background: rgba(0,0,0,0.04); }
+        .city-dropdown-item.current { color: var(--text); cursor: default; font-weight: 400; }
+        .city-dropdown-item.current:hover { background: transparent; }
+        .city-dropdown-item.passive { color: var(--muted); cursor: default; font-size: 13px; padding: 4px 18px; }
+        .city-dropdown-item.passive:hover { background: transparent; }
+        .city-dropdown-divider { height: 1px; background: var(--border); margin: 5px 18px; }
+        .city-dropdown-section {
+            padding: 10px 18px 2px;
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            cursor: default;
+            opacity: 0.6;
+        }
+
+        /* ── Company links ── */
+        .company-link { cursor: pointer; position: relative; display: inline-block; }
+        .company-link::after {
+            content: ''; position: absolute; bottom: 2px; left: 0;
+            width: 0; height: 1px; background-color: var(--muted); transition: width 0.22s ease;
+        }
+        .company-link:hover::after { width: 100%; }
+
+        /* ── Say hello + copy (nav) ── */
+        .nav-hello { display: inline-flex; align-items: center; gap: 7px; }
+        .nav-copy {
+            background: none; border: none; cursor: pointer;
+            color: var(--muted); display: inline-flex; align-items: center;
+            padding: 2px; transition: color 0.15s ease;
+        }
+        .nav-copy:hover { color: var(--text); }
+        .nav-copy svg { width: 13px; height: 13px; }
+        .nav-copy .icon-check { display: none; }
+        .nav-copy.copied { color: #2BBE8E; }
+        .nav-copy.copied .icon-copy { display: none; }
+        .nav-copy.copied .icon-check { display: block; }
+
+        /* ── Sections ── */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* ── Section tabs ── */
+        .section-tabs {
+            display: inline-flex;
+            background: var(--border);
+            border-radius: 8px;
+            padding: 3px;
+            gap: 2px;
+            margin-bottom: 20px;
+        }
+        .section-tab {
+            padding: 5px 18px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--muted);
+            transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .section-tab.active {
+            background: var(--bg);
+            color: var(--text);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.09);
+        }
+        body.dark .section-tab.active {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+        }
+
+        /* ── Project grid ── */
+        .project-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .project-card {
+            display: flex; flex-direction: column; cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        body.dark .project-card {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
+        .project-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+            border-color: color-mix(in srgb, var(--border) 60%, var(--muted));
+        }
+        body.dark .project-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+        .project-image {
+            position: relative;
+            width: 100%; aspect-ratio: 16/10; overflow: hidden;
+            background: linear-gradient(155deg,
+                color-mix(in srgb, var(--accent, transparent) 18%, var(--bg)) 0%,
+                color-mix(in srgb, var(--accent, transparent) 7%, var(--bg)) 100%);
+            transition: opacity 0.2s ease;
+        }
+        /* Case study cover overlay — text revealed on hover */
+        .card-overlay {
+            position: absolute; inset: 0;
+            z-index: 3;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 18px;
+            background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.04) 100%);
+            opacity: 0;
+            transition: opacity 0.28s ease;
+        }
+        .project-card:hover .card-overlay { opacity: 1; }
+        .card-overlay .project-title { color: #fff; font-size: 22px; font-weight: 400; }
+        .card-overlay .project-tags { color: rgba(255,255,255,0.6); font-size: 11px; font-family: 'Space Mono', monospace; display: flex; flex-wrap: wrap; gap: 0 2px; margin-top: 3px; }
+        .card-overlay .project-desc { color: rgba(255,255,255,0.85); font-size: 13px; line-height: 1.5; letter-spacing: 0.02em; margin-top: 8px; }
+        .card-overlay .tag { pointer-events: none; cursor: default; }
+        .card-overlay .tag:not(:last-child)::after { content: ','; color: rgba(255,255,255,0.5); }
+        .project-card:nth-child(2) .project-image { animation-delay: -5s; }
+        .project-card:nth-child(3) .project-image { animation-delay: -11s; }
+
+        @keyframes gradFlow {
+            0%   { background-position: 0% 0%; }
+            33%  { background-position: 100% 20%; }
+            66%  { background-position: 60% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .project-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .card-thumb-name {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(64px, 9vw, 108px);
+            line-height: 0.9;
+            color: rgba(0, 0, 0, 0.13);
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: -0.02em;
+        }
+        /* ── Folder-icon thumbnails (ported from previous site) ── */
+        .project-card[data-project="bayes-esports"] { --accent: #2BE2AE; }
+        .project-card[data-project="brand-buddy"]   { --accent: #09ACB4; }
+        .project-card[data-project="logos"]         { --accent: #FF8A3D; }
+        .project-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            height: 38%; width: auto;
+            z-index: 2;
+        }
+        /* Bayes lambda reads a touch small — bump it 8% */
+        .project-card[data-project="bayes-esports"] .project-icon { height: 43%; }
+
+        .project-meta {
+            padding: 12px 14px 18px;
+        }
+        .project-left { display: flex; flex-direction: column; gap: 2px; }
+        .project-title { font-size: 22px; font-weight: 400; color: var(--text); }
+        .project-tags { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; display: flex; flex-wrap: wrap; gap: 0 2px; margin-top: 2px; }
+        .project-tags .tag:not(:last-child)::after { content: ','; color: var(--muted); pointer-events: none; }
+        .tag {
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+        .tag:hover { color: var(--text); }
+        .tag.active { color: var(--text); text-decoration: underline; text-underline-offset: 2px; }
+        .project-card.dimmed { opacity: 0.25; }
+        .project-desc { font-size: 14px; color: var(--text); line-height: 1.6; letter-spacing: 0.02em; margin-top: 6px; }
+        /* "Coming soon" placeholder cards */
+        .project-card.is-placeholder { cursor: default; pointer-events: none; opacity: 0.45; border-style: dashed; box-shadow: none; }
+        .project-card.is-placeholder .project-image { background: transparent; display: flex; align-items: center; justify-content: center; }
+        .project-card.is-placeholder .placeholder-mark { font-size: 28px; font-weight: 400; color: var(--muted); line-height: 1; }
+        .project-card.is-placeholder .project-title { color: var(--muted); }
+
+        /* ── Gradients ── */
+        .grad-1  { background: linear-gradient(140deg, #E2D5C8 0%, #C8B8AA 100%); }
+        .grad-2  { background: linear-gradient(140deg, #C8D5E2 0%, #AABAC8 100%); }
+        .grad-3  { background: linear-gradient(140deg, #D5E2CC 0%, #BACCAA 100%); }
+        .grad-4  { background: linear-gradient(140deg, #E2CCD5 0%, #C8AABC 100%); }
+        .grad-5  { background: linear-gradient(140deg, #E2DEC8 0%, #C8C2AA 100%); }
+        .grad-6  { background: linear-gradient(140deg, #D0C8E2 0%, #B8AACC 100%); }
+        .grad-7  { background: linear-gradient(140deg, #E2D0C8 0%, #C8B0A8 100%); }
+        .grad-8  { background: linear-gradient(140deg, #C8E2D8 0%, #A8C8BE 100%); }
+        .grad-9  { background: linear-gradient(140deg, #D8D5E2 0%, #C0BCCC 100%); }
+        .grad-10 { background: linear-gradient(140deg, #E2D8CC 0%, #CCC0B0 100%); }
+        .grad-11 { background: linear-gradient(140deg, #CCE2D8 0%, #B0CCB8 100%); }
+        .grad-12 { background: linear-gradient(140deg, #E2CCCC 0%, #CCB0B0 100%); }
+
+        /* ── Filter bar ── */
+        .filter-bar {
+            height: 28px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .filter-clear {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            color: var(--muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            transition: color 0.15s;
+        }
+        .filter-clear:hover { color: var(--text); }
+        .filter-clear.visible { display: flex; }
+        .filter-clear svg { width: 10px; height: 10px; }
+
+        /* ── Info ── */
+        .info-body { font-size: 15px; max-width: 460px; color: var(--muted); line-height: 1.8; }
+
+        /* ── Footer (in-flow, below the projects) ── */
+        .type-panel-trigger { display: none !important; }
+        .site-footer {
+            margin-top: 72px;
+            padding-top: 26px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: 0.01em;
+            line-height: 1.55;
+        }
+        .site-footer .footer-bio { color: var(--text); }
+        .site-footer .fp-muted { color: var(--muted); }
+        .site-footer .company-link { color: var(--text); }
+        .site-footer .fp-bayes:hover { color: #2BE2AE; }
+        .site-footer .fp-bb:hover    { color: #09ACB4; }
+        .site-footer .fp-bayes:hover::after { background-color: #2BE2AE; }
+        .site-footer .fp-bb:hover::after    { background-color: #09ACB4; }
+        .site-footer .footer-copy { margin-top: 14px; font-size: 12px; color: var(--muted); }
+
+        /* ─────────────────────────────────────────
+           ── Modal overlay ──
+        ───────────────────────────────────────── */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 500;
+            display: flex; align-items: flex-start; justify-content: center;
+            padding: 4vh 5vw;
+            pointer-events: none;
+        }
+        .modal-overlay.open { pointer-events: all; }
+
+        .modal-backdrop {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0);
+            transition: background 0.35s ease;
+        }
+        .modal-overlay.open .modal-backdrop { background: rgba(0, 0, 0, 0.45); }
+
+        body.dark .modal-overlay.open .modal-backdrop { background: rgba(0, 0, 0, 0.65); }
+
+        .modal-panel {
+            position: relative;
+            width: min(92vw, 1200px);
+            max-height: 92vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: var(--bg);
+            border-radius: 12px;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.35s ease, transform 0.38s cubic-bezier(0.34, 1.18, 0.64, 1);
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+        .modal-panel::-webkit-scrollbar { width: 4px; }
+        .modal-panel::-webkit-scrollbar-track { background: transparent; }
+        .modal-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+        .modal-overlay.open .modal-panel {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Modal toolbar */
+        .modal-toolbar {
+            display: none;
+        }
+        body.dark .modal-toolbar { background: #222222; }
+        /* Dev/tech controls hidden in the project card */
+        .modal-width-control { display: none; }
+        .modal-toolbar-label {
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+        }
+        .modal-toolbar-value {
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted);
+            min-width: 32px;
+        }
+        #modalWidthSlider {
+            width: 58px;
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            font-family: 'Space Mono', monospace;
+            color: var(--text);
+            outline: none;
+            padding: 2px 0;
+            text-align: right;
+            -moz-appearance: textfield;
+        }
+        #modalWidthSlider::-webkit-inner-spin-button,
+        #modalWidthSlider::-webkit-outer-spin-button { -webkit-appearance: none; }
+        #modalWidthSlider:focus { border-bottom-color: var(--text); }
+
+        /* Close button */
+        .modal-close {
+            position: static;
+            float: none;
+            margin: 0;
+            width: 32px; height: 32px;
+            background: rgba(0,0,0,0.06);
+            border: none; border-radius: 50%;
+            cursor: pointer; color: var(--text);
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s ease;
+            z-index: 20;
+            flex-shrink: 0;
+        }
+        .modal-close:hover { background: rgba(0,0,0,0.12); }
+        body.dark .modal-close { background: rgba(255,255,255,0.08); }
+        body.dark .modal-close:hover { background: rgba(255,255,255,0.14); }
+        .modal-close svg { width: 14px; height: 14px; }
+
+        /* Floating close (shown on mobile/tablet where the sheet fills the screen) */
+        .modal-x {
+            position: fixed;
+            top: 14px; right: 14px;
+            z-index: 30;
+            width: 40px; height: 40px;
+            display: none;
+            align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.55);
+            color: #fff; border: none; border-radius: 50%;
+            font-size: 16px; line-height: 1; cursor: pointer;
+            backdrop-filter: blur(6px);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-x:hover { background: rgba(0,0,0,0.72); }
+
+        /* Modal content */
+        .modal-body { padding: 32px 40px 48px; }
+
+        .modal-hero {
+            width: 100%; aspect-ratio: 3/2;
+            border-radius: 0;
+        }
+
+        .modal-header {
+            display: grid;
+            grid-template-columns: 38fr 62fr;
+            gap: 32px;
+            align-items: start;
+            margin: 30px 0 50px;
+        }
+        .modal-header-left { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+        .modal-role {
+            order: -1;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--accent, var(--muted));
+        }
+        .modal-title { font-size: 36px; font-weight: 400; line-height: 1.08; letter-spacing: -0.015em; text-align: left; }
+        .modal-tags { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; text-align: left; }
+        .modal-description {
+            font-size: 16px; line-height: 1.65;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modal-images {
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-image-block { cursor: zoom-in; }
+        .modal-image-block + .modal-image-block {
+            margin-top: 52px;
+            padding-top: 52px;
+            border-top: 1px solid var(--border);
+        }
+        .modal-image-eyebrow {
+            display: flex; align-items: baseline; gap: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+        .modal-image-eyebrow .eyebrow-num { color: var(--accent, var(--text)); }
+        .modal-image {
+            width: 100%; aspect-ratio: 3/2;
+            border-radius: 6px;
+            transition: opacity 0.15s ease;
+        }
+        .modal-image-block:hover .modal-image { opacity: 0.88; }
+        .modal-image-caption {
+            display: block;
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+            max-width: 85%;
+            margin-top: 16px;
+        }
+        .modal-image-full { display: none; }
+
+        /* ── Carousel ── */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%; aspect-ratio: 3/2;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .carousel-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: zoom-in;
+        }
+        .carousel-slide.active { opacity: 1; }
+        .carousel-btn {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.38);
+            border: none; color: #fff;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10;
+            transition: background 0.15s;
+            backdrop-filter: blur(4px);
+        }
+        .carousel-btn:hover { background: rgba(0,0,0,0.62); }
+        .carousel-prev { left: 12px; }
+        .carousel-next { right: 12px; }
+        .carousel-counter {
+            position: absolute;
+            bottom: 10px; right: 12px;
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            color: rgba(255,255,255,0.75);
+            background: rgba(0,0,0,0.32);
+            padding: 2px 7px;
+            border-radius: 3px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+
+        /* ── Lightbox ── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(0,0,0,0);
+            pointer-events: none;
+            transition: background 0.25s ease;
+            cursor: zoom-out;
+        }
+        .lightbox.open {
+            background: rgba(0,0,0,0.92);
+            pointer-events: all;
+        }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.34, 1.18, 0.64, 1);
+        }
+        .lightbox.open img {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ── Type panel ── */
+        .type-panel-trigger {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .type-panel-trigger:hover { color: var(--text); border-color: var(--text); }
+        .type-panel-trigger svg { width: 12px; height: 12px; }
+
+        .type-panel {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            z-index: 51;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            width: 280px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+        body.dark .type-panel { box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .type-panel.open {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .type-panel-label {
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .font-options {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-bottom: 18px;
+        }
+        .font-option {
+            padding: 7px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--muted);
+            transition: background 0.12s, color 0.12s;
+            border: none;
+            background: none;
+            text-align: left;
+            width: 100%;
+        }
+        .font-option:hover { background: rgba(0,0,0,0.04); color: var(--text); }
+        body.dark .font-option:hover { background: rgba(255,255,255,0.05); }
+        .font-option.selected { color: var(--text); background: rgba(0,0,0,0.05); }
+        body.dark .font-option.selected { background: rgba(255,255,255,0.07); }
+
+        .size-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .size-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 2px;
+            background: var(--border);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: var(--text);
+            cursor: pointer;
+        }
+        .size-value {
+            font-size: 11px;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted);
+            min-width: 28px;
+            text-align: right;
+        }
+
+        /* ── Gallery (one-off pieces) ── */
+        .gallery { margin-top: var(--gap-section, 96px); }
+        .section-head { margin-bottom: var(--gap-head, 22px); }
+        .section-head h2 { font-size: 20px; font-weight: 400; letter-spacing: -0.01em; color: var(--text); }
+        .section-head p { font-size: 14px; color: var(--muted); margin-top: 6px; letter-spacing: 0.01em; }
+        .gallery-grid { columns: 4; column-gap: 14px; }
+        .gtile {
+            break-inside: avoid;
+            margin: 0 0 14px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-size: 180% 180%;
+            animation: gradFlow 16s ease-in-out infinite;
+            filter: grayscale(1);
+            transition: transform 0.28s cubic-bezier(.2,.7,.3,1), box-shadow 0.28s ease, filter 0.3s ease;
+        }
+        .gtile:nth-child(3n)   { animation-delay: -4s; }
+        .gtile:nth-child(3n+1) { animation-delay: -9s; }
+        .gtile:hover {
+            transform: translateY(-5px) scale(1.02) rotate(-0.6deg);
+            box-shadow: 0 14px 34px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+        .gtile figcaption {
+            position: absolute; left: 10px; bottom: 10px;
+            font-family: 'Space Mono', monospace; font-size: 11px;
+            letter-spacing: 0.04em; color: #fff;
+            background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 6px;
+            opacity: 0; transform: translateY(6px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+        .gtile:hover figcaption { opacity: 1; transform: translateY(0); }
+        /* vivid placeholder gradients */
+        .g1 { background-image: linear-gradient(140deg, #2BE2AE, #09ACB4); }
+        .g2 { background-image: linear-gradient(140deg, #FF8A3D, #FF4D8D); }
+        .g3 { background-image: linear-gradient(140deg, #7C5CFF, #2BB8E2); }
+        .g4 { background-image: linear-gradient(140deg, #FFD23D, #FF8A3D); }
+        .g5 { background-image: linear-gradient(140deg, #FF4D8D, #7C5CFF); }
+        .g6 { background-image: linear-gradient(140deg, #2BB8E2, #2BE2AE); }
+        @media (prefers-reduced-motion: reduce) { .gtile { animation: none; } }
+
+        /* ── About drawer ── */
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .nav-about {
+            background: none; border: none; cursor: pointer;
+            font-family: 'Schibsted Grotesk', sans-serif; font-size: 14px;
+            color: var(--muted); letter-spacing: 0.01em; padding: 6px 2px;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .nav-about:hover { color: var(--text); }
+        .about-overlay { position: fixed; inset: 0; z-index: 600; pointer-events: none; }
+        .about-overlay.open { pointer-events: auto; }
+        .about-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.35s ease; }
+        .about-overlay.open .about-backdrop { background: rgba(0,0,0,0.55); }
+        .about-panel {
+            position: absolute;
+            top: 16px; right: 16px; bottom: 16px;
+            width: min(440px, calc(100vw - 32px));
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+            transform: translateX(calc(100% + 32px));
+            transition: transform 0.42s cubic-bezier(0.4, 0, 0.1, 1);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .about-overlay.open .about-panel { transform: translateX(0); }
+        .about-head { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 22px 26px 14px; }
+        .about-title { font-size: 20px; font-weight: 400; color: var(--text); }
+        .about-close {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); border: none; cursor: pointer;
+            color: var(--text); font-size: 13px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s ease;
+        }
+        .about-close:hover { background: rgba(255,255,255,0.16); }
+        .about-body { flex: 1 1 auto; overflow-y: auto; padding: 6px 26px 40px; scrollbar-width: thin; }
+        .about-photo {
+            width: 100%; aspect-ratio: 4/3; border-radius: 12px; overflow: hidden;
+            background: linear-gradient(140deg, rgba(43,226,174,0.14), rgba(124,92,255,0.14));
+            border: 1px dashed var(--border);
+            display: flex; align-items: center; justify-content: center; margin-bottom: 22px;
+        }
+        .about-photo span { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+        .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .about-bio { font-size: 16px; line-height: 1.6; color: var(--text); letter-spacing: 0.01em; }
+        .about-bio strong { font-weight: 400; }
+        .about-bio .fp-bayes:hover { color: #2BE2AE; }
+        .about-bio .fp-bb:hover { color: #09ACB4; }
+        .about-smiley { color: var(--muted); }
+        .about-divider { height: 1px; background: var(--border); margin: 24px 0; }
+        .about-group { margin-bottom: 22px; }
+        .about-label { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+        .about-links { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+        .about-link { font-size: 15px; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; transition: border-color 0.15s ease; }
+        .about-link:hover { border-color: var(--text); }
+        .about-link .arr { color: var(--muted); font-size: 12px; }
+        .about-copy { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+        /* ── Tablet ── */
+        @media (max-width: 900px) {
+            .gallery-grid { columns: 3; }
+            body { padding: 24px 28px; }
+            .bio-line { font-size: 20px; }
+            .bio-name { font-size: 20px; }
+            .bio-line-2 { font-size: 15px; }
+            .nav-links { gap: 32px; }
+            .project-grid { grid-template-columns: 1fr 1fr; }
+            .modal-body { padding: 0 28px 40px; }
+            .modal-title { font-size: 30px; }
+            .modal-header { grid-template-columns: 1fr; gap: 18px; }
+            .modal-image-caption { max-width: 100%; }
+        }
+
+        /* ── Phone ── */
+        @media (max-width: 600px) {
+            .modal-overlay.open .modal-x { display: flex; }
+            .modal-x { top: calc(5vh + 12px); right: 16px; }
+            .section-head h2 { font-size: 18px; }
+            .gallery-grid { columns: 2; column-gap: 10px; }
+            .gtile { margin-bottom: 10px; }
+            body { padding: 20px 20px; }
+            .nav-name { font-size: 17px; }
+            .nav-links { gap: 22px; }
+            .nav-links a { font-size: 14px; }
+            .bio-line { font-size: 17px; gap: 5px; }
+            .bio-name { font-size: 17px; }
+            .bio-line-2 { font-size: 13px; margin-top: 4px; }
+            .project-image { border-radius: 4px; aspect-ratio: 8/3; }
+            .card-overlay { opacity: 1; padding: 12px 14px; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.28) 45%, transparent 80%); }
+            .card-overlay .project-tags, .card-overlay .project-desc { display: none; }
+            .card-overlay .project-title { font-size: 16px; }
+            .nav-star { display: none; }
+            .nav-desc { display: none; }
+            .info-body { font-size: 14px; max-width: 100%; }
+            .city-dropdown { min-width: 150px; }
+            .project-grid { grid-template-columns: 1fr; gap: 14px; }
+            .project-card.is-placeholder { display: none; }
+            .site-footer { margin-top: 48px; }
+            .modal-overlay { padding: 0; align-items: flex-end; }
+            .modal-panel { width: 100%; max-height: 95vh; border-radius: 16px 16px 0 0; }
+            .modal-images { grid-template-columns: 1fr; }
+            .modal-body { padding: 0 20px 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav>
+        <span class="nav-name" id="navName">Ian Crvenković</span>
+        <svg class="nav-star" viewBox="0 0 126.02 72.76" aria-hidden="true">
+            <polygon fill="currentColor" points="94.51 0 99.31 28.07 126.02 18.19 104.1 36.38 126.02 54.57 99.31 44.68 94.51 72.76 89.72 44.68 63.01 54.57 84.92 36.38 63.01 18.19 89.72 28.07 94.51 0"/>
+            <polygon fill="currentColor" points="31.5 0 36.3 28.07 63.01 18.19 41.09 36.38 63.01 54.57 36.3 44.68 31.5 72.76 26.71 44.68 0 54.57 21.92 36.38 0 18.19 26.71 28.07 31.5 0"/>
+        </svg>
+        <div class="nav-right">
+            <div class="nav-desc">
+                <div class="footer-bio">Ian is a graphic designer based in Berlin.</div>
+                <div><span class="fp-muted">Previously at </span><span class="company-link fp-bayes">Bayes Esports</span><span class="fp-muted"> &amp; </span><span class="company-link fp-bb">Brand Buddy</span><span class="fp-muted">.</span></div>
+            </div>
+            <button class="nav-info" id="aboutOpen" aria-label="About">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 11v5.4" stroke-linecap="round"/>
+                    <circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Say hello (bottom-right) -->
+    <div class="hello-fab">
+        <a class="hello-link" href="mailto:icrvenkovic@gmail.com">Say hello!</a>
+        <button class="hello-copy" id="emailCopy" aria-label="Copy email address" title="Copy email">
+            <svg class="icon-copy" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="icon-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
+
+    <!-- Work -->
+    <div id="work" class="section active">
+        <div class="section-head">
+            <h2>Pinned</h2>
+        </div>
+        <div class="project-grid">
+
+            <div class="project-card" data-project="bayes-esports" data-tags="Brand Identity,Social,Print">
+                <div class="project-image">
+                    <svg class="project-icon" viewBox="0 0 120 96" aria-hidden="true">
+                        <image href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzMiIGhlaWdodD0iNDYiIHZpZXdCb3g9IjAgMCAzMyA0NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTguMjEyMzkgMTYuNTk0NEw0LjE3MTQ3IDI0LjkwMzdDNC4wOTgzOSAyNS4wMjM5IDQuMDI5NjggMjUuMTQ3OCAzLjk2NzgzIDI1LjI3NjFMMC42MDAyOTcgMzIuMjAxNUwwIDMzLjQzNTlMNC4xODE0NyA0NS4zNzVMNC43ODE3NyA0NC4xNDA3TDguODIyNjkgMzUuODMxM0M4Ljg5NTc3IDM1LjcxMTEgOC45NjQ0OCAzNS41ODcyIDkuMDI2MzIgMzUuNDU4OUwxMi4zOTM5IDI4LjUzMzVMMTIuOTk0MiAyNy4yOTkyTDguODEyNjkgMTUuMzZMOC4yMTIzOSAxNi41OTQ0VjE2LjU5NDRaIiBmaWxsPSIjMkJFMkFFIi8+CjxwYXRoIGQ9Ik0zMi4zNzI5IDM2LjQ1MjNDMzIuMzcyOSAzNi40NTIzIDMyLjM3NTQgMzYuNDUxIDMyLjM3NjcgMzYuNDUwNEwyOS4xNDk3IDI3LjIzNjZIMjUuMTQzMUMyNS4wOTYzIDI3LjIzNjYgMjUuMDU0NCAyNy4yMDY1IDI1LjAzODggMjcuMTYyMUwyMS4zNTUyIDE2LjY0NTFMMjEuMjU2NSAxNi4zNjRMMjEuMjM3MSAxNi4zMDgzTDIxLjE0OTEgMTYuMDU3M0wxNi45Njc2IDQuMTE4MThMMTYuNTc5NyAzLjAxMDI3QzE1Ljc1ODkgMC42NjYxMjggMTMuMTk3MiAtMC41Njc1OTYgMTAuODU3OCAwLjI1NDg4N0M4LjUxODQ2IDEuMDc3MzcgNy4yODc4OCAzLjY0NDk3IDguMTA4NjkgNS45ODkxMUwxMS40MzY5IDE1LjQ5MjFMMTUuNTUwMyAyNy4yMzY2TDE1LjYxODMgMjcuNDMxMkwxNS43MTQ1IDI3LjcwNTRMMTguOTY2NSAzNi45OTEyQzE4Ljk4MjEgMzcuMDM1NiAxOS4wMjQgMzcuMDY1NyAxOS4wNzA4IDM3LjA2NTdIMzIuNTg3OEwzMi4zNzM2IDM2LjQ1MjlMMzIuMzcyOSAzNi40NTIzWiIgZmlsbD0iIzJCRTJBRSIvPgo8L3N2Zz4K" x="0" y="0" width="120" height="96" preserveAspectRatio="xMidYMid meet"/>
+                    </svg>
+                    <div class="card-overlay">
+                        <div class="project-title">Bayes Esports</div>
+                        <div class="project-tags"><span class="tag" data-tag="Brand Identity">Brand Identity</span><span class="tag" data-tag="Social">Social</span><span class="tag" data-tag="Print">Print</span></div>
+                        <div class="project-desc">Brand design across social, print, content, and live events for an esports data company.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" data-project="brand-buddy" data-tags="Art Direction,E-commerce">
+                <div class="project-image">
+                    <svg class="project-icon" viewBox="0 0 120 96" aria-hidden="true">
+                        <image href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDMiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCA0MyA0NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM2LjYwODYgMjcuMjk0MkMzNy4zNDIgMjYuOTg0IDM4LjM5MTQgMjYuMzYzNCAzOS4xNjk5IDI1LjEyMjJDMzkuOTkzNiAyMy44MzU5IDQwLjE3NDEgMjIuNTA0NSA0MC4xNzQxIDIxLjM1MzZDNDAuMTc0MSAyMC4wNjczIDM5Ljk0MjggMTcuNTg1IDM3Ljk3OTUgMTUuNzY4NEMzNS42MDQ0IDEzLjU5NjMgMzEuODUyNyAxMy41MDYxIDMwLjIxMSAxMy41MDYxSDIwLjg4NTRWMTcuMDA5NUMyMC41OTIgMTYuNTE4NyAyMC4yNjQ4IDE2LjExMjUgMTkuOTI2MyAxNS43ODUzQzE4LjgzMTggMTQuNzE5IDE3LjE4NDQgMTQuMDEzOCAxNS43MjMzIDEzLjc4ODJDMTYuNDU2NyAxMy40Nzc5IDE3LjUwNiAxMi44NTczIDE4LjI4NDYgMTEuNjE2MUMxOS4xMDgyIDEwLjMyOTggMTkuMjg4OCA4Ljk5ODQgMTkuMjg4OCA3Ljg0NzUxQzE5LjI4ODggNi41NjEyMSAxOS4wNTc1IDQuMDc4OSAxNy4wOTQyIDIuMjYyMjlDMTQuNzE5IDAuMDkwMjU0NiAxMC45Njc0IDAgOS4zMjU2MyAwSDBWMjkuNTc5MUgxMS40NzUxQzEzLjM0ODEgMjkuNTc5MSAxNy4wMDk2IDI5LjQwNDIgMTkuNTIwMSAyNy4wNTE3QzIwLjAwNTMgMjYuNTgzNCAyMC40ODQ4IDI1Ljk5NjcgMjAuODkxIDI1LjI2MzNWNDMuMDg1MkgzMi4zNjYxQzM0LjIzOTEgNDMuMDg1MiAzNy44OTQ5IDQyLjkxMDMgNDAuNDExMSA0MC41NTc4QzQxLjYwMTUgMzkuNDA2OSA0Mi43ODYyIDM3LjU0NTEgNDIuNzg2MiAzNC41NzJDNDIuNzg2MiAzMS45NTQzIDQxLjgyNzEgMzAuMjczIDQwLjgyMjkgMjkuMjk3QzM5LjcyODQgMjguMjMwOCAzOC4wODExIDI3LjUyNTYgMzYuNjE5OSAyNy4yOTk5TDM2LjYwODYgMjcuMjk0MlpNNi45NDQ4NiA1LjMxNDQySDguMDM5MzRDOS4zMTk5OSA1LjMxNDQyIDEwLjY5MDkgNS4zMTQ0MSAxMS42OTUxIDYuMDcwMzlDMTIuMjQyNCA2LjQ3MDk1IDEyLjg4NTUgNy4yNjY0MiAxMi44ODU1IDguNTUyNzFDMTIuODg1NSA5LjgzOTAxIDEyLjI5MzEgMTAuNzI0OCAxMS42NSAxMS4xNzA0QzEwLjY0NTggMTEuODgxMyA5LjA0MzU1IDEyLjAxMSA4LjA4NDQ3IDEyLjAxMUg2LjkzOTIyVjUuMzE0NDJINi45NDQ4NlpNMTMuODQ0NiAyMy4wNTE3QzEyLjU2MzkgMjQuMjAyNiAxMC40MTQ1IDI0LjI0NzggOC42MzE3MSAyNC4yNDc4SDYuOTM5MjJWMTcuMDY2SDguODU3MzhDMTAuMjczNCAxNy4wNjYgMTIuNjU0MiAxNy4wNjYgMTMuODg0MSAxOC4xNzE3QzE0LjM0MTEgMTguNTcyMyAxNC44NDMyIDE5LjM2NzcgMTQuODQzMiAyMC41NjM4QzE0Ljg0MzIgMjEuNjMgMTQuNDc2NSAyMi40NzA2IDEzLjgzODkgMjMuMDQ2MUwxMy44NDQ2IDIzLjA1MTdaTTI3LjgzMDIgMTguODI2MkgyOC45MjQ3QzMwLjIwNTQgMTguODI2MiAzMS41NzYzIDE4LjgyNjIgMzIuNTgwNSAxOS41ODIxQzMzLjEyNzcgMTkuOTgyNyAzMy43NzA5IDIwLjc3ODIgMzMuNzcwOSAyMi4wNjQ1QzMzLjc3MDkgMjMuMzUwNyAzMy4xNzg1IDI0LjIzNjUgMzIuNTM1MyAyNC42ODIyQzMxLjUzMTEgMjUuMzkzIDI5LjkyODkgMjUuNTIyOCAyOC45Njk4IDI1LjUyMjhIMjcuODI0NlYxOC44MjYySDI3LjgzMDJaTTM0LjczNTYgMzYuNTYzNUMzMy40NTQ5IDM3LjcxNDQgMzEuMzA1NSAzNy43NTk1IDI5LjUyMjcgMzcuNzU5NUgyNy44MzAyVjMwLjU3NzdIMjkuNzQ4NEMzMS4xNjQ0IDMwLjU3NzcgMzMuNTQ1MiAzMC41Nzc3IDM0Ljc3NTEgMzEuNjgzNEMzNS4yMzIxIDMyLjA4NCAzNS43MzQyIDMyLjg3OTUgMzUuNzM0MiAzNC4wNzU1QzM1LjczNDIgMzUuMTQxOCAzNS4zNjc1IDM1Ljk4MjQgMzQuNzI5OSAzNi41NTc4TDM0LjczNTYgMzYuNTYzNVoiIGZpbGw9IiMwOUFDQjQiLz4KPC9zdmc+Cg==" x="0" y="0" width="120" height="96" preserveAspectRatio="xMidYMid meet"/>
+                    </svg>
+                    <div class="card-overlay">
+                        <div class="project-title">Brand Buddy</div>
+                        <div class="project-tags"><span class="tag" data-tag="Art Direction">Art Direction</span><span class="tag" data-tag="E-commerce">E-commerce</span></div>
+                        <div class="project-desc">Art direction for Amazon product imagery across a portfolio of e-commerce brands.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" data-project="logos" data-tags="Logo Design,Identity">
+                <div class="project-image">
+                    <svg class="project-icon" viewBox="0 0 120 96" aria-hidden="true">
+                        <svg x="0" y="0" width="120" height="96" viewBox="0 0 217 283" preserveAspectRatio="xMidYMid meet"><path d="M6.76513e-06 2.38419e-07H113.256V19.404H101.376C82.368 19.404 73.26 27.324 73.26 54.648V261.36H102.168C145.728 261.36 178.992 239.58 196.02 194.436L217.008 200.376L184.14 282.744H6.76513e-06V263.34H12.672C31.68 263.34 39.996 253.044 39.996 229.68V54.648C39.996 27.324 30.888 19.404 11.88 19.404H6.76513e-06V2.38419e-07Z" fill="#FF8A3D"/></svg>
+                    </svg>
+                    <div class="card-overlay">
+                        <div class="project-title">Logos</div>
+                        <div class="project-tags"><span class="tag" data-tag="Logo Design">Logo Design</span><span class="tag" data-tag="Identity">Identity</span></div>
+                        <div class="project-desc">A selection of logos and identity marks across clients and personal projects.</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Gallery: one-off pieces -->
+    <section class="gallery">
+        <div class="section-head">
+            <h2>Figments</h2>
+        </div>
+        <div class="gallery-grid">
+            <figure class="gtile g1" style="aspect-ratio:4/5"><figcaption>Poster</figcaption></figure>
+            <figure class="gtile g2" style="aspect-ratio:1/1"><figcaption>Type</figcaption></figure>
+            <figure class="gtile g3" style="aspect-ratio:4/3"><figcaption>Social</figcaption></figure>
+            <figure class="gtile g4" style="aspect-ratio:3/4"><figcaption>Logo</figcaption></figure>
+            <figure class="gtile g5" style="aspect-ratio:1/1"><figcaption>Sketch</figcaption></figure>
+            <figure class="gtile g6" style="aspect-ratio:4/5"><figcaption>Cover</figcaption></figure>
+            <figure class="gtile g2" style="aspect-ratio:4/3"><figcaption>Mockup</figcaption></figure>
+            <figure class="gtile g3" style="aspect-ratio:1/1"><figcaption>Icon</figcaption></figure>
+            <figure class="gtile g1" style="aspect-ratio:3/4"><figcaption>Editorial</figcaption></figure>
+            <figure class="gtile g4" style="aspect-ratio:1/1"><figcaption>Merch</figcaption></figure>
+            <figure class="gtile g5" style="aspect-ratio:4/3"><figcaption>Motion</figcaption></figure>
+            <figure class="gtile g6" style="aspect-ratio:3/4"><figcaption>Misc</figcaption></figure>
+        </div>
+    </section>
+
+    <!-- Info -->
+    <div id="info" class="section">
+        <p class="info-body">
+            Ian is a graphic designer with a focus on brand identity, art direction, and digital experience.
+            Based in Berlin, with roots in Zagreb, San Francisco, and Los Angeles. Previously at Brand Buddy and Bayes Esports.
+        </p>
+    </div>
+
+    <!-- ── Type panel ── -->
+    <button class="type-panel-trigger" id="typeTrigger">
+        <svg viewBox="0 0 12 12" fill="none"><path d="M1 10L4.5 2L8 10M2.5 7.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Aa
+    </button>
+    <div class="type-panel" id="typePanel">
+        <div class="type-panel-label">Card title font</div>
+        <div class="font-options">
+            <button class="font-option selected" data-font="Schibsted Grotesk" style="font-family:'Schibsted Grotesk',sans-serif;">Schibsted Grotesk</button>
+            <button class="font-option" data-font="Space Mono" style="font-family:'Space Mono',monospace;">Space Mono</button>
+        </div>
+        <div class="type-panel-label">Size</div>
+        <div class="size-row">
+            <input type="range" class="size-slider" id="sizeSlider" min="10" max="32" value="22" step="1">
+            <span class="size-value" id="sizeValue">22px</span>
+        </div>
+        <div class="type-panel-label" style="margin-top:18px;">Gutter</div>
+        <div class="size-row">
+            <input type="range" class="size-slider" id="gutterSlider" min="0" max="48" value="16" step="1">
+            <span class="size-value" id="gutterValue">16px</span>
+        </div>
+        <div class="type-panel-label" style="margin-top:18px;">Where i used to live</div>
+        <div class="size-row">
+            <input type="range" class="size-slider" id="cityLabelSlider" min="8" max="18" value="10" step="1">
+            <span class="size-value" id="cityLabelValue">10px</span>
+        </div>
+    </div>
+
+    <!-- ── Footer ── -->
+    <footer class="site-footer">
+        <div class="footer-bio">Ian is a graphic designer based in Berlin.</div>
+        <div><span class="fp-muted">Previously at </span><span class="company-link fp-bayes">Bayes Esports</span><span class="fp-muted"> &amp; </span><span class="company-link fp-bb">Brand Buddy</span><span class="fp-muted">.</span></div>
+        <div class="footer-copy">© 2026 Ian Crvenković</div>
+    </footer>
+
+    <!-- ── About drawer ── -->
+    <div class="about-overlay" id="aboutOverlay">
+        <div class="about-backdrop" id="aboutBackdrop"></div>
+        <aside class="about-panel" role="dialog" aria-label="About Ian Crvenković">
+            <div class="about-head">
+                <span class="about-title">About</span>
+                <button class="about-close" id="aboutClose" aria-label="Close">✕</button>
+            </div>
+            <div class="about-body">
+                <div class="about-photo" id="aboutPhoto"><span>Your photo goes here</span></div>
+
+                <p class="about-bio"><strong>Ian Crvenković</strong> is a graphic designer based in Berlin, working across brand identity, art direction, and design systems. Previously at <span class="company-link fp-bayes">Bayes Esports</span> &amp; <span class="company-link fp-bb">Brand Buddy</span>. More new work coming soon <span class="about-smiley">☺</span></p>
+
+                <div class="about-divider"></div>
+
+                <div class="about-group">
+                    <div class="about-label">Get in touch</div>
+                    <div class="about-links">
+                        <a class="about-link" href="mailto:icrvenkovic@gmail.com">Email <span class="arr">↗</span></a>
+                        <a class="about-link" href="#" target="_blank" rel="noopener">LinkedIn <span class="arr">↗</span></a>
+                    </div>
+                </div>
+
+                <div class="about-group">
+                    <div class="about-label">Follow</div>
+                    <div class="about-links">
+                        <a class="about-link" href="#" target="_blank" rel="noopener">Instagram <span class="arr">↗</span></a>
+                        <a class="about-link" href="#" target="_blank" rel="noopener">Behance <span class="arr">↗</span></a>
+                    </div>
+                </div>
+
+                <div class="about-divider"></div>
+
+                <div class="about-copy">© 2026 Ian Crvenković</div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ── Lightbox ── -->
+    <div class="lightbox" id="lightbox">
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <!-- ── Modal ── -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <button class="modal-x" id="modalX" aria-label="Close project">✕</button>
+        <div class="modal-panel" id="modalPanel">
+            <div class="modal-toolbar">
+                <div class="modal-width-control">
+                    <span class="modal-toolbar-label">width</span>
+                    <input type="number" id="modalWidthSlider" min="600" max="1400" value="1200" step="10">
+                    <span class="modal-toolbar-label">px</span>
+                </div>
+                <div class="modal-width-control">
+                    <span class="modal-toolbar-label">tracking</span>
+                    <input type="number" id="modalTrackingInput" min="-0.1" max="0.3" value="0" step="0.01">
+                    <span class="modal-toolbar-label">em</span>
+                </div>
+                <div class="modal-width-control">
+                    <span class="modal-toolbar-label">line-height</span>
+                    <input type="number" id="modalLineHeightInput" min="1" max="3" value="1.65" step="0.05">
+                </div>
+                <button class="modal-close" id="modalClose" aria-label="Close">
+                    <svg viewBox="0 0 14 14" fill="none">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="modal-title" id="modalTitle"></span>
+                        <span class="modal-role" id="modalRole"></span>
+                        <span class="modal-tags" id="modalTags"></span>
+                    </div>
+                    <p class="modal-description" id="modalDesc"></p>
+                </div>
+                <div class="modal-images" id="modalImages"></div>
+                <div class="modal-image-full" id="modalImageFull"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── Project data ──
+        const projects = {
+            'bayes-esports': {
+                title: 'Bayes Esports',
+                role: 'Brand Designer',
+                tags: '[Brand Identity, Social, Print]',
+                hero: 'grad-1',
+                longDesc: `As Bayes Esports' Brand Designer, I was the central hub for our 50-person company, bridging the gap between various departments to ensure visual alignment. I replaced 'on-the-fly' workflows with a scalable brand system that supported our rapid growth. Whether handling high-stakes executive storytelling or technical data visualization, I ensured our global brand remained sharp and cohesive across every touchpoint.`,
+                images: [
+                    'images/bayes-pages/bayes-1.webp',
+                    'images/bayes-pages/bayes-2.webp',
+                    'images/bayes-pages/bayes-3.webp',
+                    'images/bayes-pages/bayes-4.webp',
+                    'images/bayes-pages/bayes-5.webp',
+                    'images/bayes-pages/bayes-6.webp'
+                ],
+                captions: [
+                    `Social Media — I led the visual direction for Bayes Esports across our social channels. Over time, the work grew from day-to-day content production into a broader shaping of the brand's visual identity, building out templates and design systems that brought consistency and coherence to our social presence.`,
+                    `Social Media — Every month I designed a LinkedIn carousel rounding up the biggest esports news and milestones from that period. The format was built from the ground up with a consistent system behind it, keeping production efficient without losing the polished feel.`,
+                    `One-Pagers — These one-pagers were designed to introduce Bayes Esports products to potential partners, translating technical features into clear, visually digestible formats. Shared across outreach and events, each piece was built to communicate product value quickly and make a strong first impression.`,
+                    `Content Visuals — A selection of visual assets created for content across the blog and editorial channels. Each piece adapts to its context, from atmosphere-driven cover imagery to structured explainer visuals, while staying grounded in a consistent brand language.`,
+                    `Booth Design — For major industry trade shows, I led the visual design of our three-wall conference booths, which meant thinking beyond screen and into physical space. That shift required considering how the brand would read from a distance as well as up close, and balancing both in a single layout. I was involved from the initial concept through to the final print-ready files, with input on both the graphics and the physical layout of the space.`,
+                    `Brand Touchpoints — To keep the team's presence consistent across channels, I designed and maintained a set of shared brand assets used company-wide. This included a LinkedIn banner and an email signature updated each quarter, ensuring that every external touchpoint reflected the same visual identity regardless of who was behind it.`
+                ]
+            },
+            'brand-buddy': {
+                title: 'Brand Buddy',
+                role: 'Lead Graphic Designer',
+                tags: '[Art Direction, E-commerce]',
+                hero: 'grad-2',
+                longDesc: `During my time at Brand Buddy, I led the creative direction for Amazon product imagery across a diverse portfolio of e-commerce clients. Each required its own visual language, and my role was to define that direction, meeting each brand where it was while pushing it further.`,
+                images: [
+                    'images/brand-buddy/bb-1.webp',
+                    'images/brand-buddy/bb-2.webp',
+                    'images/brand-buddy/bb-3.webp'
+                ],
+                captions: [
+                    `Rick's Picks — Rick's Picks is a Brooklyn-based artisanal pickle brand known for bold flavors and all-natural ingredients. I designed multiple sets of Amazon product images across their pickle jars and snacking pouches, with the goal of creating visuals that felt like a natural extension of the brand rather than generic e-commerce assets. Working within an existing but underdeveloped visual identity, I shaped the design language across the series, selecting typography, adapting copy from the team's copywriter, and compositing each image to do a specific job.`,
+                    `Clean Nutrition Co. — Clean Nutrition Co. is a New Zealand-based protein and supplement brand built around natural, additive-free ingredients. The visual challenge was similar to Rick's Picks: an established but underdeveloped identity that needed to be pushed further. With only isolated product shots provided, I sourced and composited all lifestyle photography, building each scene from scratch around the product. The result is a set of Amazon images that lean into the brand's clean, performance-driven positioning without losing the warmth of its natural origins.`,
+                    `Supernola — Supernola is a plant-based superfood snack brand with a bold, energetic identity built around clean ingredients and sustainability. As with Clean Nutrition Co., only isolated product shots were provided, so I sourced all lifestyle photography and built each scene from scratch. The brand's existing personality gave more visual room to play with, resulting in a set that leans into strong color, varied layouts, and messaging that covers everything from ingredient transparency to environmental values.`
+                ]
+            },
+            'logos': {
+                title: 'Logos',
+                tags: '[Logo Design, Identity]',
+                hero: 'grad-9',
+                longDesc: `A selection of logos and identity marks designed across a range of clients and personal projects.`,
+                images: [
+                    'images/logos/logos-1.webp',
+                    'images/logos/logos-2.webp',
+                    'images/logos/logos-3.webp',
+                    'images/logos/logos-4.webp',
+                    'images/logos/logos-5.webp',
+                    'images/logos/logos-6.webp',
+                    'images/logos/logos-7.webp'
+                ]
+            }
+        };
+
+        // ── Modal logic ──
+        const overlay   = document.getElementById('modalOverlay');
+        const backdrop  = document.getElementById('modalBackdrop');
+        const panel     = document.getElementById('modalPanel');
+        const closeBtn  = document.getElementById('modalClose');
+
+        function openModal(projectId, originEl) {
+            const p = projects[projectId];
+            if (!p) return;
+
+            // Populate content
+            document.getElementById('modalTitle').textContent = p.title;
+            const roleEl = document.getElementById('modalRole');
+            roleEl.textContent = p.role || '';
+            roleEl.style.display = p.role ? '' : 'none';
+            document.getElementById('modalTags').textContent = p.tags;
+            document.getElementById('modalDesc').textContent = p.longDesc;
+
+            const imagesEl = document.getElementById('modalImages');
+            imagesEl.innerHTML = p.images.map((g, i) => {
+                const caption = (p.captions && p.captions[i]) || '';
+                // Split "Title — description" into a heading above the image and text below.
+                let capTitle = '', capDesc = '';
+                if (caption) {
+                    const sep = caption.indexOf(' — ');
+                    if (sep !== -1) { capTitle = caption.slice(0, sep); capDesc = caption.slice(sep + 3); }
+                    else { capDesc = caption; }
+                }
+                let imgEl;
+                if (Array.isArray(g)) {
+                    // Carousel
+                    const slides = g.map((src, si) => {
+                        const isFile = src.includes('/') || src.includes('.');
+                        const isColor = src.startsWith('#');
+                        if (isFile)
+                            return `<img class="carousel-slide${si === 0 ? ' active' : ''}" src="${src}" alt="${p.title} — slide ${si+1}" loading="lazy">`;
+                        if (isColor)
+                            return `<div class="carousel-slide${si === 0 ? ' active' : ''}" style="background:${src};"></div>`;
+                        return `<div class="carousel-slide${si === 0 ? ' active' : ''} ${src}"></div>`;
+                    }).join('');
+                    imgEl = `<div class="carousel-wrapper">
+                        ${slides}
+                        <button class="carousel-btn carousel-prev">&#8249;</button>
+                        <button class="carousel-btn carousel-next">&#8250;</button>
+                        <span class="carousel-counter">1 / ${g.length}</span>
+                    </div>`;
+                } else {
+                    const isFile = g.includes('/') || g.includes('.');
+                    imgEl = isFile
+                        ? `<img class="modal-image" src="${g}" alt="${p.title} — detail ${i+1}" loading="lazy" style="object-fit:cover;">`
+                        : `<div class="modal-image ${g}"></div>`;
+                }
+                return `<div class="modal-image-block">
+                    ${capTitle ? `<div class="modal-image-eyebrow"><span class="eyebrow-num">${String(i + 1).padStart(2, '0')}</span><span>${capTitle}</span></div>` : ''}
+                    ${imgEl}
+                    ${capDesc ? `<span class="modal-image-caption">${capDesc}</span>` : ''}
+                </div>`;
+            }).join('');
+
+            // Wire up carousels
+            imagesEl.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
+                const slides = Array.from(wrapper.querySelectorAll('.carousel-slide'));
+                const counter = wrapper.querySelector('.carousel-counter');
+                let idx = 0;
+                function goTo(n) {
+                    slides[idx].classList.remove('active');
+                    idx = (n + slides.length) % slides.length;
+                    slides[idx].classList.add('active');
+                    if (counter) counter.textContent = `${idx + 1} / ${slides.length}`;
+                }
+                wrapper.querySelector('.carousel-prev').addEventListener('click', e => { e.stopPropagation(); goTo(idx - 1); });
+                wrapper.querySelector('.carousel-next').addEventListener('click', e => { e.stopPropagation(); goTo(idx + 1); });
+                // Lightbox: click on wrapper opens current active img slide
+                wrapper.addEventListener('click', e => {
+                    if (e.target.closest('.carousel-btn')) return;
+                    const active = wrapper.querySelector('.carousel-slide.active');
+                    if (active && active.tagName === 'IMG') {
+                        lightboxImg.src = active.src;
+                        lightbox.classList.add('open');
+                    }
+                });
+            });
+
+            // Wire up lightbox on single real images
+            imagesEl.querySelectorAll('.modal-image-block').forEach(block => {
+                if (block.querySelector('.carousel-wrapper')) return; // handled above
+                const img = block.querySelector('img.modal-image');
+                if (!img) return;
+                block.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('open'); });
+            });
+
+            // Set transform-origin based on clicked card position
+            const rect = originEl.getBoundingClientRect();
+            const cardCX = rect.left + rect.width / 2;
+            const cardCY = rect.top + rect.height / 2;
+            const panelW = Math.min(window.innerWidth * 0.92, 1200);
+            const panelLeft = (window.innerWidth - panelW) / 2;
+            const panelTop = window.innerHeight * 0.04;
+            const originX = Math.round(cardCX - panelLeft);
+            const originY = Math.round(cardCY - panelTop);
+            panel.style.transformOrigin = `${originX}px ${originY}px`;
+
+            // Per-project background
+            panel.style.background = p.bgColor || '';
+
+            // Per-project accent (drives role eyebrow + image numbers)
+            const ACCENTS = { 'bayes-esports': '#2BE2AE', 'brand-buddy': '#09ACB4', 'logos': '#FF8A3D' };
+            if (ACCENTS[projectId]) panel.style.setProperty('--accent', ACCENTS[projectId]);
+            else panel.style.removeProperty('--accent');
+
+            // Reset scroll
+            panel.scrollTop = 0;
+
+            // Open
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            overlay.classList.remove('open');
+            panel.style.background = '';
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', closeModal);
+        document.getElementById('modalX').addEventListener('click', closeModal);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', e => {
+                if (e.target.closest('.tag')) return;
+                const id = card.dataset.project;
+                if (id) openModal(id, card);
+            });
+        });
+
+        // ── Tag filtering ──
+        let activeTag = null;
+
+        function applyFilter(tag) {
+            activeTag = tag;
+            const activeSection = document.querySelector('.section.active');
+            const cards = activeSection.querySelectorAll('.project-card');
+            const allTags = activeSection.querySelectorAll('.tag');
+            const clearBtn = activeSection.querySelector('.filter-clear');
+
+            allTags.forEach(t => t.classList.toggle('active', t.dataset.tag === activeTag));
+            cards.forEach(card => {
+                if (!activeTag) {
+                    card.classList.remove('dimmed');
+                } else {
+                    const cardTags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+                    card.classList.toggle('dimmed', !cardTags.includes(activeTag));
+                }
+            });
+            if (clearBtn) clearBtn.classList.toggle('visible', !!activeTag);
+        }
+
+        document.addEventListener('click', e => {
+            const tag = e.target.closest('.tag');
+            if (!tag) return;
+            e.stopPropagation();
+            applyFilter(activeTag === tag.dataset.tag ? null : tag.dataset.tag);
+        });
+
+        document.getElementById('clearWork')?.addEventListener('click', () => applyFilter(null));
+        document.getElementById('clearPlay')?.addEventListener('click', () => applyFilter(null));
+
+        // Clear filter when switching sections
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                activeTag = null;
+                document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.project-card').forEach(c => c.classList.remove('dimmed'));
+                document.querySelectorAll('.filter-clear').forEach(b => b.classList.remove('visible'));
+            });
+        });
+
+        // ── Type panel ──
+        const typeTrigger = document.getElementById('typeTrigger');
+        const typePanel   = document.getElementById('typePanel');
+        const sizeSlider  = document.getElementById('sizeSlider');
+        const sizeValue   = document.getElementById('sizeValue');
+
+        typeTrigger.addEventListener('click', e => {
+            e.stopPropagation();
+            typePanel.classList.toggle('open');
+        });
+
+        document.addEventListener('click', e => {
+            if (!typePanel.contains(e.target) && e.target !== typeTrigger) {
+                typePanel.classList.remove('open');
+            }
+        });
+
+        typePanel.querySelectorAll('.font-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                typePanel.querySelectorAll('.font-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                const font = btn.dataset.font;
+                document.querySelectorAll('.project-title').forEach(el => {
+                    el.style.fontFamily = `'${font}', sans-serif`;
+                });
+            });
+        });
+
+        sizeSlider.addEventListener('input', () => {
+            const size = sizeSlider.value;
+            sizeValue.textContent = size + 'px';
+            document.querySelectorAll('.project-title').forEach(el => {
+                el.style.fontSize = size + 'px';
+            });
+        });
+
+        const gutterSlider = document.getElementById('gutterSlider');
+        const gutterValue  = document.getElementById('gutterValue');
+
+        gutterSlider.addEventListener('input', () => {
+            const gap = gutterSlider.value;
+            gutterValue.textContent = gap + 'px';
+            document.querySelectorAll('.project-grid').forEach(grid => {
+                grid.style.gap = gap + 'px';
+            });
+        });
+
+        const cityLabelSlider = document.getElementById('cityLabelSlider');
+        const cityLabelValue  = document.getElementById('cityLabelValue');
+
+        cityLabelSlider.addEventListener('input', () => {
+            const size = cityLabelSlider.value;
+            cityLabelValue.textContent = size + 'px';
+            document.querySelectorAll('.city-dropdown-section').forEach(el => {
+                el.style.fontSize = size + 'px';
+            });
+        });
+
+        // ── Modal width slider ──
+        const modalWidthSlider = document.getElementById('modalWidthSlider');
+        const modalPanel       = document.getElementById('modalPanel');
+
+        const modalTrackingInput = document.getElementById('modalTrackingInput');
+        function applyTracking() {
+            const val = parseFloat(modalTrackingInput.value);
+            if (isNaN(val)) return;
+            document.getElementById('modalDesc').style.letterSpacing = val + 'em';
+        }
+        modalTrackingInput.addEventListener('change', applyTracking);
+        modalTrackingInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyTracking(); });
+
+        const modalLineHeightInput = document.getElementById('modalLineHeightInput');
+        function applyLineHeight() {
+            const val = parseFloat(modalLineHeightInput.value);
+            if (isNaN(val)) return;
+            document.getElementById('modalDesc').style.lineHeight = val;
+        }
+        modalLineHeightInput.addEventListener('change', applyLineHeight);
+        modalLineHeightInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyLineHeight(); });
+
+        function applyModalWidth() {
+            const w = parseInt(modalWidthSlider.value);
+            if (!w || w < 300) return;
+            modalPanel.style.width = w + 'px';
+            modalPanel.style.maxWidth = '96vw';
+        }
+        modalWidthSlider.addEventListener('change', applyModalWidth);
+        modalWidthSlider.addEventListener('keydown', e => { if (e.key === 'Enter') applyModalWidth(); });
+
+        // ── Dark mode (always on) ──
+        document.body.classList.add('dark');
+
+        // ── Nav + tab switching ──
+        const navLinks   = document.querySelectorAll('.nav-links a');
+        const sections   = document.querySelectorAll('.section');
+        const sectionTabs = document.querySelectorAll('.section-tab');
+
+        function showSection(id) {
+            // Sections
+            sections.forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            // Nav
+            navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
+            // Tabs — only Work/Play have tabs
+            sectionTabs.forEach(t => t.classList.toggle('active', t.dataset.section === id));
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                showSection(link.dataset.section);
+            });
+        });
+
+        sectionTabs.forEach(tab => {
+            tab.addEventListener('click', () => showSection(tab.dataset.section));
+        });
+
+        // ── City dropdown ──
+        const cityText     = document.getElementById('cityText');
+        const cityDropdown = document.getElementById('cityDropdown');
+        if (cityText && cityDropdown) {
+            cityText.addEventListener('click', e => {
+                e.stopPropagation();
+                const isOpen = cityDropdown.classList.contains('open');
+                cityDropdown.classList.toggle('open', !isOpen);
+                cityText.classList.toggle('open', !isOpen);
+            });
+            cityDropdown.addEventListener('click', e => e.stopPropagation());
+            document.addEventListener('click', () => {
+                cityDropdown.classList.remove('open');
+                cityText.classList.remove('open');
+            });
+        }
+        // ── Lightbox ──
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('open');
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+                lightbox.classList.remove('open');
+            }
+        });
+
+        // ── Copy email to clipboard ──
+        const emailCopyBtn = document.getElementById('emailCopy');
+        if (emailCopyBtn) {
+            const EMAIL = 'icrvenkovic@gmail.com';
+            emailCopyBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(EMAIL);
+                    } else {
+                        const ta = document.createElement('textarea');
+                        ta.value = EMAIL; ta.style.position = 'fixed'; ta.style.opacity = '0';
+                        document.body.appendChild(ta); ta.focus(); ta.select();
+                        document.execCommand('copy'); document.body.removeChild(ta);
+                    }
+                    emailCopyBtn.classList.add('copied');
+                    emailCopyBtn.setAttribute('title', 'Copied!');
+                    setTimeout(() => {
+                        emailCopyBtn.classList.remove('copied');
+                        emailCopyBtn.setAttribute('title', 'Copy email');
+                    }, 1500);
+                } catch (err) { console.warn('copy failed', err); }
+            });
+        }
+
+        // ── About drawer ──
+        (function () {
+            const overlay  = document.getElementById('aboutOverlay');
+            const openBtn  = document.getElementById('aboutOpen');
+            const closeBtnA = document.getElementById('aboutClose');
+            const backdropA = document.getElementById('aboutBackdrop');
+            function openAbout()  { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+            function closeAbout() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+            openBtn.addEventListener('click', openAbout);
+            closeBtnA.addEventListener('click', closeAbout);
+            backdropA.addEventListener('click', closeAbout);
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeAbout(); });
+        })();
+
+        // ── Nav logo swap on scroll (Ian ⇄ Figments) ──
+        (function () {
+            const navName = document.getElementById('navName');
+            const navEl = document.querySelector('nav');
+            const figments = document.querySelector('.gallery');
+            if (!navName || !navEl || !figments) return;
+            function update() {
+                const threshold = navEl.offsetHeight + 8;
+                navName.textContent = (figments.getBoundingClientRect().top <= threshold) ? 'Figments' : 'Ian Crvenković';
+            }
+            window.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+        })();
+
+        // ── Linked hover: case-study card <-> name text ──
+        (function () {
+            [['bayes-esports', '.fp-bayes'], ['brand-buddy', '.fp-bb']].forEach(function (pair) {
+                const card = document.querySelector('.project-card[data-project="' + pair[0] + '"]');
+                const texts = document.querySelectorAll(pair[1]);
+                if (!card) return;
+                const on = () => { card.classList.add('linked-hover'); texts.forEach(t => t.classList.add('lit')); };
+                const off = () => { card.classList.remove('linked-hover'); texts.forEach(t => t.classList.remove('lit')); };
+                card.addEventListener('mouseenter', on);
+                card.addEventListener('mouseleave', off);
+                texts.forEach(t => { t.addEventListener('mouseenter', on); t.addEventListener('mouseleave', off); });
+            });
+        })();
+    </script>
+
+    <!-- ============ TEMP: body type tuner modal (remove when done) ============ -->
+    <button id="typeModalOpen" class="tm-trigger">Aa&nbsp; Body type</button>
+    <div class="tm-overlay" id="typeModalOverlay">
+        <div class="tm-backdrop" id="typeModalBackdrop"></div>
+        <div class="tm-modal" role="dialog" aria-label="Body text settings">
+            <div class="tm-head">
+                <span class="tm-title">Body type</span>
+                <button class="tm-close" id="typeModalClose" aria-label="Close">✕</button>
+            </div>
+            <p class="tm-preview">Graphic designer based in Berlin — brand identity, art direction, and design systems. This is how the running body text reads at the current settings.</p>
+            <div class="tm-row">
+                <div class="tm-label">Size <span id="tv-size">15</span>px</div>
+                <input type="range" id="ts-size" min="11" max="22" value="15" step="0.5">
+            </div>
+            <div class="tm-row">
+                <div class="tm-label">Tracking <span id="tv-track">0</span>em</div>
+                <input type="range" id="ts-track" min="-0.04" max="0.1" value="0" step="0.005">
+            </div>
+            <div class="tm-row">
+                <div class="tm-label">Line height <span id="tv-lead">1.5</span></div>
+                <input type="range" id="ts-lead" min="1.1" max="2" value="1.5" step="0.05">
+            </div>
+        </div>
+    </div>
+    <style>
+        .tm-trigger { position: fixed; bottom: 64px; right: 16px; z-index: 400; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); cursor: pointer; box-shadow: 0 8px 32px rgba(0,0,0,0.45); transition: color 0.15s, border-color 0.15s; }
+        .tm-trigger:hover { color: var(--text); border-color: var(--text); }
+        .tm-overlay { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 24px; pointer-events: none; }
+        .tm-overlay.open { pointer-events: auto; }
+        .tm-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.3s ease; }
+        .tm-overlay.open .tm-backdrop { background: rgba(0,0,0,0.6); }
+        .tm-modal { position: relative; width: min(420px, 92vw); background: var(--bg); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); padding: 20px 22px 24px; opacity: 0; transform: scale(0.96); transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.34, 1.18, 0.64, 1); }
+        .tm-overlay.open .tm-modal { opacity: 1; transform: scale(1); }
+        .tm-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .tm-title { font-size: 16px; color: var(--text); }
+        .tm-close { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.08); border: none; color: var(--text); cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+        .tm-close:hover { background: rgba(255,255,255,0.16); }
+        .tm-preview { color: var(--text); margin: 0 0 20px; padding: 14px; border: 1px solid var(--border); border-radius: 10px; }
+        .tm-row { margin-bottom: 14px; }
+        .tm-row:last-child { margin-bottom: 0; }
+        .tm-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-family: 'Space Mono', monospace; }
+        .tm-label span { color: var(--text); }
+        .tm-row input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--border); outline: none; cursor: pointer; border-radius: 2px; }
+        .tm-row input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%; background: var(--text); cursor: pointer; }
+    </style>
+    <script>
+        (function () {
+            const overlay = document.getElementById('typeModalOverlay');
+            document.getElementById('typeModalOpen').addEventListener('click', () => overlay.classList.add('open'));
+            document.getElementById('typeModalClose').addEventListener('click', () => overlay.classList.remove('open'));
+            document.getElementById('typeModalBackdrop').addEventListener('click', () => overlay.classList.remove('open'));
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
+            const bind = (sId, vId, varName, unit, fixed) => {
+                const s = document.getElementById(sId), v = document.getElementById(vId);
+                s.addEventListener('input', () => {
+                    const val = fixed != null ? (+s.value).toFixed(fixed) : s.value;
+                    document.documentElement.style.setProperty(varName, val + unit);
+                    v.textContent = val;
+                });
+            };
+            bind('ts-size', 'tv-size', '--body-size', 'px', null);
+            bind('ts-track', 'tv-track', '--body-tracking', 'em', 3);
+            bind('ts-lead', 'tv-lead', '--body-leading', '', 2);
+        })();
+    </script>
+
+    <!-- ============ TEMP: section spacing sliders (remove when done) ============ -->
+    <div id="space-panel">
+        <div class="sp-head" id="sp-toggle">
+            <span class="sp-title">Section spacing</span>
+            <button class="sp-min" id="sp-min" aria-label="Minimize">–</button>
+        </div>
+        <div class="sp-body">
+            <div class="sp-row">
+                <div class="sp-label">Logo → text <span id="v-nav">30</span>px</div>
+                <input type="range" id="s-nav" min="0" max="160" value="30" step="1">
+            </div>
+            <div class="sp-row">
+                <div class="sp-label">Text → sections <span id="v-intro">30</span>px</div>
+                <input type="range" id="s-intro" min="0" max="120" value="30" step="1">
+            </div>
+            <div class="sp-row">
+                <div class="sp-label">Heading → content <span id="v-head">22</span>px</div>
+                <input type="range" id="s-head" min="0" max="80" value="22" step="1">
+            </div>
+            <div class="sp-row">
+                <div class="sp-label">Between sections <span id="v-sec">40</span>px</div>
+                <input type="range" id="s-sec" min="0" max="240" value="40" step="1">
+            </div>
+        </div>
+    </div>
+    <style>
+        #space-panel { position: fixed; bottom: 16px; left: 16px; z-index: 400; width: 220px; padding: 14px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.45); font-family: 'Schibsted Grotesk', sans-serif; color: var(--text); }
+        #space-panel .sp-head { display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 12px; }
+        #space-panel .sp-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+        #space-panel .sp-min { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 15px; line-height: 1; padding: 0 2px; }
+        #space-panel .sp-min:hover { color: var(--text); }
+        #space-panel.collapsed .sp-head { margin-bottom: 0; }
+        #space-panel.collapsed .sp-body { display: none; }
+        #space-panel .sp-row { margin-bottom: 12px; }
+        #space-panel .sp-row:last-child { margin-bottom: 0; }
+        #space-panel .sp-label { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 5px; }
+        #space-panel .sp-label span { color: var(--text); font-family: 'Space Mono', monospace; }
+        #space-panel input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--border); outline: none; cursor: pointer; border-radius: 2px; }
+        #space-panel input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--text); cursor: pointer; }
+    </style>
+    <script>
+        (function () {
+            [['s-nav','v-nav','--gap-nav'], ['s-intro','v-intro','--gap-intro'], ['s-head','v-head','--gap-head'], ['s-sec','v-sec','--gap-section']]
+            .forEach(function (m) {
+                var s = document.getElementById(m[0]), v = document.getElementById(m[1]);
+                s.addEventListener('input', function () {
+                    document.documentElement.style.setProperty(m[2], s.value + 'px');
+                    v.textContent = s.value;
+                });
+            });
+            var panel = document.getElementById('space-panel');
+            document.getElementById('sp-toggle').addEventListener('click', function () {
+                panel.classList.toggle('collapsed');
+                document.getElementById('sp-min').textContent = panel.classList.contains('collapsed') ? '+' : '–';
+            });
+        })();
+    </script>
+
+</body>
+</html>
