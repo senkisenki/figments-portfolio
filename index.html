@@ -1691,7 +1691,8 @@
             document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeAbout(); });
         })();
 
-        // ── Nav logo swap on scroll (Ian ⇄ Figments) ──
+        // ── Nav logo swap on scroll (Ian ⇄ Figments) — disabled for now, re-enable later.
+        /*
         (function () {
             const navName = document.getElementById('navName');
             const navEl = document.querySelector('nav');
@@ -1705,6 +1706,7 @@
             window.addEventListener('resize', update);
             update();
         })();
+        */
 
         // ── Linked hover: case-study card <-> name text ──
         (function () {
