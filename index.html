@@ -252,6 +252,7 @@
         /* ── Project grid ── */
         .project-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
         .project-card {
+            position: relative;
             display: flex; flex-direction: column; cursor: pointer;
             border-radius: 10px;
             overflow: hidden;
@@ -933,6 +934,10 @@
             pointer-events: none;
         }
         .about-photo:hover .about-photo-label { opacity: 1; }
+        @media (hover: none) {
+            .about-photo:hover img { filter: none; }
+            .about-photo:hover .about-photo-label { opacity: 0; }
+        }
         .about-bio { font-size: 16px; line-height: 1.6; color: var(--text); letter-spacing: 0.01em; }
         .about-bio strong { font-weight: 400; }
         .about-bio .fp-bayes:hover { color: #2BE2AE; }
@@ -976,9 +981,15 @@
             .bio-name { font-size: 17px; }
             .bio-line-2 { font-size: 13px; margin-top: 4px; }
             .project-image { border-radius: 4px; aspect-ratio: 8/3; }
-            .card-overlay { opacity: 1; padding: 12px 14px; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.28) 45%, transparent 80%); }
-            .card-overlay .project-tags, .card-overlay .project-desc { display: none; }
-            .card-overlay .project-title { font-size: 16px; }
+            .card-overlay {
+                position: static;
+                opacity: 1;
+                background: none;
+                padding: 12px 2px 0;
+            }
+            .card-overlay .project-title { font-size: 16px; color: var(--text); }
+            .card-overlay .project-tags { color: var(--muted); }
+            .card-overlay .project-desc { color: var(--text); opacity: 0.85; }
             .nav-star { display: none; }
             .nav-desc { display: none; }
             .info-body { font-size: 14px; max-width: 100%; }
@@ -1037,11 +1048,11 @@
                     <svg class="project-icon" viewBox="0 0 120 96" aria-hidden="true">
                         <image href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzMiIGhlaWdodD0iNDYiIHZpZXdCb3g9IjAgMCAzMyA0NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTguMjEyMzkgMTYuNTk0NEw0LjE3MTQ3IDI0LjkwMzdDNC4wOTgzOSAyNS4wMjM5IDQuMDI5NjggMjUuMTQ3OCAzLjk2NzgzIDI1LjI3NjFMMC42MDAyOTcgMzIuMjAxNUwwIDMzLjQzNTlMNC4xODE0NyA0NS4zNzVMNC43ODE3NyA0NC4xNDA3TDguODIyNjkgMzUuODMxM0M4Ljg5NTc3IDM1LjcxMTEgOC45NjQ0OCAzNS41ODcyIDkuMDI2MzIgMzUuNDU4OUwxMi4zOTM5IDI4LjUzMzVMMTIuOTk0MiAyNy4yOTkyTDguODEyNjkgMTUuMzZMOC4yMTIzOSAxNi41OTQ0VjE2LjU5NDRaIiBmaWxsPSIjMkJFMkFFIi8+CjxwYXRoIGQ9Ik0zMi4zNzI5IDM2LjQ1MjNDMzIuMzcyOSAzNi40NTIzIDMyLjM3NTQgMzYuNDUxIDMyLjM3NjcgMzYuNDUwNEwyOS4xNDk3IDI3LjIzNjZIMjUuMTQzMUMyNS4wOTYzIDI3LjIzNjYgMjUuMDU0NCAyNy4yMDY1IDI1LjAzODggMjcuMTYyMUwyMS4zNTUyIDE2LjY0NTFMMjEuMjU2NSAxNi4zNjRMMjEuMjM3MSAxNi4zMDgzTDIxLjE0OTEgMTYuMDU3M0wxNi45Njc2IDQuMTE4MThMMTYuNTc5NyAzLjAxMDI3QzE1Ljc1ODkgMC42NjYxMjggMTMuMTk3MiAtMC41Njc1OTYgMTAuODU3OCAwLjI1NDg4N0M4LjUxODQ2IDEuMDc3MzcgNy4yODc4OCAzLjY0NDk3IDguMTA4NjkgNS45ODkxMUwxMS40MzY5IDE1LjQ5MjFMMTUuNTUwMyAyNy4yMzY2TDE1LjYxODMgMjcuNDMxMkwxNS43MTQ1IDI3LjcwNTRMMTguOTY2NSAzNi45OTEyQzE4Ljk4MjEgMzcuMDM1NiAxOS4wMjQgMzcuMDY1NyAxOS4wNzA4IDM3LjA2NTdIMzIuNTg3OEwzMi4zNzM2IDM2LjQ1MjlMMzIuMzcyOSAzNi40NTIzWiIgZmlsbD0iIzJCRTJBRSIvPgo8L3N2Zz4K" x="0" y="0" width="120" height="96" preserveAspectRatio="xMidYMid meet"/>
                     </svg>
-                    <div class="card-overlay">
-                        <div class="project-title">Bayes Esports</div>
-                        <div class="project-tags"><span class="tag" data-tag="Brand Identity">Brand Identity</span><span class="tag" data-tag="Social">Social</span><span class="tag" data-tag="Print">Print</span></div>
-                        <div class="project-desc">Brand design across social, print, content, and live events for an esports data company.</div>
-                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="project-title">Bayes Esports</div>
+                    <div class="project-tags"><span class="tag" data-tag="Brand Identity">Brand Identity</span><span class="tag" data-tag="Social">Social</span><span class="tag" data-tag="Print">Print</span></div>
+                    <div class="project-desc">Brand design across social, print, content, and live events for an esports data company.</div>
                 </div>
             </div>
 
@@ -1050,11 +1061,11 @@
                     <svg class="project-icon" viewBox="0 0 120 96" aria-hidden="true">
                         <image href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDMiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCA0MyA0NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM2LjYwODYgMjcuMjk0MkMzNy4zNDIgMjYuOTg0IDM4LjM5MTQgMjYuMzYzNCAzOS4xNjk5IDI1LjEyMjJDMzkuOTkzNiAyMy44MzU5IDQwLjE3NDEgMjIuNTA0NSA0MC4xNzQxIDIxLjM1MzZDNDAuMTc0MSAyMC4wNjczIDM5Ljk0MjggMTcuNTg1IDM3Ljk3OTUgMTUuNzY4NEMzNS42MDQ0IDEzLjU5NjMgMzEuODUyNyAxMy41MDYxIDMwLjIxMSAxMy41MDYxSDIwLjg4NTRWMTcuMDA5NUMyMC41OTIgMTYuNTE4NyAyMC4yNjQ4IDE2LjExMjUgMTkuOTI2MyAxNS43ODUzQzE4LjgzMTggMTQuNzE5IDE3LjE4NDQgMTQuMDEzOCAxNS43MjMzIDEzLjc4ODJDMTYuNDU2NyAxMy40Nzc5IDE3LjUwNiAxMi44NTczIDE4LjI4NDYgMTEuNjE2MUMxOS4xMDgyIDEwLjMyOTggMTkuMjg4OCA4Ljk5ODQgMTkuMjg4OCA3Ljg0NzUxQzE5LjI4ODggNi41NjEyMSAxOS4wNTc1IDQuMDc4OSAxNy4wOTQyIDIuMjYyMjlDMTQuNzE5IDAuMDkwMjU0NiAxMC45Njc0IDAgOS4zMjU2MyAwSDBWMjkuNTc5MUgxMS40NzUxQzEzLjM0ODEgMjkuNTc5MSAxNy4wMDk2IDI5LjQwNDIgMTkuNTIwMSAyNy4wNTE3QzIwLjAwNTMgMjYuNTgzNCAyMC40ODQ4IDI1Ljk5NjcgMjAuODkxIDI1LjI2MzNWNDMuMDg1MkgzMi4zNjYxQzM0LjIzOTEgNDMuMDg1MiAzNy44OTQ5IDQyLjkxMDMgNDAuNDExMSA0MC41NTc4QzQxLjYwMTUgMzkuNDA2OSA0Mi43ODYyIDM3LjU0NTEgNDIuNzg2MiAzNC41NzJDNDIuNzg2MiAzMS45NTQzIDQxLjgyNzEgMzAuMjczIDQwLjgyMjkgMjkuMjk3QzM5LjcyODQgMjguMjMwOCAzOC4wODExIDI3LjUyNTYgMzYuNjE5OSAyNy4yOTk5TDM2LjYwODYgMjcuMjk0MlpNNi45NDQ4NiA1LjMxNDQySDguMDM5MzRDOS4zMTk5OSA1LjMxNDQyIDEwLjY5MDkgNS4zMTQ0MSAxMS42OTUxIDYuMDcwMzlDMTIuMjQyNCA2LjQ3MDk1IDEyLjg4NTUgNy4yNjY0MiAxMi44ODU1IDguNTUyNzFDMTIuODg1NSA5LjgzOTAxIDEyLjI5MzEgMTAuNzI0OCAxMS42NSAxMS4xNzA0QzEwLjY0NTggMTEuODgxMyA5LjA0MzU1IDEyLjAxMSA4LjA4NDQ3IDEyLjAxMUg2LjkzOTIyVjUuMzE0NDJINi45NDQ4NlpNMTMuODQ0NiAyMy4wNTE3QzEyLjU2MzkgMjQuMjAyNiAxMC40MTQ1IDI0LjI0NzggOC42MzE3MSAyNC4yNDc4SDYuOTM5MjJWMTcuMDY2SDguODU3MzhDMTAuMjczNCAxNy4wNjYgMTIuNjU0MiAxNy4wNjYgMTMuODg0MSAxOC4xNzE3QzE0LjM0MTEgMTguNTcyMyAxNC44NDMyIDE5LjM2NzcgMTQuODQzMiAyMC41NjM4QzE0Ljg0MzIgMjEuNjMgMTQuNDc2NSAyMi40NzA2IDEzLjgzODkgMjMuMDQ2MUwxMy44NDQ2IDIzLjA1MTdaTTI3LjgzMDIgMTguODI2MkgyOC45MjQ3QzMwLjIwNTQgMTguODI2MiAzMS41NzYzIDE4LjgyNjIgMzIuNTgwNSAxOS41ODIxQzMzLjEyNzcgMTkuOTgyNyAzMy43NzA5IDIwLjc3ODIgMzMuNzcwOSAyMi4wNjQ1QzMzLjc3MDkgMjMuMzUwNyAzMy4xNzg1IDI0LjIzNjUgMzIuNTM1MyAyNC42ODIyQzMxLjUzMTEgMjUuMzkzIDI5LjkyODkgMjUuNTIyOCAyOC45Njk4IDI1LjUyMjhIMjcuODI0NlYxOC44MjYySDI3LjgzMDJaTTM0LjczNTYgMzYuNTYzNUMzMy40NTQ5IDM3LjcxNDQgMzEuMzA1NSAzNy43NTk1IDI5LjUyMjcgMzcuNzU5NUgyNy44MzAyVjMwLjU3NzdIMjkuNzQ4NEMzMS4xNjQ0IDMwLjU3NzcgMzMuNTQ1MiAzMC41Nzc3IDM0Ljc3NTEgMzEuNjgzNEMzNS4yMzIxIDMyLjA4NCAzNS43MzQyIDMyLjg3OTUgMzUuNzM0MiAzNC4wNzU1QzM1LjczNDIgMzUuMTQxOCAzNS4zNjc1IDM1Ljk4MjQgMzQuNzI5OSAzNi41NTc4TDM0LjczNTYgMzYuNTYzNVoiIGZpbGw9IiMwOUFDQjQiLz4KPC9zdmc+Cg==" x="0" y="0" width="120" height="96" preserveAspectRatio="xMidYMid meet"/>
                     </svg>
-                    <div class="card-overlay">
-                        <div class="project-title">Brand Buddy</div>
-                        <div class="project-tags"><span class="tag" data-tag="Art Direction">Art Direction</span><span class="tag" data-tag="E-commerce">E-commerce</span></div>
-                        <div class="project-desc">Art direction for Amazon product imagery across a portfolio of e-commerce brands.</div>
-                    </div>
+                </div>
+                <div class="card-overlay">
+                    <div class="project-title">Brand Buddy</div>
+                    <div class="project-tags"><span class="tag" data-tag="Art Direction">Art Direction</span><span class="tag" data-tag="E-commerce">E-commerce</span></div>
+                    <div class="project-desc">Art direction for Amazon product imagery across a portfolio of e-commerce brands.</div>
                 </div>
             </div>
 
@@ -1163,7 +1174,7 @@
                     <span class="about-photo-label">This is me</span>
                 </div>
 
-                <p class="about-bio"><strong>Ian Crvenković</strong> is a graphic designer based in Berlin, working across brand identity, art direction, and design systems. Previously at <span class="company-link fp-bayes">Bayes Esports</span> &amp; <span class="company-link fp-bb">Brand Buddy</span>. More new work coming soon <span class="about-smiley">☺</span></p>
+                <p class="about-bio"><strong>Ian Crvenković</strong> is a graphic designer based in Berlin, working across brand identity, art direction, and design systems. Previously at <span class="company-link fp-bayes">Bayes Esports</span> &amp; <span class="company-link fp-bb">Brand Buddy</span>. More work coming soon :)</p>
 
                 <div class="about-divider"></div>
 
