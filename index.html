@@ -21,11 +21,15 @@
             --border: #D8D4CE;
             /* left/right inset that lines up with the centered, max-width content */
             --edge: max(36px, calc(50vw - 684px));
-            /* adjustable section spacing (dev sliders) */
+            /* section spacing */
             --gap-nav: 30px;
             --gap-intro: 30px;
             --gap-head: 22px;
             --gap-section: 40px;
+            /* body type */
+            --body-size: 15px;
+            --body-tracking: 0em;
+            --body-leading: 1.5;
         }
 
         /* ── Dark mode ── */
@@ -45,9 +49,9 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Schibsted Grotesk', sans-serif;
-            font-size: var(--body-size, 15px);
-            letter-spacing: var(--body-tracking, 0em);
-            line-height: var(--body-leading, 1.5);
+            font-size: var(--body-size);
+            letter-spacing: var(--body-tracking);
+            line-height: var(--body-leading);
             padding: 28px 36px;
             max-width: 1440px;
             margin: 0 auto;
@@ -65,7 +69,7 @@
             align-items: center;
             background: var(--bg);
             padding: 14px 0;
-            margin-bottom: var(--gap-nav, 40px);
+            margin-bottom: var(--gap-nav);
         }
         .nav-star {
             position: absolute;
@@ -75,21 +79,46 @@
             color: #fff;
             pointer-events: none;
         }
+        .nav-left { display: flex; align-items: baseline; gap: 14px; }
+        .nav-avatar {
+            align-self: center;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            padding: 0;
+            border: 1px solid var(--border);
+            background: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: border-color 0.15s ease;
+        }
+        .nav-avatar:hover { border-color: var(--text); }
+        .nav-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+        .nav-about {
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            color: var(--muted);
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+        .nav-about:hover { color: var(--text); }
         .nav-right { display: flex; align-items: center; gap: 16px; }
         .nav-desc { text-align: right; font-size: 13px; color: var(--muted); line-height: 1.5; letter-spacing: 0.01em; }
         .nav-desc .footer-bio { color: var(--text); }
         .nav-desc .company-link { color: var(--text); }
         .nav-desc .fp-bayes:hover { color: #2BE2AE; }
         .nav-desc .fp-bb:hover { color: #09ACB4; }
-        .nav-info { background: none; border: none; cursor: pointer; color: var(--muted); padding: 0; display: inline-flex; align-items: center; transition: color 0.15s ease; }
-        .nav-info:hover { color: var(--text); }
-        .nav-info svg { width: 20px; height: 20px; display: block; }
         /* linked hover: card <-> name text */
         .fp-bayes.lit, .nav-desc .fp-bayes.lit, .site-footer .fp-bayes.lit { color: #2BE2AE; }
         .fp-bb.lit, .nav-desc .fp-bb.lit, .site-footer .fp-bb.lit { color: #09ACB4; }
         .fp-bayes.lit::after { width: 100%; background-color: #2BE2AE; }
         .fp-bb.lit::after { width: 100%; background-color: #09ACB4; }
-        .project-card.linked-hover .card-overlay { opacity: 1; }
+        .project-card.linked-hover { border-color: color-mix(in srgb, var(--border) 60%, var(--muted)); }
         /* Say hello fab (bottom-right) */
         .hello-fab { position: fixed; bottom: 16px; right: 16px; z-index: 60; display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45); }
         .hello-link { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
@@ -108,7 +137,7 @@
             color: var(--text);
         }
         /* Intro copy under the logo (mirrors footer text) */
-        .intro-copy { font-size: 13px; color: var(--muted); letter-spacing: 0.01em; line-height: 1.55; margin-bottom: var(--gap-intro, 30px); }
+        .intro-copy { font-size: 13px; color: var(--muted); letter-spacing: 0.01em; line-height: 1.55; margin-bottom: var(--gap-intro); }
         .intro-copy .footer-bio { color: var(--text); }
         .intro-copy .fp-muted { color: var(--muted); }
         .intro-copy .company-link { color: var(--text); }
@@ -278,22 +307,36 @@
                 color-mix(in srgb, var(--accent, transparent) 7%, var(--bg)) 100%);
             transition: opacity 0.2s ease;
         }
-        /* Case study cover overlay — text revealed on hover */
-        .card-overlay {
-            position: absolute; inset: 0;
-            z-index: 3;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 18px;
-            background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.04) 100%);
-            opacity: 0;
-            transition: opacity 0.28s ease;
+        /* Case study meta — always visible (title · role · years) */
+        .card-meta {
+            padding: 14px 16px 16px;
+            display: flex; flex-direction: column; gap: 3px;
         }
-        .project-card:hover .card-overlay { opacity: 1; }
-        .card-overlay .project-title { color: #fff; font-size: 22px; font-weight: 400; }
-        .card-overlay .project-tags { color: rgba(255,255,255,0.6); font-size: 11px; font-family: 'Space Mono', monospace; display: flex; flex-wrap: wrap; gap: 0 2px; margin-top: 3px; }
-        .card-overlay .project-desc { color: rgba(255,255,255,0.85); font-size: 13px; line-height: 1.5; letter-spacing: 0.02em; margin-top: 8px; }
-        .card-overlay .tag { pointer-events: none; cursor: default; }
-        .card-overlay .tag:not(:last-child)::after { content: ','; color: rgba(255,255,255,0.5); }
+        .card-meta .project-title { color: var(--text); font-size: 20px; font-weight: 400; letter-spacing: 0.01em; transition: color 0.15s ease; }
+        .card-meta .project-role { color: var(--muted); font-size: 11px; font-family: 'Space Mono', monospace; letter-spacing: 0.03em; }
+        .project-card[data-project="bayes-esports"]:hover .project-title,
+        .project-card[data-project="bayes-esports"].linked-hover .project-title { color: #2BE2AE; }
+        .project-card[data-project="brand-buddy"]:hover .project-title,
+        .project-card[data-project="brand-buddy"].linked-hover .project-title { color: #09ACB4; }
+        /* Open-project affordance — bottom-right of each card */
+        .card-open {
+            position: absolute;
+            bottom: 14px; right: 16px;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--muted);
+            display: flex; align-items: center; justify-content: center;
+            pointer-events: none;
+            transition: color 0.18s ease, border-color 0.18s ease, transform 0.22s cubic-bezier(0.34,1.18,0.64,1), background 0.18s ease;
+        }
+        .card-open svg { width: 12px; height: 12px; }
+        .project-card:hover .card-open { transform: scale(1.08); }
+        .project-card[data-project="bayes-esports"]:hover .card-open,
+        .project-card[data-project="bayes-esports"].linked-hover .card-open { color: #2BE2AE; border-color: #2BE2AE; }
+        .project-card[data-project="brand-buddy"]:hover .card-open,
+        .project-card[data-project="brand-buddy"].linked-hover .card-open { color: #09ACB4; border-color: #09ACB4; }
         .project-card:nth-child(2) .project-image { animation-delay: -5s; }
         .project-card:nth-child(3) .project-image { animation-delay: -11s; }
 
@@ -311,21 +354,6 @@
             object-fit: cover;
         }
 
-        .card-thumb-name {
-            position: absolute;
-            bottom: 14px;
-            left: 14px;
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-weight: 400;
-            font-size: clamp(64px, 9vw, 108px);
-            line-height: 0.9;
-            color: rgba(0, 0, 0, 0.13);
-            white-space: nowrap;
-            pointer-events: none;
-            user-select: none;
-            letter-spacing: -0.02em;
-        }
         /* ── Folder-icon thumbnails (ported from previous site) ── */
         .project-card[data-project="bayes-esports"] { --accent: #2BE2AE; }
         .project-card[data-project="brand-buddy"]   { --accent: #09ACB4; }
@@ -391,20 +419,6 @@
             z-index: 5;
         }
 
-        /* ── Gradients ── */
-        .grad-1  { background: linear-gradient(140deg, #E2D5C8 0%, #C8B8AA 100%); }
-        .grad-2  { background: linear-gradient(140deg, #C8D5E2 0%, #AABAC8 100%); }
-        .grad-3  { background: linear-gradient(140deg, #D5E2CC 0%, #BACCAA 100%); }
-        .grad-4  { background: linear-gradient(140deg, #E2CCD5 0%, #C8AABC 100%); }
-        .grad-5  { background: linear-gradient(140deg, #E2DEC8 0%, #C8C2AA 100%); }
-        .grad-6  { background: linear-gradient(140deg, #D0C8E2 0%, #B8AACC 100%); }
-        .grad-7  { background: linear-gradient(140deg, #E2D0C8 0%, #C8B0A8 100%); }
-        .grad-8  { background: linear-gradient(140deg, #C8E2D8 0%, #A8C8BE 100%); }
-        .grad-9  { background: linear-gradient(140deg, #D8D5E2 0%, #C0BCCC 100%); }
-        .grad-10 { background: linear-gradient(140deg, #E2D8CC 0%, #CCC0B0 100%); }
-        .grad-11 { background: linear-gradient(140deg, #CCE2D8 0%, #B0CCB8 100%); }
-        .grad-12 { background: linear-gradient(140deg, #E2CCCC 0%, #CCB0B0 100%); }
-
         /* ── Filter bar ── */
         .filter-bar {
             height: 28px;
@@ -433,7 +447,6 @@
         .info-body { font-size: 15px; max-width: 460px; color: var(--muted); line-height: 1.8; }
 
         /* ── Footer (in-flow, below the projects) ── */
-        .type-panel-trigger { display: none !important; }
         .site-footer {
             margin-top: 72px;
             padding-top: 26px;
@@ -501,36 +514,6 @@
             display: none;
         }
         body.dark .modal-toolbar { background: #222222; }
-        /* Dev/tech controls hidden in the project card */
-        .modal-width-control { display: none; }
-        .modal-toolbar-label {
-            font-size: 10px;
-            font-family: 'Space Mono', monospace;
-            color: var(--muted);
-            letter-spacing: 0.05em;
-        }
-        .modal-toolbar-value {
-            font-size: 10px;
-            font-family: 'Space Mono', monospace;
-            color: var(--muted);
-            min-width: 32px;
-        }
-        #modalWidthSlider {
-            width: 58px;
-            background: none;
-            border: none;
-            border-bottom: 1px solid var(--border);
-            font-size: 11px;
-            font-family: 'Space Mono', monospace;
-            color: var(--text);
-            outline: none;
-            padding: 2px 0;
-            text-align: right;
-            -moz-appearance: textfield;
-        }
-        #modalWidthSlider::-webkit-inner-spin-button,
-        #modalWidthSlider::-webkit-outer-spin-button { -webkit-appearance: none; }
-        #modalWidthSlider:focus { border-bottom-color: var(--text); }
 
         /* Close button */
         .modal-close {
@@ -712,120 +695,30 @@
             transform: scale(1);
         }
 
-        /* ── Type panel ── */
-        .type-panel-trigger {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 50;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 11px;
-            font-family: 'Space Mono', monospace;
-            color: var(--muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: color 0.15s, border-color 0.15s;
-        }
-        .type-panel-trigger:hover { color: var(--text); border-color: var(--text); }
-        .type-panel-trigger svg { width: 12px; height: 12px; }
-
-        .type-panel {
-            position: fixed;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%) translateY(6px);
-            z-index: 51;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 18px 20px;
-            width: 280px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.18s ease, transform 0.18s ease;
-        }
-        body.dark .type-panel { box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        .type-panel.open {
-            opacity: 1;
-            pointer-events: all;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .type-panel-label {
-            font-size: 10px;
-            font-family: 'Space Mono', monospace;
-            color: var(--muted);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .font-options {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            margin-bottom: 18px;
-        }
-        .font-option {
-            padding: 7px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-            color: var(--muted);
-            transition: background 0.12s, color 0.12s;
-            border: none;
-            background: none;
-            text-align: left;
-            width: 100%;
-        }
-        .font-option:hover { background: rgba(0,0,0,0.04); color: var(--text); }
-        body.dark .font-option:hover { background: rgba(255,255,255,0.05); }
-        .font-option.selected { color: var(--text); background: rgba(0,0,0,0.05); }
-        body.dark .font-option.selected { background: rgba(255,255,255,0.07); }
-
-        .size-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .size-slider {
-            flex: 1;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 2px;
-            background: var(--border);
-            border-radius: 2px;
-            outline: none;
-            cursor: pointer;
-        }
-        .size-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px; height: 12px;
-            border-radius: 50%;
-            background: var(--text);
-            cursor: pointer;
-        }
-        .size-value {
-            font-size: 11px;
-            font-family: 'Space Mono', monospace;
-            color: var(--muted);
-            min-width: 28px;
-            text-align: right;
-        }
-
         /* ── Gallery (one-off pieces) ── */
-        .gallery { margin-top: var(--gap-section, 96px); }
-        .section-head { margin-bottom: var(--gap-head, 22px); }
+        .gallery { margin-top: var(--gap-section); }
+        .section-head { margin-bottom: var(--gap-head); }
         .section-head h2 { font-size: 20px; font-weight: 400; letter-spacing: -0.01em; color: var(--text); }
         .section-head p { font-size: 14px; color: var(--muted); margin-top: 6px; letter-spacing: 0.01em; }
+        /* Figments tabs (Logos / Posters) — plain text, no chrome */
+        .gallery-tabs { display: flex; align-items: baseline; gap: 18px; }
+        .gallery-tab {
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--muted);
+            transition: color 0.15s ease;
+        }
+        .gallery-tab:hover { color: var(--text); }
+        .gallery-tab.active { color: var(--text); }
         .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .gallery-panel { display: none; }
+        .gallery-panel.active { display: grid; }
         .gtile {
             border-radius: 10px;
             position: relative;
@@ -876,8 +769,8 @@
         .nav-right { display: flex; align-items: center; gap: 16px; }
         .nav-about {
             background: none; border: none; cursor: pointer;
-            font-family: 'Schibsted Grotesk', sans-serif; font-size: 14px;
-            color: var(--muted); letter-spacing: 0.01em; padding: 6px 2px;
+            font-family: 'Schibsted Grotesk', sans-serif; font-size: 18px; font-weight: 400;
+            color: var(--muted); letter-spacing: 0.01em; padding: 0;
             text-decoration: none;
             transition: color 0.15s ease;
         }
@@ -974,22 +867,15 @@
             .section-head h2 { font-size: 18px; }
             .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             body { padding: 20px 20px; }
-            .nav-name { font-size: 17px; }
+            .nav-name, .nav-about { font-size: 17px; }
             .nav-links { gap: 22px; }
             .nav-links a { font-size: 14px; }
             .bio-line { font-size: 17px; gap: 5px; }
             .bio-name { font-size: 17px; }
             .bio-line-2 { font-size: 13px; margin-top: 4px; }
             .project-image { border-radius: 4px; aspect-ratio: 8/3; }
-            .card-overlay {
-                position: static;
-                opacity: 1;
-                background: none;
-                padding: 14px 16px 18px;
-            }
-            .card-overlay .project-title { font-size: 16px; color: var(--text); }
-            .card-overlay .project-tags { color: var(--muted); }
-            .card-overlay .project-desc { color: var(--text); opacity: 0.85; }
+            .card-meta { padding: 12px 14px 14px; }
+            .card-meta .project-title { font-size: 17px; }
             .nav-star { display: none; }
             .nav-desc { display: none; }
             .info-body { font-size: 14px; max-width: 100%; }
@@ -1008,22 +894,20 @@
 
     <!-- Nav -->
     <nav>
-        <span class="nav-name" id="navName">Ian Crvenković</span>
+        <div class="nav-left">
+            <button class="nav-avatar" id="navAvatarOpen" aria-label="About Ian Crvenković">
+                <img src="images/about/ian.jpg" alt="" loading="lazy">
+            </button>
+            <span class="nav-name" id="navName">Ian Crvenković</span>
+            <button class="nav-about" id="aboutOpen">About</button>
+        </div>
         <svg class="nav-star" viewBox="0 0 327.46 25.7" aria-hidden="true">
             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.05" d="M3.03,22.68L83.38,3.03M83.38,22.68L163.73,3.03v19.65L244.08,3.03v19.65L324.43,3.03"/>
         </svg>
         <div class="nav-right">
             <div class="nav-desc">
                 <div class="footer-bio">A graphic designer based in Berlin.</div>
-                <div><span class="fp-muted">Previously at </span><span class="company-link fp-bayes">Bayes Esports</span><span class="fp-muted"> &amp; </span><span class="company-link fp-bb">Brand Buddy</span><span class="fp-muted">.</span></div>
             </div>
-            <button class="nav-info" id="aboutOpen" aria-label="About">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <circle cx="12" cy="12" r="9"/>
-                    <path d="M12 11v5.4" stroke-linecap="round"/>
-                    <circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/>
-                </svg>
-            </button>
         </div>
     </nav>
 
@@ -1039,7 +923,7 @@
     <!-- Work -->
     <div id="work" class="section active">
         <div class="section-head">
-            <h2>Projects</h2>
+            <h2>Previously at</h2>
         </div>
         <div class="project-grid">
 
@@ -1049,10 +933,12 @@
                         <image href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzMiIGhlaWdodD0iNDYiIHZpZXdCb3g9IjAgMCAzMyA0NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTguMjEyMzkgMTYuNTk0NEw0LjE3MTQ3IDI0LjkwMzdDNC4wOTgzOSAyNS4wMjM5IDQuMDI5NjggMjUuMTQ3OCAzLjk2NzgzIDI1LjI3NjFMMC42MDAyOTcgMzIuMjAxNUwwIDMzLjQzNTlMNC4xODE0NyA0NS4zNzVMNC43ODE3NyA0NC4xNDA3TDguODIyNjkgMzUuODMxM0M4Ljg5NTc3IDM1LjcxMTEgOC45NjQ0OCAzNS41ODcyIDkuMDI2MzIgMzUuNDU4OUwxMi4zOTM5IDI4LjUzMzVMMTIuOTk0MiAyNy4yOTkyTDguODEyNjkgMTUuMzZMOC4yMTIzOSAxNi41OTQ0VjE2LjU5NDRaIiBmaWxsPSIjMkJFMkFFIi8+CjxwYXRoIGQ9Ik0zMi4zNzI5IDM2LjQ1MjNDMzIuMzcyOSAzNi40NTIzIDMyLjM3NTQgMzYuNDUxIDMyLjM3NjcgMzYuNDUwNEwyOS4xNDk3IDI3LjIzNjZIMjUuMTQzMUMyNS4wOTYzIDI3LjIzNjYgMjUuMDU0NCAyNy4yMDY1IDI1LjAzODggMjcuMTYyMUwyMS4zNTUyIDE2LjY0NTFMMjEuMjU2NSAxNi4zNjRMMjEuMjM3MSAxNi4zMDgzTDIxLjE0OTEgMTYuMDU3M0wxNi45Njc2IDQuMTE4MThMMTYuNTc5NyAzLjAxMDI3QzE1Ljc1ODkgMC42NjYxMjggMTMuMTk3MiAtMC41Njc1OTYgMTAuODU3OCAwLjI1NDg4N0M4LjUxODQ2IDEuMDc3MzcgNy4yODc4OCAzLjY0NDk3IDguMTA4NjkgNS45ODkxMUwxMS40MzY5IDE1LjQ5MjFMMTUuNTUwMyAyNy4yMzY2TDE1LjYxODMgMjcuNDMxMkwxNS43MTQ1IDI3LjcwNTRMMTguOTY2NSAzNi45OTEyQzE4Ljk4MjEgMzcuMDM1NiAxOS4wMjQgMzcuMDY1NyAxOS4wNzA4IDM3LjA2NTdIMzIuNTg3OEwzMi4zNzM2IDM2LjQ1MjlMMzIuMzcyOSAzNi40NTIzWiIgZmlsbD0iIzJCRTJBRSIvPgo8L3N2Zz4K" x="0" y="0" width="120" height="96" preserveAspectRatio="xMidYMid meet"/>
                     </svg>
                 </div>
-                <div class="card-overlay">
+                <div class="card-meta">
                     <div class="project-title">Bayes Esports</div>
-                    <div class="project-tags"><span class="tag" data-tag="Brand Identity">Brand Identity</span><span class="tag" data-tag="Social">Social</span><span class="tag" data-tag="Print">Print</span></div>
-                    <div class="project-desc">Brand design across social, print, content, and live events for an esports data company.</div>
+                    <div class="project-role">Brand Designer · 2022–2025</div>
+                </div>
+                <div class="card-open" aria-hidden="true">
+                    <svg viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
             </div>
 
@@ -1062,10 +948,12 @@
                         <image href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDMiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCA0MyA0NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM2LjYwODYgMjcuMjk0MkMzNy4zNDIgMjYuOTg0IDM4LjM5MTQgMjYuMzYzNCAzOS4xNjk5IDI1LjEyMjJDMzkuOTkzNiAyMy44MzU5IDQwLjE3NDEgMjIuNTA0NSA0MC4xNzQxIDIxLjM1MzZDNDAuMTc0MSAyMC4wNjczIDM5Ljk0MjggMTcuNTg1IDM3Ljk3OTUgMTUuNzY4NEMzNS42MDQ0IDEzLjU5NjMgMzEuODUyNyAxMy41MDYxIDMwLjIxMSAxMy41MDYxSDIwLjg4NTRWMTcuMDA5NUMyMC41OTIgMTYuNTE4NyAyMC4yNjQ4IDE2LjExMjUgMTkuOTI2MyAxNS43ODUzQzE4LjgzMTggMTQuNzE5IDE3LjE4NDQgMTQuMDEzOCAxNS43MjMzIDEzLjc4ODJDMTYuNDU2NyAxMy40Nzc5IDE3LjUwNiAxMi44NTczIDE4LjI4NDYgMTEuNjE2MUMxOS4xMDgyIDEwLjMyOTggMTkuMjg4OCA4Ljk5ODQgMTkuMjg4OCA3Ljg0NzUxQzE5LjI4ODggNi41NjEyMSAxOS4wNTc1IDQuMDc4OSAxNy4wOTQyIDIuMjYyMjlDMTQuNzE5IDAuMDkwMjU0NiAxMC45Njc0IDAgOS4zMjU2MyAwSDBWMjkuNTc5MUgxMS40NzUxQzEzLjM0ODEgMjkuNTc5MSAxNy4wMDk2IDI5LjQwNDIgMTkuNTIwMSAyNy4wNTE3QzIwLjAwNTMgMjYuNTgzNCAyMC40ODQ4IDI1Ljk5NjcgMjAuODkxIDI1LjI2MzNWNDMuMDg1MkgzMi4zNjYxQzM0LjIzOTEgNDMuMDg1MiAzNy44OTQ5IDQyLjkxMDMgNDAuNDExMSA0MC41NTc4QzQxLjYwMTUgMzkuNDA2OSA0Mi43ODYyIDM3LjU0NTEgNDIuNzg2MiAzNC41NzJDNDIuNzg2MiAzMS45NTQzIDQxLjgyNzEgMzAuMjczIDQwLjgyMjkgMjkuMjk3QzM5LjcyODQgMjguMjMwOCAzOC4wODExIDI3LjUyNTYgMzYuNjE5OSAyNy4yOTk5TDM2LjYwODYgMjcuMjk0MlpNNi45NDQ4NiA1LjMxNDQySDguMDM5MzRDOS4zMTk5OSA1LjMxNDQyIDEwLjY5MDkgNS4zMTQ0MSAxMS42OTUxIDYuMDcwMzlDMTIuMjQyNCA2LjQ3MDk1IDEyLjg4NTUgNy4yNjY0MiAxMi44ODU1IDguNTUyNzFDMTIuODg1NSA5LjgzOTAxIDEyLjI5MzEgMTAuNzI0OCAxMS42NSAxMS4xNzA0QzEwLjY0NTggMTEuODgxMyA5LjA0MzU1IDEyLjAxMSA4LjA4NDQ3IDEyLjAxMUg2LjkzOTIyVjUuMzE0NDJINi45NDQ4NlpNMTMuODQ0NiAyMy4wNTE3QzEyLjU2MzkgMjQuMjAyNiAxMC40MTQ1IDI0LjI0NzggOC42MzE3MSAyNC4yNDc4SDYuOTM5MjJWMTcuMDY2SDguODU3MzhDMTAuMjczNCAxNy4wNjYgMTIuNjU0MiAxNy4wNjYgMTMuODg0MSAxOC4xNzE3QzE0LjM0MTEgMTguNTcyMyAxNC44NDMyIDE5LjM2NzcgMTQuODQzMiAyMC41NjM4QzE0Ljg0MzIgMjEuNjMgMTQuNDc2NSAyMi40NzA2IDEzLjgzODkgMjMuMDQ2MUwxMy44NDQ2IDIzLjA1MTdaTTI3LjgzMDIgMTguODI2MkgyOC45MjQ3QzMwLjIwNTQgMTguODI2MiAzMS41NzYzIDE4LjgyNjIgMzIuNTgwNSAxOS41ODIxQzMzLjEyNzcgMTkuOTgyNyAzMy43NzA5IDIwLjc3ODIgMzMuNzcwOSAyMi4wNjQ1QzMzLjc3MDkgMjMuMzUwNyAzMy4xNzg1IDI0LjIzNjUgMzIuNTM1MyAyNC42ODIyQzMxLjUzMTEgMjUuMzkzIDI5LjkyODkgMjUuNTIyOCAyOC45Njk4IDI1LjUyMjhIMjcuODI0NlYxOC44MjYySDI3LjgzMDJaTTM0LjczNTYgMzYuNTYzNUMzMy40NTQ5IDM3LjcxNDQgMzEuMzA1NSAzNy43NTk1IDI5LjUyMjcgMzcuNzU5NUgyNy44MzAyVjMwLjU3NzdIMjkuNzQ4NEMzMS4xNjQ0IDMwLjU3NzcgMzMuNTQ1MiAzMC41Nzc3IDM0Ljc3NTEgMzEuNjgzNEMzNS4yMzIxIDMyLjA4NCAzNS43MzQyIDMyLjg3OTUgMzUuNzM0MiAzNC4wNzU1QzM1LjczNDIgMzUuMTQxOCAzNS4zNjc1IDM1Ljk4MjQgMzQuNzI5OSAzNi41NTc4TDM0LjczNTYgMzYuNTYzNVoiIGZpbGw9IiMwOUFDQjQiLz4KPC9zdmc+Cg==" x="0" y="0" width="120" height="96" preserveAspectRatio="xMidYMid meet"/>
                     </svg>
                 </div>
-                <div class="card-overlay">
+                <div class="card-meta">
                     <div class="project-title">Brand Buddy</div>
-                    <div class="project-tags"><span class="tag" data-tag="Art Direction">Art Direction</span><span class="tag" data-tag="E-commerce">E-commerce</span></div>
-                    <div class="project-desc">Art direction for Amazon product imagery across a portfolio of e-commerce brands.</div>
+                    <div class="project-role">Lead Graphic Designer · 2018–2020</div>
+                </div>
+                <div class="card-open" aria-hidden="true">
+                    <svg viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
             </div>
 
@@ -1084,22 +972,18 @@
             </div>
             -->
 
-            <div class="project-card is-placeholder is-comingsoon" id="comingSoonCard">
-                <div class="project-image">
-                    <span class="placeholder-mark">+</span>
-                </div>
-                <div class="coming-soon-tip" id="comingSoonTip">Coming soon</div>
-            </div>
-
         </div>
     </div>
 
     <!-- Gallery: one-off pieces -->
     <section class="gallery">
         <div class="section-head">
-            <h2>Logos</h2>
+            <div class="gallery-tabs" id="galleryTabs">
+                <button class="gallery-tab active" data-panel="logos">Logos</button>
+                <button class="gallery-tab" data-panel="posters">Posters</button>
+            </div>
         </div>
-        <div class="gallery-grid">
+        <div class="gallery-grid gallery-panel active" id="logosPanel" data-panel="logos">
             <figure class="gtile gtile-img" style="aspect-ratio:3/2"><img src="images/logos/logos-1.webp" alt="GynNova logo" loading="lazy"><figcaption>GynNova</figcaption></figure>
             <figure class="gtile gtile-img" style="aspect-ratio:3/2"><img src="images/logos/brand-buddy-logo.webp" alt="Brand Buddy logo" loading="lazy"><figcaption>Brand Buddy</figcaption></figure>
             <figure class="gtile gtile-img" style="aspect-ratio:3/2"><img src="images/logos/logos-3.webp" alt="Bad Elektron logo" loading="lazy"><figcaption>Bad Elektron</figcaption></figure>
@@ -1113,6 +997,13 @@
                 <div class="coming-soon-tip" id="logosComingSoonTip">More coming soon :)</div>
             </figure>
         </div>
+        <div class="gallery-grid gallery-panel" id="postersPanel" data-panel="posters">
+            <figure class="gtile gtile-img" style="aspect-ratio:3/4"><img src="images/posters/TOP Vessel Era-18.png" alt="TOP Vessel Era poster" loading="lazy"><figcaption>TOP Vessel Era</figcaption></figure>
+            <figure class="gtile is-comingsoon" style="aspect-ratio:3/4" id="postersComingSoonCard">
+                <span class="placeholder-mark">+</span>
+                <div class="coming-soon-tip" id="postersComingSoonTip">More coming soon :)</div>
+            </figure>
+        </div>
     </section>
 
     <!-- Info -->
@@ -1121,34 +1012,6 @@
             Ian is a graphic designer with a focus on brand identity, art direction, and digital experience.
             Based in Berlin, with roots in Zagreb, San Francisco, and Los Angeles. Previously at Brand Buddy and Bayes Esports.
         </p>
-    </div>
-
-    <!-- ── Type panel ── -->
-    <button class="type-panel-trigger" id="typeTrigger">
-        <svg viewBox="0 0 12 12" fill="none"><path d="M1 10L4.5 2L8 10M2.5 7.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        Aa
-    </button>
-    <div class="type-panel" id="typePanel">
-        <div class="type-panel-label">Card title font</div>
-        <div class="font-options">
-            <button class="font-option selected" data-font="Schibsted Grotesk" style="font-family:'Schibsted Grotesk',sans-serif;">Schibsted Grotesk</button>
-            <button class="font-option" data-font="Space Mono" style="font-family:'Space Mono',monospace;">Space Mono</button>
-        </div>
-        <div class="type-panel-label">Size</div>
-        <div class="size-row">
-            <input type="range" class="size-slider" id="sizeSlider" min="10" max="32" value="22" step="1">
-            <span class="size-value" id="sizeValue">22px</span>
-        </div>
-        <div class="type-panel-label" style="margin-top:18px;">Gutter</div>
-        <div class="size-row">
-            <input type="range" class="size-slider" id="gutterSlider" min="0" max="48" value="16" step="1">
-            <span class="size-value" id="gutterValue">16px</span>
-        </div>
-        <div class="type-panel-label" style="margin-top:18px;">Where i used to live</div>
-        <div class="size-row">
-            <input type="range" class="size-slider" id="cityLabelSlider" min="8" max="18" value="10" step="1">
-            <span class="size-value" id="cityLabelValue">10px</span>
-        </div>
     </div>
 
     <!-- ── Footer ── -->
@@ -1204,20 +1067,6 @@
         <button class="modal-x" id="modalX" aria-label="Close project">✕</button>
         <div class="modal-panel" id="modalPanel">
             <div class="modal-toolbar">
-                <div class="modal-width-control">
-                    <span class="modal-toolbar-label">width</span>
-                    <input type="number" id="modalWidthSlider" min="600" max="1400" value="1200" step="10">
-                    <span class="modal-toolbar-label">px</span>
-                </div>
-                <div class="modal-width-control">
-                    <span class="modal-toolbar-label">tracking</span>
-                    <input type="number" id="modalTrackingInput" min="-0.1" max="0.3" value="0" step="0.01">
-                    <span class="modal-toolbar-label">em</span>
-                </div>
-                <div class="modal-width-control">
-                    <span class="modal-toolbar-label">line-height</span>
-                    <input type="number" id="modalLineHeightInput" min="1" max="3" value="1.65" step="0.05">
-                </div>
                 <button class="modal-close" id="modalClose" aria-label="Close">
                     <svg viewBox="0 0 14 14" fill="none">
                         <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -1449,8 +1298,20 @@
             card.addEventListener('mouseenter', () => { tip.style.opacity = '1'; });
             card.addEventListener('mouseleave', () => { tip.style.opacity = '0'; });
         }
-        wireComingSoon('comingSoonCard', 'comingSoonTip');
         wireComingSoon('logosComingSoonCard', 'logosComingSoonTip');
+        wireComingSoon('postersComingSoonCard', 'postersComingSoonTip');
+
+        // ── Gallery tabs (Logos / Posters) ──
+        document.querySelectorAll('.gallery-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const panel = tab.dataset.panel;
+                document.querySelectorAll('.gallery-panel').forEach(p => {
+                    p.classList.toggle('active', p.dataset.panel === panel);
+                });
+            });
+        });
 
         // ── Tag filtering ──
         let activeTag = null;
@@ -1493,95 +1354,6 @@
                 document.querySelectorAll('.filter-clear').forEach(b => b.classList.remove('visible'));
             });
         });
-
-        // ── Type panel ──
-        const typeTrigger = document.getElementById('typeTrigger');
-        const typePanel   = document.getElementById('typePanel');
-        const sizeSlider  = document.getElementById('sizeSlider');
-        const sizeValue   = document.getElementById('sizeValue');
-
-        typeTrigger.addEventListener('click', e => {
-            e.stopPropagation();
-            typePanel.classList.toggle('open');
-        });
-
-        document.addEventListener('click', e => {
-            if (!typePanel.contains(e.target) && e.target !== typeTrigger) {
-                typePanel.classList.remove('open');
-            }
-        });
-
-        typePanel.querySelectorAll('.font-option').forEach(btn => {
-            btn.addEventListener('click', () => {
-                typePanel.querySelectorAll('.font-option').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                const font = btn.dataset.font;
-                document.querySelectorAll('.project-title').forEach(el => {
-                    el.style.fontFamily = `'${font}', sans-serif`;
-                });
-            });
-        });
-
-        sizeSlider.addEventListener('input', () => {
-            const size = sizeSlider.value;
-            sizeValue.textContent = size + 'px';
-            document.querySelectorAll('.project-title').forEach(el => {
-                el.style.fontSize = size + 'px';
-            });
-        });
-
-        const gutterSlider = document.getElementById('gutterSlider');
-        const gutterValue  = document.getElementById('gutterValue');
-
-        gutterSlider.addEventListener('input', () => {
-            const gap = gutterSlider.value;
-            gutterValue.textContent = gap + 'px';
-            document.querySelectorAll('.project-grid').forEach(grid => {
-                grid.style.gap = gap + 'px';
-            });
-        });
-
-        const cityLabelSlider = document.getElementById('cityLabelSlider');
-        const cityLabelValue  = document.getElementById('cityLabelValue');
-
-        cityLabelSlider.addEventListener('input', () => {
-            const size = cityLabelSlider.value;
-            cityLabelValue.textContent = size + 'px';
-            document.querySelectorAll('.city-dropdown-section').forEach(el => {
-                el.style.fontSize = size + 'px';
-            });
-        });
-
-        // ── Modal width slider ──
-        const modalWidthSlider = document.getElementById('modalWidthSlider');
-        const modalPanel       = document.getElementById('modalPanel');
-
-        const modalTrackingInput = document.getElementById('modalTrackingInput');
-        function applyTracking() {
-            const val = parseFloat(modalTrackingInput.value);
-            if (isNaN(val)) return;
-            document.getElementById('modalDesc').style.letterSpacing = val + 'em';
-        }
-        modalTrackingInput.addEventListener('change', applyTracking);
-        modalTrackingInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyTracking(); });
-
-        const modalLineHeightInput = document.getElementById('modalLineHeightInput');
-        function applyLineHeight() {
-            const val = parseFloat(modalLineHeightInput.value);
-            if (isNaN(val)) return;
-            document.getElementById('modalDesc').style.lineHeight = val;
-        }
-        modalLineHeightInput.addEventListener('change', applyLineHeight);
-        modalLineHeightInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyLineHeight(); });
-
-        function applyModalWidth() {
-            const w = parseInt(modalWidthSlider.value);
-            if (!w || w < 300) return;
-            modalPanel.style.width = w + 'px';
-            modalPanel.style.maxWidth = '96vw';
-        }
-        modalWidthSlider.addEventListener('change', applyModalWidth);
-        modalWidthSlider.addEventListener('keydown', e => { if (e.key === 'Enter') applyModalWidth(); });
 
         // ── Dark mode (always on) ──
         document.body.classList.add('dark');
@@ -1681,11 +1453,13 @@
         (function () {
             const overlay  = document.getElementById('aboutOverlay');
             const openBtn  = document.getElementById('aboutOpen');
+            const avatarBtn = document.getElementById('navAvatarOpen');
             const closeBtnA = document.getElementById('aboutClose');
             const backdropA = document.getElementById('aboutBackdrop');
             function openAbout()  { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
             function closeAbout() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
             openBtn.addEventListener('click', openAbout);
+            if (avatarBtn) avatarBtn.addEventListener('click', openAbout);
             closeBtnA.addEventListener('click', closeAbout);
             backdropA.addEventListener('click', closeAbout);
             document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeAbout(); });
@@ -1723,129 +1497,6 @@
         })();
     </script>
 
-    <!-- ============ TEMP: body type tuner modal (remove when done) ============ -->
-    <button id="typeModalOpen" class="tm-trigger">Aa&nbsp; Body type</button>
-    <div class="tm-overlay" id="typeModalOverlay">
-        <div class="tm-backdrop" id="typeModalBackdrop"></div>
-        <div class="tm-modal" role="dialog" aria-label="Body text settings">
-            <div class="tm-head">
-                <span class="tm-title">Body type</span>
-                <button class="tm-close" id="typeModalClose" aria-label="Close">✕</button>
-            </div>
-            <p class="tm-preview">Graphic designer based in Berlin — brand identity, art direction, and design systems. This is how the running body text reads at the current settings.</p>
-            <div class="tm-row">
-                <div class="tm-label">Size <span id="tv-size">15</span>px</div>
-                <input type="range" id="ts-size" min="11" max="22" value="15" step="0.5">
-            </div>
-            <div class="tm-row">
-                <div class="tm-label">Tracking <span id="tv-track">0</span>em</div>
-                <input type="range" id="ts-track" min="-0.04" max="0.1" value="0" step="0.005">
-            </div>
-            <div class="tm-row">
-                <div class="tm-label">Line height <span id="tv-lead">1.5</span></div>
-                <input type="range" id="ts-lead" min="1.1" max="2" value="1.5" step="0.05">
-            </div>
-        </div>
-    </div>
-    <style>
-        .tm-trigger { display: none; position: fixed; bottom: 64px; right: 16px; z-index: 400; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); cursor: pointer; box-shadow: 0 8px 32px rgba(0,0,0,0.45); transition: color 0.15s, border-color 0.15s; }
-        .tm-trigger:hover { color: var(--text); border-color: var(--text); }
-        .tm-overlay { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 24px; pointer-events: none; }
-        .tm-overlay.open { pointer-events: auto; }
-        .tm-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.3s ease; }
-        .tm-overlay.open .tm-backdrop { background: rgba(0,0,0,0.6); }
-        .tm-modal { position: relative; width: min(420px, 92vw); background: var(--bg); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); padding: 20px 22px 24px; opacity: 0; transform: scale(0.96); transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.34, 1.18, 0.64, 1); }
-        .tm-overlay.open .tm-modal { opacity: 1; transform: scale(1); }
-        .tm-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-        .tm-title { font-size: 16px; color: var(--text); }
-        .tm-close { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.08); border: none; color: var(--text); cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-        .tm-close:hover { background: rgba(255,255,255,0.16); }
-        .tm-preview { color: var(--text); margin: 0 0 20px; padding: 14px; border: 1px solid var(--border); border-radius: 10px; }
-        .tm-row { margin-bottom: 14px; }
-        .tm-row:last-child { margin-bottom: 0; }
-        .tm-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-family: 'Space Mono', monospace; }
-        .tm-label span { color: var(--text); }
-        .tm-row input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--border); outline: none; cursor: pointer; border-radius: 2px; }
-        .tm-row input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%; background: var(--text); cursor: pointer; }
-    </style>
-    <script>
-        (function () {
-            const overlay = document.getElementById('typeModalOverlay');
-            document.getElementById('typeModalOpen').addEventListener('click', () => overlay.classList.add('open'));
-            document.getElementById('typeModalClose').addEventListener('click', () => overlay.classList.remove('open'));
-            document.getElementById('typeModalBackdrop').addEventListener('click', () => overlay.classList.remove('open'));
-            document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
-            const bind = (sId, vId, varName, unit, fixed) => {
-                const s = document.getElementById(sId), v = document.getElementById(vId);
-                s.addEventListener('input', () => {
-                    const val = fixed != null ? (+s.value).toFixed(fixed) : s.value;
-                    document.documentElement.style.setProperty(varName, val + unit);
-                    v.textContent = val;
-                });
-            };
-            bind('ts-size', 'tv-size', '--body-size', 'px', null);
-            bind('ts-track', 'tv-track', '--body-tracking', 'em', 3);
-            bind('ts-lead', 'tv-lead', '--body-leading', '', 2);
-        })();
-    </script>
-
-    <!-- ============ TEMP: section spacing sliders (remove when done) ============ -->
-    <div id="space-panel" class="collapsed">
-        <div class="sp-head" id="sp-toggle">
-            <span class="sp-title">Section spacing</span>
-            <button class="sp-min" id="sp-min" aria-label="Expand">+</button>
-        </div>
-        <div class="sp-body">
-            <div class="sp-row">
-                <div class="sp-label">Logo → text <span id="v-nav">30</span>px</div>
-                <input type="range" id="s-nav" min="0" max="160" value="30" step="1">
-            </div>
-            <div class="sp-row">
-                <div class="sp-label">Text → sections <span id="v-intro">30</span>px</div>
-                <input type="range" id="s-intro" min="0" max="120" value="30" step="1">
-            </div>
-            <div class="sp-row">
-                <div class="sp-label">Heading → content <span id="v-head">22</span>px</div>
-                <input type="range" id="s-head" min="0" max="80" value="22" step="1">
-            </div>
-            <div class="sp-row">
-                <div class="sp-label">Between sections <span id="v-sec">40</span>px</div>
-                <input type="range" id="s-sec" min="0" max="240" value="40" step="1">
-            </div>
-        </div>
-    </div>
-    <style>
-        #space-panel { display: none; position: fixed; bottom: 112px; right: 16px; z-index: 400; width: 220px; padding: 14px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.45); font-family: 'Schibsted Grotesk', sans-serif; color: var(--text); }
-        #space-panel .sp-head { display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 12px; }
-        #space-panel .sp-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-        #space-panel .sp-min { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 15px; line-height: 1; padding: 0 2px; }
-        #space-panel .sp-min:hover { color: var(--text); }
-        #space-panel.collapsed .sp-head { margin-bottom: 0; }
-        #space-panel.collapsed .sp-body { display: none; }
-        #space-panel .sp-row { margin-bottom: 12px; }
-        #space-panel .sp-row:last-child { margin-bottom: 0; }
-        #space-panel .sp-label { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 5px; }
-        #space-panel .sp-label span { color: var(--text); font-family: 'Space Mono', monospace; }
-        #space-panel input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--border); outline: none; cursor: pointer; border-radius: 2px; }
-        #space-panel input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--text); cursor: pointer; }
-    </style>
-    <script>
-        (function () {
-            [['s-nav','v-nav','--gap-nav'], ['s-intro','v-intro','--gap-intro'], ['s-head','v-head','--gap-head'], ['s-sec','v-sec','--gap-section']]
-            .forEach(function (m) {
-                var s = document.getElementById(m[0]), v = document.getElementById(m[1]);
-                s.addEventListener('input', function () {
-                    document.documentElement.style.setProperty(m[2], s.value + 'px');
-                    v.textContent = s.value;
-                });
-            });
-            var panel = document.getElementById('space-panel');
-            document.getElementById('sp-toggle').addEventListener('click', function () {
-                panel.classList.toggle('collapsed');
-                document.getElementById('sp-min').textContent = panel.classList.contains('collapsed') ? '+' : '–';
-            });
-        })();
-    </script>
 
 </body>
 </html>
