@@ -72,28 +72,13 @@
             margin-bottom: var(--gap-nav);
         }
         .nav-star {
-            position: absolute;
-            left: 50%; top: 50%;
-            transform: translate(-50%, -50%);
-            width: 71.5px; height: auto;
-            color: #fff;
+            align-self: center;
+            width: 44px; height: auto;
+            color: var(--text);
+            flex-shrink: 0;
             pointer-events: none;
         }
         .nav-left { display: flex; align-items: baseline; gap: 14px; }
-        .nav-avatar {
-            align-self: center;
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            overflow: hidden;
-            padding: 0;
-            border: 1px solid var(--border);
-            background: none;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: border-color 0.15s ease;
-        }
-        .nav-avatar:hover { border-color: var(--text); }
-        .nav-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
         .nav-about {
             font-family: inherit;
             font-size: 18px;
@@ -878,15 +863,12 @@
     <!-- Nav -->
     <nav>
         <div class="nav-left">
-            <button class="nav-avatar" id="navAvatarOpen" aria-label="About Ian Crvenković">
-                <img src="images/about/ian.jpg" alt="" loading="lazy">
-            </button>
+            <svg class="nav-star" viewBox="0 0 327.46 25.7" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.05" d="M3.03,22.68L83.38,3.03M83.38,22.68L163.73,3.03v19.65L244.08,3.03v19.65L324.43,3.03"/>
+            </svg>
             <span class="nav-name" id="navName">Ian Crvenković</span>
             <button class="nav-about" id="aboutOpen">About</button>
         </div>
-        <svg class="nav-star" viewBox="0 0 327.46 25.7" aria-hidden="true">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.05" d="M3.03,22.68L83.38,3.03M83.38,22.68L163.73,3.03v19.65L244.08,3.03v19.65L324.43,3.03"/>
-        </svg>
         <div class="nav-right">
             <div class="nav-desc">
                 <div class="footer-bio">A graphic designer based in Berlin.</div>
@@ -1436,13 +1418,11 @@
         (function () {
             const overlay  = document.getElementById('aboutOverlay');
             const openBtn  = document.getElementById('aboutOpen');
-            const avatarBtn = document.getElementById('navAvatarOpen');
             const closeBtnA = document.getElementById('aboutClose');
             const backdropA = document.getElementById('aboutBackdrop');
             function openAbout()  { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
             function closeAbout() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
             openBtn.addEventListener('click', openAbout);
-            if (avatarBtn) avatarBtn.addEventListener('click', openAbout);
             closeBtnA.addEventListener('click', closeAbout);
             backdropA.addEventListener('click', closeAbout);
             document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeAbout(); });
