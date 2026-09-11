@@ -51,6 +51,8 @@
             --body-size: 15px;
             --body-tracking: 0em;
             --body-leading: 1.5;
+            /* Avara headings (temp tuner) */
+            --avara-size: 22px;
         }
 
         /* ── Dark mode ── */
@@ -137,6 +139,16 @@
         .fp-bayes.lit::after { width: 100%; background-color: #2BE2AE; }
         .fp-bb.lit::after { width: 100%; background-color: #09ACB4; }
         .project-card.linked-hover { border-color: color-mix(in srgb, var(--border) 60%, var(--muted)); }
+        /* TEMP: Avara font-size tuner — remove before shipping */
+        .avara-tuner {
+            position: fixed; bottom: 16px; left: 16px; z-index: 60;
+            display: flex; align-items: center; gap: 10px;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+        }
+        .avara-tuner input[type="range"] { width: 120px; accent-color: var(--text); }
+        .avara-tuner .avara-tuner-val { color: var(--text); min-width: 34px; text-align: right; }
         /* Say hello fab (bottom-right) */
         .hello-fab { position: fixed; bottom: 16px; right: 16px; z-index: 60; display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45); }
         .hello-link { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
@@ -149,16 +161,17 @@
         .hello-copy.copied .icon-copy { display: none; }
         .hello-copy.copied .icon-check { display: block; }
         .nav-name {
-            display: none; /* hidden while trying the SVG wordmarks below — remove this line to revert */
+            display: none; /* parked in favor of the SVG wordmark below — remove this line to revert */
             font-family: 'Avara', 'Schibsted Grotesk', sans-serif;
-            font-size: 21px;
+            font-size: var(--avara-size);
             font-weight: 700;
-            letter-spacing: 0.01em;
+            letter-spacing: 0;
             color: var(--text);
+            transform: scaleX(0.808);
+            transform-origin: left;
         }
-        /* Trying SVG wordmarks in place of the name — remove .nav-logo-test block + un-hide .nav-name to revert */
         .nav-logo-test { display: flex; align-items: center; gap: 24px; }
-        .nav-logo { height: 22px; width: auto; color: var(--text); flex-shrink: 0; }
+        .nav-logo { height: 25.3px; width: auto; color: var(--text); flex-shrink: 0; }
         .nav-logo-hidden { display: none; } /* Avara wordmark parked — remove this class to bring it back */
         /* Intro copy under the logo (mirrors footer text) */
         .intro-copy { font-size: 13px; color: var(--muted); letter-spacing: 0.01em; line-height: 1.55; margin-bottom: var(--gap-intro); }
@@ -711,21 +724,23 @@
         /* ── Gallery (one-off pieces) ── */
         .gallery { margin-top: var(--gap-section); }
         .section-head { margin-bottom: var(--gap-head); }
-        .section-head h2 { font-size: 20px; font-weight: 400; letter-spacing: -0.01em; color: var(--text); }
+        .section-head h2 { font-family: 'Avara', 'Schibsted Grotesk', sans-serif; font-size: var(--avara-size); font-weight: 700; letter-spacing: 0; color: var(--muted); display: inline-block; transform: scaleX(0.808); transform-origin: left; }
         .section-head p { font-size: 14px; color: var(--muted); margin-top: 6px; letter-spacing: 0.01em; }
         /* Figments tabs (Logos / Posters) — plain text, no chrome */
         .gallery-tabs { display: flex; align-items: baseline; gap: 18px; }
         .gallery-tab {
-            font-size: 20px;
-            font-weight: 400;
-            letter-spacing: -0.01em;
-            font-family: 'Schibsted Grotesk', sans-serif;
+            font-size: var(--avara-size);
+            font-weight: 700;
+            letter-spacing: 0;
+            font-family: 'Avara', 'Schibsted Grotesk', sans-serif;
             cursor: pointer;
             background: none;
             border: none;
             padding: 0;
             color: var(--muted);
             transition: color 0.15s ease;
+            transform: scaleX(0.808);
+            transform-origin: left;
         }
         .gallery-tab:hover { color: var(--text); }
         .gallery-tab.active { color: var(--text); }
@@ -952,6 +967,13 @@
         </div>
     </nav>
 
+    <!-- TEMP: Avara font-size tuner — remove before shipping -->
+    <div class="avara-tuner">
+        <span>Aa Avara</span>
+        <input type="range" id="avaraSizeSlider" min="12" max="40" step="0.5" value="22">
+        <span class="avara-tuner-val" id="avaraSizeVal">22px</span>
+    </div>
+
     <!-- Say hello (bottom-right) -->
     <div class="hello-fab">
         <a class="hello-link" href="mailto:icrvenkovic@gmail.com">Say hello!</a>
@@ -1132,6 +1154,17 @@
     </div>
 
     <script>
+        // TEMP: Avara font-size tuner — remove before shipping
+        (function () {
+            const slider = document.getElementById('avaraSizeSlider');
+            const val = document.getElementById('avaraSizeVal');
+            if (!slider) return;
+            slider.addEventListener('input', () => {
+                document.documentElement.style.setProperty('--avara-size', slider.value + 'px');
+                val.textContent = slider.value + 'px';
+            });
+        })();
+
         // ── Project data ──
         const projects = {
             'bayes-esports': {
@@ -1141,6 +1174,7 @@
                 hero: 'grad-1',
                 longDesc: `As Bayes Esports' Brand Designer, I was the central hub for our 50-person company, bridging the gap between various departments to ensure visual alignment. I replaced 'on-the-fly' workflows with a scalable brand system that supported our rapid growth. Whether handling high-stakes executive storytelling or technical data visualization, I ensured our global brand remained sharp and cohesive across every touchpoint.`,
                 images: [
+                    'images/bayes-pages/bayes-7.webp',
                     'images/bayes-pages/bayes-1.webp',
                     'images/bayes-pages/bayes-2.webp',
                     'images/bayes-pages/bayes-3.webp',
@@ -1149,6 +1183,7 @@
                     'images/bayes-pages/bayes-6.webp'
                 ],
                 captions: [
+                    `Brand Guidelines — A quick-reference styleguide covering the Bayes Esports logo lockups, color palette, and typography, kept close at hand to keep every deliverable consistent across the brand.`,
                     `Social Media — I led the visual direction for Bayes Esports across our social channels. Over time, the work grew from day-to-day content production into a broader shaping of the brand's visual identity, building out templates and design systems that brought consistency and coherence to our social presence.`,
                     `Social Media — Every month I designed a LinkedIn carousel rounding up the biggest esports news and milestones from that period. The format was built from the ground up with a consistent system behind it, keeping production efficient without losing the polished feel.`,
                     `One-Pagers — These one-pagers were designed to introduce Bayes Esports products to potential partners, translating technical features into clear, visually digestible formats. Shared across outreach and events, each piece was built to communicate product value quickly and make a strong first impression.`,
@@ -1239,8 +1274,9 @@
                     </div>`;
                 } else {
                     const isFile = g.includes('/') || g.includes('.');
+                    const isStyleguide = g.includes('bayes-7'); // wide styleguide sheet — show at its native ratio, no crop/pad
                     imgEl = isFile
-                        ? `<img class="modal-image" src="${g}" alt="${p.title} — detail ${i+1}" loading="lazy" style="object-fit:cover;">`
+                        ? `<img class="modal-image" src="${g}" alt="${p.title} — detail ${i+1}" loading="lazy" style="${isStyleguide ? 'aspect-ratio:16/9; object-fit:contain; background:#fff;' : 'object-fit:cover;'}">`
                         : `<div class="modal-image ${g}"></div>`;
                 }
                 return `<div class="modal-image-block">
