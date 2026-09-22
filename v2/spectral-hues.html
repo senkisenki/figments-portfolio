@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectral Hues — Ian Crvenkovic</title>
+    <meta name="description" content="Editorial brochure design for Spectral Hues, a Palo Alto Art Center exhibition, by Ian Crvenkovic.">
+    <meta name="author" content="Ian Crvenkovic">
+    <meta property="og:title" content="Spectral Hues — Ian Crvenkovic">
+    <meta property="og:description" content="Editorial brochure design for Spectral Hues, a Palo Alto Art Center exhibition.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Avara';
+            src: url('fonts/Avara-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Avara';
+            src: url('fonts/Avara-BoldItalic.woff2') format('woff2');
+            font-weight: 700;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Avara';
+            src: url('fonts/Avara-Black.woff2') format('woff2');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Light mode — matched to inflight.co's actual computed colors */
+            --bg: #FCFDFF;
+            --text: #0F1012;
+            --muted: #697282;
+            --border: rgba(0, 0, 0, 0.1);
+            --accent-link: #1C8AF8;
+            /* left/right inset that lines up with the centered, max-width content */
+            --edge: max(36px, calc(50vw - 684px));
+            /* section spacing */
+            --gap-nav: 30px;
+            --gap-intro: 30px;
+            --gap-head: 22px;
+            --gap-section: 40px;
+            /* body type */
+            --body-size: 15px;
+            --body-tracking: 0em;
+            --body-leading: 1.5;
+            /* Avara headings (temp tuner) */
+            --avara-size: 22px;
+            /* Sidebar nav menu link size (temp tuner) */
+            --nav-font-size: 13px;
+            /* Home grid tile shape (temp tuner) — width÷height, higher = more horizontal.
+               1.75 matches jessenyberg.design's project-cover tiles (363×207 ≈ 1.75). */
+            --tile-ratio: 1.75;
+            /* Top bar type — finalized via the tuner */
+            --eyebrow-size: 15px;
+            --eyebrow-tracking: 0em;
+            --eyebrow-weight: 600;
+            --eyebrow-lh: 1.2;
+            --title-size: 36px;
+            --title-tracking: -0.015em;
+            --title-weight: 700;
+            --title-lh: 1.2;
+            --tags-size: 12px;
+            --tags-tracking: -0.001em;
+            --tags-weight: 800;
+            --tags-lh: 1.5;
+            --desc-size: 15px;
+            --desc-tracking: -0.0125em;
+            --desc-weight: 500;
+            --desc-lh: 1.59;
+        }
+
+        /* ── Dark mode ── */
+        body.dark {
+            --bg: #191919;
+            --text: #F0EBE3;
+            --muted: #78716C;
+            --border: #3C3835;
+        }
+        body.dark .city-dropdown { background: #242424; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+        body.dark .city-dropdown-item:hover { background: rgba(255,255,255,0.05); }
+        body.dark .project-image { filter: brightness(0.9); }
+        body.dark .modal-panel { background: #222222; }
+        body.dark .modal-hero { filter: brightness(0.88); }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-size: var(--body-size);
+            letter-spacing: var(--body-tracking);
+            line-height: var(--body-leading);
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ── Sidebar (left nav) ──
+           Verified against inflight.co's actual DOM: their <main> is a fixed
+           max-w-[640px] column centered via mx-auto — it does NOT grow with the
+           viewport. Their nav sits fixed-width (160px) with a constant 32px gap
+           to the left of wherever that centered column's left edge lands (true
+           at both 1486px and 2000px viewports — confirmed by measuring both).
+           We reuse that exact mechanism: .feed is a fixed 640px centered column,
+           and .sidebar is pinned a fixed --sidebar-gap to its left, riding along
+           as the column re-centers. */
+        :root { --content-w: 1010px; --content-w-narrow: 575px; --sidebar-w: 230px; --sidebar-gap: 55px; --sidebar-left: 83px; }
+        .sidebar {
+            /* Top padding, logo-to-content gap and bottom padding matched to
+               inflight.co's own <aside> — measured directly from their live
+               DOM: pt-[72px], mb-10 (40px) under the logo, pb-6 (24px).
+               Pinned at a fixed left inset (per the v2 Home Figma) rather than
+               positioned relative to the centered content column — the Home
+               grid is wide enough that a content-relative offset would push
+               the sidebar off-screen on anything under ~1600px. */
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-left);
+            width: var(--sidebar-w);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 72px 28px 24px;
+            gap: 22px;
+            border-right: 1px dashed var(--border);
+        }
+        /* Content column sits in the remaining space to the right of the
+           fixed sidebar, and centers itself within that space. */
+        .feed-wrapper { margin-left: calc(var(--sidebar-left) + var(--sidebar-w) + var(--sidebar-gap)); }
+        /* Narrower inner column for prose-style sections (Previously At write-up,
+           Figments gallery, info) that don't need the full Home grid width */
+        .narrow-wrap { max-width: var(--content-w-narrow); margin: 0 auto; }
+        .sidebar-inner { display: flex; flex-direction: column; gap: 24px; flex: 1; min-height: 0; }
+        /* ── Bottom-pinned social row — matched to inflight's mt-auto footer
+           block: icon buttons at w-7/h-7 (28px), gap-1 (4px), pulled -6px to
+           optically align the icon glyphs with the text above them ── */
+        .nav-bottom { margin-top: auto; padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+        .nav-photo { width: 111px; height: 111px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--border); }
+        .nav-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
+        .nav-social { display: flex; align-items: center; gap: 4px; margin-left: -6px; }
+        .nav-social-icon {
+            width: 28px; height: 28px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 6px;
+            color: var(--muted);
+            transition: color 0.15s ease, background-color 0.15s ease;
+        }
+        .nav-social-icon:hover { color: var(--text); background-color: color-mix(in srgb, var(--text) 5%, transparent); }
+        .nav-social-icon svg { width: 17px; height: 17px; }
+        .nav-copyright { font-size: 12px; color: var(--muted); }
+
+        /* ── Feed (main column) — centered within the space to the right of the sidebar ── */
+        .feed {
+            width: 100%;
+            max-width: var(--content-w);
+            margin: 0 auto;
+            padding: 64px 24px 60px;
+        }
+        /* Home grid is fully fluid — no max-width cap, so tiles keep scaling
+           with the window instead of plateauing at --content-w (matches how
+           jessenyberg.design's tiles grow unbounded with the viewport).
+           Padding is set so the gap sidebar→tiles and tiles→viewport-edge
+           are equal (both --sidebar-gap) at any window size. */
+        .feed:has(> #home) {
+            max-width: none;
+            padding-left: 0;
+            padding-right: var(--sidebar-gap);
+        }
+        .nav-star {
+            display: none;
+            align-self: center;
+            width: 96px; height: auto;
+            color: var(--text);
+            flex-shrink: 0;
+            pointer-events: none;
+        }
+        .nav-left { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+        /* ── Nav menu (placeholder links) — matched to inflight's nav <ul>:
+           13px/500, tight 2px gap within a group, 20px between groups ── */
+        .nav-menu { display: flex; flex-direction: column; gap: 20px; }
+        .nav-menu-group { display: flex; flex-direction: column; gap: 10px; }
+        .nav-menu-heading {
+            display: block;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-size: var(--nav-font-size);
+            font-weight: 500;
+            color: var(--muted);
+        }
+        .nav-menu-link {
+            display: block;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-size: var(--nav-font-size);
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .nav-menu-link:hover { color: var(--muted); }
+        .nav-menu-link.is-bayes { color: #2BE2AE; }
+        .nav-menu-link.is-bayes:hover { color: #2BE2AE; opacity: 0.8; }
+        .nav-about {
+            display: none; /* parked per v2 Home design — About drawer code kept intact, just unreachable from the sidebar for now */
+            align-self: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.03em;
+            color: var(--muted);
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 4px 12px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+        .nav-about:hover { color: var(--text); border-color: var(--text); }
+        .nav-right { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+        .nav-desc { text-align: left; font-size: 14.5px; color: var(--muted); line-height: 1.5; letter-spacing: 0.01em; max-width: 200px; }
+        .nav-desc .footer-bio { color: var(--text); }
+        .nav-desc .company-link { color: var(--text); }
+        .nav-desc .fp-bayes:hover { color: #2BE2AE; }
+        .nav-desc .fp-bb:hover { color: #09ACB4; }
+        /* ── Custom circular cursor (à la rachelchen.tech) ── */
+        body, a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link { cursor: none; }
+        input, textarea, select, [contenteditable] { cursor: auto; }
+        @media (hover: none), (pointer: coarse) {
+            body, a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link { cursor: auto; }
+        }
+        .cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 16px; height: 16px;
+            border-radius: 999px;
+            background: #2BE2AE;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, opacity 0.2s ease-out;
+        }
+        .cursor-dot.is-visible { opacity: 1; }
+        .cursor-dot.is-hover {
+            width: 36px; height: 36px;
+            background: transparent;
+            border: 1.5px solid #2BE2AE;
+        }
+        @media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
+
+        /* linked hover: card <-> name text */
+        .fp-bayes.lit, .nav-desc .fp-bayes.lit, .site-footer .fp-bayes.lit { color: #2BE2AE; }
+        .fp-bb.lit, .nav-desc .fp-bb.lit, .site-footer .fp-bb.lit { color: #09ACB4; }
+        .fp-bayes.lit::after { width: 100%; background-color: #2BE2AE; }
+        .fp-bb.lit::after { width: 100%; background-color: #09ACB4; }
+        .project-card.linked-hover { border-color: color-mix(in srgb, var(--border) 60%, var(--muted)); }
+        /* TEMP: Avara font-size tuner — remove before shipping */
+        .avara-tuner {
+            display: none; /* hidden — remove this line to bring the tuner back */
+            position: fixed; bottom: 16px; left: 16px; z-index: 60;
+            align-items: center; gap: 10px;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+        }
+        .avara-tuner input[type="range"] { width: 120px; accent-color: var(--text); }
+        .avara-tuner .avara-tuner-val { color: var(--text); min-width: 34px; text-align: right; }
+        /* TEMP: content-width tuner — remove before shipping */
+        .width-tuner {
+            position: fixed; bottom: 16px; left: 16px; z-index: 60;
+            display: flex; align-items: center; gap: 10px;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+        }
+        .width-tuner input[type="range"] { width: 160px; accent-color: var(--text); }
+        .width-tuner .width-tuner-val { color: var(--text); min-width: 44px; text-align: right; }
+        /* TEMP: nav menu link font-size tuner — remove before shipping */
+        .navfont-tuner {
+            position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 60;
+            display: none; /* hidden — change to flex to bring the tuner back */
+            align-items: center; gap: 10px;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+        }
+        .navfont-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
+        .navfont-tuner .navfont-tuner-val { color: var(--text); min-width: 40px; text-align: right; }
+        /* TEMP: home tile aspect-ratio tuner — remove before shipping */
+        .tileratio-tuner {
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 60;
+            display: none; /* hidden — change to flex to bring the tuner back */
+            align-items: center; gap: 10px;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+        }
+        .tileratio-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
+        .tileratio-tuner .tileratio-tuner-val { color: var(--text); min-width: 40px; text-align: right; }
+        /* Say hello fab (bottom-right) */
+        .hello-fab { position: fixed; bottom: 16px; right: 16px; z-index: 60; display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45); }
+        .hello-link { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
+        .hello-link:hover { color: var(--text); }
+        .hello-copy { background: none; border: none; cursor: pointer; color: var(--muted); display: inline-flex; align-items: center; padding: 0; transition: color 0.15s ease; }
+        .hello-copy:hover { color: var(--text); }
+        .hello-copy svg { width: 13px; height: 13px; }
+        .hello-copy .icon-check { display: none; }
+        .hello-copy.copied { color: #2BBE8E; }
+        .hello-copy.copied .icon-copy { display: none; }
+        .hello-copy.copied .icon-check { display: block; }
+        .nav-name {
+            display: block;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            color: var(--text);
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+        .nav-name:hover { opacity: 0.7; }
+        .nav-logo-test { display: none; } /* SVG wordmark parked in favor of plain-text logo per v2 Home design — remove this line to bring it back */
+        .nav-logo { height: 25.3px; width: auto; color: var(--text); flex-shrink: 0; }
+        .nav-logo-hidden { display: none; }
+        /* Intro copy under the logo (mirrors footer text) */
+        .intro-copy { font-size: 13px; color: var(--muted); letter-spacing: 0.01em; line-height: 1.55; margin-bottom: var(--gap-intro); }
+        .intro-copy .footer-bio { color: var(--text); }
+        .intro-copy .fp-muted { color: var(--muted); }
+        .intro-copy .company-link { color: var(--text); }
+        .intro-copy .fp-bayes:hover { color: #2BE2AE; }
+        .intro-copy .fp-bb:hover { color: #09ACB4; }
+        .nav-links { display: flex; gap: 44px; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: color 0.2s;
+            color: var(--muted);
+        }
+        .nav-links a.active { color: var(--text); }
+        .nav-links a:hover { color: var(--text); }
+
+        /* ── Theme toggle ── */
+        .theme-toggle {
+            background: none; border: none; cursor: pointer;
+            padding: 2px; color: var(--muted);
+            display: flex; align-items: center;
+            transition: color 0.2s ease; flex-shrink: 0;
+            pointer-events: auto;
+        }
+        .theme-toggle:hover { color: var(--text); }
+        .theme-toggle svg { width: 16px; height: 16px; }
+        .icon-sun { display: none; }
+        .icon-moon { display: block; }
+        body.dark .icon-sun { display: block; }
+        body.dark .icon-moon { display: none; }
+
+        /* ── Bio ── */
+        .bio { margin-bottom: 44px; }
+        .bio-line {
+            font-size: 22px; line-height: 1.6;
+        }
+        .bio-line-2 { font-size: 16px; color: var(--muted); margin-top: 2px; }
+        .bio-name { font-family: 'Schibsted Grotesk', sans-serif; font-size: 22px; }
+
+        /* ── City dropdown ── */
+        .city-wrapper { position: relative; display: inline-block; }
+        .city-text {
+            cursor: pointer; position: relative;
+            display: inline-flex; align-items: center; gap: 4px;
+            border-bottom: 1.5px dashed var(--muted); padding-bottom: 1px;
+            transition: border-color 0.2s ease;
+        }
+        .city-text:hover, .city-text.open { border-bottom-color: var(--text); }
+        .city-chevron {
+            display: inline-block; width: 14px; height: 14px;
+            transition: transform 0.2s ease; flex-shrink: 0; color: var(--muted);
+        }
+        .city-text.open .city-chevron { transform: rotate(180deg); color: var(--text); }
+        .city-text:hover .city-chevron { color: var(--text); }
+        .city-dropdown {
+            position: absolute; top: calc(100% + 8px); right: 0;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 10px; padding: 5px 0; min-width: 170px;
+            z-index: 100; box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+            opacity: 0; transform: translateY(-4px); pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+        .city-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: all; }
+        .city-dropdown-item {
+            padding: 8px 18px; font-size: 14px; cursor: pointer;
+            transition: background 0.12s; color: var(--text); font-family: 'Schibsted Grotesk', sans-serif;
+        }
+        .city-dropdown-item:hover { background: rgba(0,0,0,0.04); }
+        .city-dropdown-item.current { color: var(--text); cursor: default; font-weight: 400; }
+        .city-dropdown-item.current:hover { background: transparent; }
+        .city-dropdown-item.passive { color: var(--muted); cursor: default; font-size: 13px; padding: 4px 18px; }
+        .city-dropdown-item.passive:hover { background: transparent; }
+        .city-dropdown-divider { height: 1px; background: var(--border); margin: 5px 18px; }
+        .city-dropdown-section {
+            padding: 10px 18px 2px;
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            cursor: default;
+            opacity: 0.6;
+        }
+
+        /* ── Company links ── */
+        .company-link { cursor: pointer; position: relative; display: inline-block; }
+        .company-link::after {
+            content: ''; position: absolute; bottom: 2px; left: 0;
+            width: 0; height: 1px; background-color: var(--muted); transition: width 0.22s ease;
+        }
+        .company-link:hover::after { width: 100%; }
+
+        /* ── Say hello + copy (nav) ── */
+        .nav-hello { display: inline-flex; align-items: center; gap: 7px; }
+        .nav-copy {
+            background: none; border: none; cursor: pointer;
+            color: var(--muted); display: inline-flex; align-items: center;
+            padding: 2px; transition: color 0.15s ease;
+        }
+        .nav-copy:hover { color: var(--text); }
+        .nav-copy svg { width: 13px; height: 13px; }
+        .nav-copy .icon-check { display: none; }
+        .nav-copy.copied { color: #2BBE8E; }
+        .nav-copy.copied .icon-copy { display: none; }
+        .nav-copy.copied .icon-check { display: block; }
+
+        /* ── Section tabs ── */
+        .section-tabs {
+            display: inline-flex;
+            background: var(--border);
+            border-radius: 8px;
+            padding: 3px;
+            gap: 2px;
+            margin-bottom: 20px;
+        }
+        .section-tab {
+            padding: 5px 18px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--muted);
+            transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .section-tab.active {
+            background: var(--bg);
+            color: var(--text);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.09);
+        }
+        body.dark .section-tab.active {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+        }
+
+        /* ── Home grid (2x2 project tiles, landing view) ── */
+        .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .home-tile {
+            position: relative;
+            aspect-ratio: var(--tile-ratio);
+            background: color-mix(in srgb, var(--border) 55%, var(--bg));
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14.5px;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            overflow: hidden;
+        }
+        .home-tile:hover { opacity: 0.82; }
+        .home-tile.is-stub { cursor: default; }
+        .home-tile.is-stub:hover { opacity: 1; }
+        .home-tile.is-stub .home-tile-label { color: var(--muted); }
+        .home-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+        /* ── Bayes Esports tile — animated mesh gradient (from the gradient demo:
+           #2BE2AE / #242C3D blobs, blurred + frosted, icon centered) ── */
+        .home-tile.mesh-bayes { background: #242C3D; }
+        .home-tile .tile-mesh {
+            position: absolute; inset: -35%;
+            width: 170%; height: 170%;
+            filter: blur(30px) saturate(1.3);
+            z-index: 0;
+        }
+        .home-tile .tile-blob { position: absolute; width: 65%; height: 65%; border-radius: 50%; animation: tileDrift 7s ease-in-out infinite; }
+        .home-tile .tile-b1 { background: #2BE2AE; top: -10%; left: -10%; animation-duration: 8s; }
+        .home-tile .tile-b2 { background: #242C3D; top: 10%; right: -15%; animation-duration: 9s; animation-delay: -2s; animation-direction: reverse; }
+        .home-tile .tile-b3 { background: #288776; bottom: -15%; left: 20%; animation-duration: 6.5s; animation-delay: -4s; }
+        .home-tile .tile-b4 { background: #2BE2AE; bottom: -10%; right: 10%; animation-duration: 7.5s; animation-delay: -5.5s; animation-direction: reverse; }
+        @keyframes tileDrift {
+            0%   { transform: translate(0%, 0%) scale(1); }
+            25%  { transform: translate(35%, -30%) scale(1.4); }
+            50%  { transform: translate(-25%, 35%) scale(0.7); }
+            75%  { transform: translate(-35%, -25%) scale(1.3); }
+            100% { transform: translate(0%, 0%) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) { .home-tile .tile-blob { animation: none; } }
+        .home-tile .tile-darken { position: absolute; inset: 0; background: #000; opacity: 0.15; z-index: 2; }
+        .home-tile .tile-texture {
+            position: absolute; inset: 0; z-index: 3;
+            backdrop-filter: blur(20px) contrast(0.94) brightness(1.02);
+            -webkit-backdrop-filter: blur(20px) contrast(0.94) brightness(1.02);
+        }
+        .home-tile .tile-icon {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 5; height: 34%; width: auto; pointer-events: none;
+        }
+        .home-tile .tile-icon svg { display: block; height: 100%; width: auto; }
+        .home-tile.mesh-bayes .home-tile-label {
+            position: absolute; bottom: 14px; left: 16px;
+            z-index: 6; color: rgba(255,255,255,0.9);
+        }
+
+        /* ── Project grid ── */
+        .project-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .project-card {
+            position: relative;
+            display: flex; flex-direction: column; cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        body.dark .project-card {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
+        .project-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+            border-color: color-mix(in srgb, var(--border) 60%, var(--muted));
+        }
+        body.dark .project-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+        .project-image {
+            position: relative;
+            width: 100%; aspect-ratio: 21/9; overflow: hidden;
+            background: linear-gradient(155deg,
+                color-mix(in srgb, var(--accent, transparent) 18%, var(--bg)) 0%,
+                color-mix(in srgb, var(--accent, transparent) 7%, var(--bg)) 100%);
+            transition: opacity 0.2s ease;
+        }
+        /* Case study meta — always visible (title · role · years) */
+        .card-meta {
+            padding: 14px 16px 16px;
+            display: flex; flex-direction: column; gap: 3px;
+        }
+        .card-meta .project-title { color: var(--text); font-size: 20px; font-weight: 400; letter-spacing: 0.01em; transition: color 0.15s ease; }
+        .card-meta .project-role { color: var(--muted); font-size: 12px; font-family: 'Space Mono', monospace; letter-spacing: 0.03em; }
+        .project-card[data-project="bayes-esports"]:hover .project-title,
+        .project-card[data-project="bayes-esports"].linked-hover .project-title { color: #2BE2AE; }
+        .project-card[data-project="brand-buddy"]:hover .project-title,
+        .project-card[data-project="brand-buddy"].linked-hover .project-title { color: #09ACB4; }
+        /* Years pill — same system on every card, colors only on hover / linked-hover */
+        .card-meta-bottom { display: flex; align-items: center; gap: 8px; }
+        .years-chip {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.03em;
+            padding: 3px 9px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+        .project-card[data-project="bayes-esports"]:hover .years-chip,
+        .project-card[data-project="bayes-esports"].linked-hover .years-chip {
+            border-color: color-mix(in srgb, #2BE2AE 45%, var(--border));
+            color: #2BE2AE;
+        }
+        .project-card[data-project="brand-buddy"]:hover .years-chip,
+        .project-card[data-project="brand-buddy"].linked-hover .years-chip {
+            border-color: color-mix(in srgb, #09ACB4 45%, var(--border));
+            color: #09ACB4;
+        }
+        /* Open-project affordance — bottom-right of each card */
+        .card-open {
+            position: absolute;
+            bottom: 14px; right: 16px;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--muted);
+            display: flex; align-items: center; justify-content: center;
+            pointer-events: none;
+            transition: color 0.18s ease, border-color 0.18s ease, transform 0.22s cubic-bezier(0.34,1.18,0.64,1), background 0.18s ease;
+        }
+        .card-open svg { width: 12px; height: 12px; }
+        .project-card:hover .card-open { transform: scale(1.08); }
+        .project-card[data-project="bayes-esports"]:hover .card-open,
+        .project-card[data-project="bayes-esports"].linked-hover .card-open { color: #2BE2AE; border-color: #2BE2AE; }
+        .project-card[data-project="brand-buddy"]:hover .card-open,
+        .project-card[data-project="brand-buddy"].linked-hover .card-open { color: #09ACB4; border-color: #09ACB4; }
+        .project-card:nth-child(2) .project-image { animation-delay: -5s; }
+        .project-card:nth-child(3) .project-image { animation-delay: -11s; }
+
+        @keyframes gradFlow {
+            0%   { background-position: 0% 0%; }
+            33%  { background-position: 100% 20%; }
+            66%  { background-position: 60% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .project-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        /* ── Folder-icon thumbnails (ported from previous site) ── */
+        .project-card[data-project="bayes-esports"] { --accent: #2BE2AE; }
+        .project-card[data-project="brand-buddy"]   { --accent: #09ACB4; }
+        .project-card[data-project="logos"]         { --accent: #FF8A3D; }
+        .project-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            height: 38%; width: auto;
+            z-index: 2;
+        }
+        /* Bayes lambda reads a touch small — bump it 8% */
+        .project-card[data-project="bayes-esports"] .project-icon { height: 43%; }
+
+        .project-meta {
+            padding: 12px 14px 18px;
+        }
+        .project-left { display: flex; flex-direction: column; gap: 2px; }
+        .project-title { font-size: 22px; font-weight: 400; color: var(--text); }
+        .project-tags { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; display: flex; flex-wrap: wrap; gap: 0 2px; margin-top: 2px; }
+        .project-tags .tag:not(:last-child)::after { content: ','; color: var(--muted); pointer-events: none; }
+        .tag {
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+        .tag:hover { color: var(--text); }
+        .tag.active { color: var(--text); text-decoration: underline; text-underline-offset: 2px; }
+        .project-card.dimmed { opacity: 0.25; }
+        .project-desc { font-size: 14px; color: var(--text); line-height: 1.6; letter-spacing: 0.02em; margin-top: 6px; }
+
+        /* Expand affordance rotates into a "close" chevron when the card's
+           inline detail is open */
+        .card-open svg { transition: transform 0.25s cubic-bezier(0.34,1.18,0.64,1); }
+        .project-card.expanded .card-open svg { transform: rotate(135deg); }
+
+        /* ── Filter bar ── */
+        .filter-bar {
+            height: 28px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .filter-clear {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-family: 'Schibsted Grotesk', sans-serif;
+            color: var(--muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            transition: color 0.15s;
+        }
+        .filter-clear:hover { color: var(--text); }
+        .filter-clear.visible { display: flex; }
+        .filter-clear svg { width: 10px; height: 10px; }
+
+        /* ── Info ── */
+        .info-body { font-size: 15px; max-width: 460px; color: var(--muted); line-height: 1.8; }
+
+        /* ── Footer (in-flow, below the projects) ── */
+        .site-footer {
+            margin-top: 72px;
+            padding-top: 26px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: 0.01em;
+            line-height: 1.55;
+        }
+        .site-footer .footer-bio { color: var(--text); }
+        .site-footer .fp-muted { color: var(--muted); }
+        .site-footer .company-link { color: var(--text); }
+        .site-footer .fp-bayes:hover { color: #2BE2AE; }
+        .site-footer .fp-bb:hover    { color: #09ACB4; }
+        .site-footer .fp-bayes:hover::after { background-color: #2BE2AE; }
+        .site-footer .fp-bb:hover::after    { background-color: #09ACB4; }
+        .site-footer .footer-copy { margin-top: 14px; font-size: 12px; color: var(--muted); }
+
+        /* ─────────────────────────────────────────
+           ── Modal overlay ──
+        ───────────────────────────────────────── */
+        /* Case-study page content — these classes were originally written for the
+           full-screen project modal; the modal chrome (overlay/backdrop/panel/close
+           buttons) is gone now that each project is its own page, but the content
+           styling below is reused as-is for that page's main column. */
+        .modal-body { padding: 0; }
+
+        .modal-hero {
+            width: 100%; aspect-ratio: 3/2;
+            border-radius: 0;
+        }
+
+        .modal-header {
+            display: grid;
+            grid-template-columns: 38fr 62fr;
+            gap: 32px;
+            align-items: start;
+            margin: 30px 0 50px;
+        }
+        .modal-header-left { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+        .modal-role {
+            order: -1;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--accent, var(--muted));
+        }
+        .modal-title { font-size: 36px; font-weight: 400; line-height: 1.08; letter-spacing: -0.015em; text-align: left; }
+        .modal-tags { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; text-align: left; }
+        .modal-description {
+            font-size: 16px; line-height: 1.65;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .modal-images {
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-image-block { cursor: zoom-in; }
+        .modal-image-block + .modal-image-block {
+            margin-top: 52px;
+            padding-top: 52px;
+            border-top: 1px solid var(--border);
+        }
+        .modal-image-eyebrow {
+            display: flex; align-items: baseline; gap: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+        .modal-image-eyebrow .eyebrow-num { color: var(--accent, var(--text)); }
+        .modal-image {
+            width: 100%; aspect-ratio: 3/2;
+            border-radius: 6px;
+            transition: opacity 0.15s ease;
+        }
+        .modal-image-block:hover .modal-image { opacity: 0.88; }
+        .modal-image-caption {
+            display: block;
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+            max-width: 85%;
+            margin-top: 16px;
+        }
+        .modal-image-full { display: none; }
+
+        /* ── Spectral Hues (editorial case study) — same capped/adjustable
+           width as other subpages, controlled by the Subpage Width tuner ── */
+        .spectral-header {
+            display: flex;
+            gap: 57px;
+            align-items: flex-start;
+            width: 100%;
+            margin: 0 0 40px;
+        }
+        .spectral-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            width: 420px;
+            flex-shrink: 0;
+        }
+        .spectral-eyebrow {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: var(--eyebrow-weight);
+            font-size: var(--eyebrow-size);
+            letter-spacing: var(--eyebrow-tracking);
+            line-height: var(--eyebrow-lh);
+            color: var(--text);
+        }
+        .spectral-title {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: var(--title-weight);
+            font-size: var(--title-size);
+            letter-spacing: var(--title-tracking);
+            line-height: var(--title-lh);
+            color: var(--text);
+        }
+        .spectral-tags {
+            font-family: 'Space Mono', monospace;
+            font-weight: var(--tags-weight);
+            font-size: var(--tags-size);
+            letter-spacing: var(--tags-tracking);
+            line-height: var(--tags-lh);
+            color: var(--text);
+        }
+        .spectral-desc {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: var(--desc-weight);
+            font-size: var(--desc-size);
+            letter-spacing: var(--desc-tracking);
+            line-height: var(--desc-lh);
+            color: var(--text);
+            flex: 1;
+            padding-top: 10px;
+        }
+        /* TEMP: top-bar type tuner panel — remove before shipping */
+        .typetuner {
+            display: none; /* hidden — values finalized; change to flex to bring the tuner back */
+            position: fixed; top: 16px; right: 16px; z-index: 70;
+            width: 272px; max-height: calc(100vh - 32px); overflow-y: auto;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+            scrollbar-width: thin;
+        }
+        .typetuner-head {
+            position: sticky; top: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 12px; border-bottom: 1px solid var(--border);
+            background: var(--bg); cursor: pointer; color: var(--text);
+            border-radius: 10px 10px 0 0;
+        }
+        .typetuner-toggle {
+            background: none; border: none; color: var(--muted);
+            font-family: 'Space Mono', monospace; font-size: 14px; line-height: 1;
+            cursor: pointer; padding: 0 2px;
+        }
+        .typetuner-body { padding: 12px; display: flex; flex-direction: column; gap: 16px; }
+        .typetuner.collapsed .typetuner-body { display: none; }
+        .typetuner-group { display: flex; flex-direction: column; gap: 6px; }
+        .typetuner-group-label {
+            color: var(--text); font-size: 11px; letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 2px;
+        }
+        .typetuner-row { display: flex; align-items: center; gap: 8px; }
+        .typetuner-row .typetuner-prop { width: 60px; flex-shrink: 0; color: var(--muted); }
+        .typetuner-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--text); }
+        .typetuner-val { width: 56px; flex-shrink: 0; text-align: right; color: var(--text); }
+        .spectral-images { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .spectral-page {
+            width: 100%;
+            aspect-ratio: 2150 / 1700;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+        .spectral-page img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.15s ease; }
+        .spectral-page:hover img { opacity: 0.92; }
+        @media (max-width: 900px) {
+            .spectral-header { flex-direction: column; gap: 18px; }
+            .spectral-header-left { width: 100%; }
+            .spectral-desc { padding-top: 0; }
+        }
+
+        /* ── Carousel ── */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%; aspect-ratio: 3/2;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .carousel-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: zoom-in;
+        }
+        .carousel-slide.active { opacity: 1; }
+        .carousel-btn {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.38);
+            border: none; color: #fff;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10;
+            transition: background 0.15s;
+            backdrop-filter: blur(4px);
+        }
+        .carousel-btn:hover { background: rgba(0,0,0,0.62); }
+        .carousel-prev { left: 12px; }
+        .carousel-next { right: 12px; }
+        .carousel-counter {
+            position: absolute;
+            bottom: 10px; right: 12px;
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            color: rgba(255,255,255,0.75);
+            background: rgba(0,0,0,0.32);
+            padding: 2px 7px;
+            border-radius: 3px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+
+        /* ── Lightbox ── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(0,0,0,0);
+            pointer-events: none;
+            transition: background 0.25s ease;
+            cursor: zoom-out;
+        }
+        .lightbox.open {
+            background: rgba(0,0,0,0.92);
+            pointer-events: all;
+        }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.34, 1.18, 0.64, 1);
+        }
+        .lightbox.open img {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ── Gallery (one-off pieces) ── */
+        .gallery { margin-top: var(--gap-section); }
+        .section-head { margin-bottom: var(--gap-head); }
+        .section-head h2 { font-family: 'Avara', 'Schibsted Grotesk', sans-serif; font-size: var(--avara-size); font-weight: 700; letter-spacing: 0; color: var(--muted); display: inline-block; transform: scaleX(0.808); transform-origin: left; }
+        .section-head p { font-size: 14px; color: var(--muted); margin-top: 6px; letter-spacing: 0.01em; }
+        /* Figments tabs (Logos / Posters) — plain text, no chrome */
+        .gallery-tabs { display: flex; align-items: baseline; gap: 18px; }
+        .gallery-tab {
+            font-size: var(--avara-size);
+            font-weight: 700;
+            letter-spacing: 0;
+            font-family: 'Avara', 'Schibsted Grotesk', sans-serif;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--muted);
+            transition: color 0.15s ease;
+            transform: scaleX(0.808);
+            transform-origin: left;
+        }
+        .gallery-tab:hover { color: var(--text); }
+        .gallery-tab.active { color: var(--text); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .gallery-panel { display: none; }
+        .gallery-panel.active { display: grid; }
+        .gtile {
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-size: 180% 180%;
+            animation: gradFlow 16s ease-in-out infinite;
+            transition: transform 0.28s cubic-bezier(.2,.7,.3,1), box-shadow 0.28s ease, filter 0.3s ease;
+        }
+        .gtile:nth-child(3n)   { animation-delay: -4s; }
+        .gtile:nth-child(3n+1) { animation-delay: -9s; }
+        .gtile:hover {
+            transform: translateY(-5px) scale(1.02) rotate(-0.6deg);
+            box-shadow: 0 14px 34px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+        .gtile figcaption {
+            position: absolute; left: 10px; bottom: 10px;
+            font-family: 'Space Mono', monospace; font-size: 11px;
+            letter-spacing: 0.04em; color: #fff;
+            background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 6px;
+            opacity: 0; transform: translateY(6px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+        .gtile:hover figcaption { opacity: 1; transform: translateY(0); }
+        .gtile-img { background: #fff; animation: none; border: 1px solid var(--border); }
+        .gtile-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        /* vivid placeholder gradients */
+        .g1 { background-image: linear-gradient(140deg, #2BE2AE, #09ACB4); }
+        .g2 { background-image: linear-gradient(140deg, #FF8A3D, #FF4D8D); }
+        .g3 { background-image: linear-gradient(140deg, #7C5CFF, #2BB8E2); }
+        .g4 { background-image: linear-gradient(140deg, #FFD23D, #FF8A3D); }
+        .g5 { background-image: linear-gradient(140deg, #FF4D8D, #7C5CFF); }
+        .g6 { background-image: linear-gradient(140deg, #2BB8E2, #2BE2AE); }
+        @media (prefers-reduced-motion: reduce) { .gtile { animation: none; } }
+
+        /* ── About drawer ── */
+        .about-overlay { position: fixed; inset: 0; z-index: 600; pointer-events: none; }
+        .about-overlay.open { pointer-events: auto; }
+        .about-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.35s ease; }
+        .about-overlay.open .about-backdrop { background: rgba(0,0,0,0.55); }
+        .about-panel {
+            position: absolute;
+            top: 16px; right: 16px; bottom: 16px;
+            width: min(440px, calc(100vw - 32px));
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+            transform: translateX(calc(100% + 32px));
+            transition: transform 0.42s cubic-bezier(0.4, 0, 0.1, 1);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .about-overlay.open .about-panel { transform: translateX(0); }
+        .about-head { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 22px 26px 14px; }
+        .about-title { font-size: 20px; font-weight: 400; color: var(--text); }
+        .about-close {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); border: none; cursor: pointer;
+            color: var(--text); font-size: 13px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s ease;
+        }
+        .about-close:hover { background: rgba(255,255,255,0.16); }
+        .about-body { flex: 1 1 auto; overflow-y: auto; padding: 6px 26px 40px; scrollbar-width: thin; }
+        .about-photo {
+            position: relative;
+            width: 100%; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden;
+            background: linear-gradient(140deg, rgba(43,226,174,0.14), rgba(124,92,255,0.14));
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center; margin-bottom: 22px;
+        }
+        .about-photo span { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+        .about-photo img {
+            width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;
+        }
+        .about-bio { font-size: 16px; line-height: 1.6; color: var(--text); letter-spacing: 0.01em; }
+        .about-bio strong { font-weight: 400; }
+        .about-bio .fp-bayes:hover { color: #2BE2AE; }
+        .about-bio .fp-bb:hover { color: #09ACB4; }
+        .about-smiley { color: var(--muted); }
+        .about-divider { height: 1px; background: var(--border); margin: 24px 0; }
+        .about-group { margin-bottom: 22px; }
+        .about-label { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+        .about-links { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+        .about-link { font-size: 15px; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; transition: border-color 0.15s ease; }
+        .about-link:hover { border-color: var(--text); }
+        .about-link .arr { color: var(--muted); font-size: 12px; }
+        .about-copy { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+        /* ── Tablet ── */
+        @media (max-width: 900px) {
+            .sidebar {
+                position: sticky; top: 0; left: 0; right: auto; z-index: 50;
+                width: 100%; height: auto;
+                flex-direction: row; align-items: center; justify-content: space-between;
+                padding: 20px 24px;
+                border-right: none; border-bottom: 1px solid var(--border);
+                background: var(--bg);
+            }
+            .sidebar-inner { flex-direction: row; align-items: center; gap: 16px; }
+            .feed-wrapper { margin-left: 0; }
+            .nav-desc { display: none; }
+            .nav-menu { display: none; }
+            .nav-photo { display: none; }
+            .feed { max-width: 620px; padding: 32px 24px 40px; }
+            .nav-star { display: none; }
+            .bio-line { font-size: 20px; }
+            .bio-name { font-size: 20px; }
+            .bio-line-2 { font-size: 15px; }
+            .nav-links { gap: 32px; }
+            .modal-body { padding: 0 28px 40px; }
+            .modal-title { font-size: 30px; }
+            .modal-header { grid-template-columns: 1fr; gap: 18px; }
+            .modal-image-caption { max-width: 100%; }
+        }
+
+        /* ── Phone ── */
+        @media (max-width: 600px) {
+            .section-head h2 { font-size: 18px; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .sidebar { padding: 16px 20px; }
+            .feed { padding: 24px 20px 30px; }
+            .nav-name { font-size: 17px; }
+            .nav-links { gap: 22px; }
+            .nav-links a { font-size: 14px; }
+            .bio-line { font-size: 17px; gap: 5px; }
+            .bio-name { font-size: 17px; }
+            .bio-line-2 { font-size: 13px; margin-top: 4px; }
+            .project-image { border-radius: 4px; aspect-ratio: 8/3; }
+            .card-meta { padding: 12px 14px 14px; }
+            .card-meta .project-title { font-size: 17px; }
+            .nav-star { display: none; }
+            .nav-desc { display: none; }
+            .info-body { font-size: 14px; max-width: 100%; }
+            .city-dropdown { min-width: 150px; }
+            .project-grid { grid-template-columns: 1fr; gap: 14px; }
+            .home-grid { grid-template-columns: 1fr; gap: 10px; }
+            .project-card.is-placeholder { display: none; }
+            .site-footer { margin-top: 48px; }
+            .modal-images { grid-template-columns: 1fr; }
+            .modal-body { padding: 0 20px 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar (left nav) -->
+    <aside class="sidebar">
+        <div class="sidebar-inner">
+        <div class="nav-left">
+            <a href="index.html" class="nav-name">Ian Crvenkovic</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-desc">A designer based in Berlin.</div>
+            <button class="nav-about" id="aboutOpen">More About Me</button>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-menu-group">
+                <span class="nav-menu-heading">Previously at</span>
+                <a href="bayes-esports.html" class="nav-menu-link is-bayes">Bayes Esports</a>
+                <a href="brand-buddy.html" class="nav-menu-link">Brand Buddy</a>
+            </div>
+            <div class="nav-menu-group">
+                <a href="logos-branding.html" class="nav-menu-link">Logos/Branding</a>
+                <a href="#" class="nav-menu-link">More Client Work</a>
+                <a href="figments.html" class="nav-menu-link">Figments</a>
+            </div>
+        </nav>
+        <div class="nav-bottom">
+            <div class="nav-photo">
+                <img src="images/about/ian-sky.jpg" alt="Ian Crvenkovic" loading="lazy">
+            </div>
+            <div class="nav-social">
+                <a href="https://www.linkedin.com/in/ian-crvenkovic-93a03393" target="_blank" rel="noopener" class="nav-social-icon" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.56V9h3.554v11.452z"/></svg>
+                </a>
+                <a href="#" target="_blank" rel="noopener" class="nav-social-icon" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+                </a>
+                <button class="theme-toggle nav-social-icon" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+                    <svg class="icon-sun" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 0.75v2M8 13.25v2M15.25 8h-2M2.75 8h-2M13.03 2.97l-1.41 1.41M4.38 11.62l-1.41 1.41M13.03 13.03l-1.41-1.41M4.38 4.38L2.97 2.97" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 9.2A6 6 0 1 1 6.8 2a4.7 4.7 0 0 0 7.2 7.2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+            <span class="nav-copyright">© 2026 Ian Crvenkovic</span>
+        </div>
+        </div>
+    </aside>
+
+    <div class="feed-wrapper">
+    <main class="feed">
+
+    <!-- TEMP: Avara font-size tuner — remove before shipping -->
+    <div class="avara-tuner">
+        <span>Aa Avara</span>
+        <input type="range" id="avaraSizeSlider" min="12" max="40" step="0.5" value="22">
+        <span class="avara-tuner-val" id="avaraSizeVal">22px</span>
+    </div>
+
+    <!-- Subpage width control -->
+    <div class="width-tuner">
+        <span>Subpage Width</span>
+        <input type="range" id="contentWidthSlider" min="600" max="1400" step="10" value="1010">
+        <span class="width-tuner-val" id="contentWidthVal">1010px</span>
+    </div>
+
+    <!-- TEMP: nav menu link font-size tuner — remove before shipping -->
+    <div class="navfont-tuner">
+        <span>Nav Aa</span>
+        <input type="range" id="navFontSlider" min="10" max="22" step="0.5" value="13">
+        <span class="navfont-tuner-val" id="navFontVal">13px</span>
+    </div>
+
+    <!-- TEMP: home tile aspect-ratio tuner — remove before shipping -->
+    <div class="tileratio-tuner">
+        <span>Tile W:H</span>
+        <input type="range" id="tileRatioSlider" min="1" max="3" step="0.05" value="1.75">
+        <span class="tileratio-tuner-val" id="tileRatioVal">1.75</span>
+    </div>
+
+    <!-- Top-bar type tuner (Eyebrow / Title / Tags / Description) -->
+    <div class="typetuner" id="typeTuner">
+        <div class="typetuner-head" id="typeTunerHead">
+            <span>Top Bar Type</span>
+            <button class="typetuner-toggle" id="typeTunerToggle" aria-hidden="true">−</button>
+        </div>
+        <div class="typetuner-body" id="typeTunerBody">
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Eyebrow</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--eyebrow-size" data-unit="px" min="8" max="40" step="1" value="15"><span class="typetuner-val">15px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--eyebrow-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="0"><span class="typetuner-val">0%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--eyebrow-weight" data-unit="" min="300" max="800" step="50" value="600"><span class="typetuner-val">600</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--eyebrow-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.2"><span class="typetuner-val">1.2</span></label>
+            </div>
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Title</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--title-size" data-unit="px" min="16" max="80" step="1" value="36"><span class="typetuner-val">36px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--title-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.5"><span class="typetuner-val">-1.5%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--title-weight" data-unit="" min="300" max="800" step="50" value="700"><span class="typetuner-val">700</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--title-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.2"><span class="typetuner-val">1.2</span></label>
+            </div>
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Tags</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--tags-size" data-unit="px" min="8" max="32" step="1" value="12"><span class="typetuner-val">12px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--tags-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-0.1"><span class="typetuner-val">-0.1%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--tags-weight" data-unit="" min="300" max="800" step="50" value="800"><span class="typetuner-val">800</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--tags-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.5"><span class="typetuner-val">1.5</span></label>
+            </div>
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Description</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--desc-size" data-unit="px" min="10" max="32" step="1" value="15"><span class="typetuner-val">15px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--desc-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.25"><span class="typetuner-val">-1.25%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--desc-weight" data-unit="" min="300" max="800" step="50" value="500"><span class="typetuner-val">500</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--desc-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.59"><span class="typetuner-val">1.59</span></label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Say hello (bottom-right) -->
+    <div class="hello-fab">
+        <a class="hello-link" href="mailto:icrvenkovic@gmail.com">Say hello!</a>
+        <button class="hello-copy" id="emailCopy" aria-label="Copy email address" title="Copy email">
+            <svg class="icon-copy" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="icon-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
+
+    <!-- Spectral Hues (editorial case study) -->
+    <div id="spectral-hues">
+        <div class="spectral-header">
+            <div class="spectral-header-left">
+                <div class="spectral-eyebrow">Editorial Design</div>
+                <h1 class="spectral-title">Spectral Hues</h1>
+                <div class="spectral-tags">Brochure Design, Print Coordination</div>
+            </div>
+            <p class="spectral-desc">A brochure for 'Spectral Hues', a Palo Alto Art Center exhibition exploring color through five contemporary painters. Featuring Anne Appleby, Leo Bersamina, Omar Chacon, Freddy Chandra &amp; Ammy Ellingson.</p>
+        </div>
+        <div class="spectral-images">
+            <div class="spectral-page"><img src="images/spectral-hues/page-01.png" alt="Spectral Hues brochure — page 01" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-02.png" alt="Spectral Hues brochure — page 02" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-03.png" alt="Spectral Hues brochure — page 03" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-04.png" alt="Spectral Hues brochure — page 04" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-05.png" alt="Spectral Hues brochure — page 05" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-06.png" alt="Spectral Hues brochure — page 06" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-07.png" alt="Spectral Hues brochure — page 07" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-08.png" alt="Spectral Hues brochure — page 08" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-09.png" alt="Spectral Hues brochure — page 09" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-10.png" alt="Spectral Hues brochure — page 10" loading="lazy"></div>
+        </div>
+    </div>
+
+    </main>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <!-- ── About drawer ── -->
+    <div class="about-overlay" id="aboutOverlay">
+        <div class="about-backdrop" id="aboutBackdrop"></div>
+        <aside class="about-panel" role="dialog" aria-label="About Ian Crvenkovic">
+            <div class="about-head">
+                <span class="about-title">About</span>
+                <button class="about-close" id="aboutClose" aria-label="Close">✕</button>
+            </div>
+            <div class="about-body">
+                <div class="about-photo" id="aboutPhoto">
+                    <img src="images/about/ian-full.webp" alt="Ian Crvenkovic" loading="lazy">
+                </div>
+
+                <p class="about-bio"><strong>Ian Crvenkovic</strong> is a graphic designer based in Berlin, working across brand identity, art direction, and design systems. Previously at <span class="company-link fp-bayes">Bayes Esports</span> &amp; <span class="company-link fp-bb">Brand Buddy</span>. More work coming soon :)</p>
+
+                <div class="about-divider"></div>
+
+                <div class="about-group">
+                    <div class="about-label">Get in touch</div>
+                    <div class="about-links">
+                        <a class="about-link" href="mailto:icrvenkovic@gmail.com">Email <span class="arr">↗</span></a>
+                        <a class="about-link" href="https://www.linkedin.com/in/ian-crvenkovic-93a03393" target="_blank" rel="noopener">LinkedIn <span class="arr">↗</span></a>
+                    </div>
+                </div>
+
+                <div class="about-divider"></div>
+
+                <div class="about-copy">© 2026 Ian Crvenkovic</div>
+            </div>
+        </aside>
+    </div>
+
+
+    <script>
+        // TEMP: Avara font-size tuner — remove before shipping
+        (function () {
+            const slider = document.getElementById('avaraSizeSlider');
+            const val = document.getElementById('avaraSizeVal');
+            if (!slider) return;
+            slider.addEventListener('input', () => {
+                document.documentElement.style.setProperty('--avara-size', slider.value + 'px');
+                val.textContent = slider.value + 'px';
+            });
+        })();
+
+        // TEMP: content-width tuner — remove before shipping
+        (function () {
+            const slider = document.getElementById('contentWidthSlider');
+            const val = document.getElementById('contentWidthVal');
+            if (!slider) return;
+            slider.addEventListener('input', () => {
+                document.documentElement.style.setProperty('--content-w', slider.value + 'px');
+                val.textContent = slider.value + 'px';
+            });
+        })();
+
+        // TEMP: nav menu link font-size tuner — remove before shipping
+        (function () {
+            const slider = document.getElementById('navFontSlider');
+            const val = document.getElementById('navFontVal');
+            if (!slider) return;
+            slider.addEventListener('input', () => {
+                document.documentElement.style.setProperty('--nav-font-size', slider.value + 'px');
+                val.textContent = slider.value + 'px';
+            });
+        })();
+
+        // TEMP: home tile aspect-ratio tuner — remove before shipping
+        (function () {
+            const slider = document.getElementById('tileRatioSlider');
+            const val = document.getElementById('tileRatioVal');
+            if (!slider) return;
+            slider.addEventListener('input', () => {
+                document.documentElement.style.setProperty('--tile-ratio', slider.value);
+                val.textContent = slider.value;
+            });
+        })();
+        // Top-bar type tuner — generic wiring for every slider in the panel
+        (function () {
+            const root = document.documentElement;
+            document.querySelectorAll('#typeTunerBody input[type="range"]').forEach(input => {
+                const varName = input.dataset.var;
+                const unit = input.dataset.unit || '';
+                const isTracking = input.dataset.mode === 'tracking';
+                const valEl = input.parentElement.querySelector('.typetuner-val');
+                const update = () => {
+                    if (isTracking) {
+                        // Figma expresses letter spacing as % of font-size — 1% = 0.01em,
+                        // so storing it as em keeps it proportional if size changes too.
+                        root.style.setProperty(varName, (parseFloat(input.value) / 100) + 'em');
+                        if (valEl) valEl.textContent = input.value + '%';
+                    } else {
+                        root.style.setProperty(varName, input.value + unit);
+                        if (valEl) valEl.textContent = input.value + unit;
+                    }
+                };
+                input.addEventListener('input', update);
+            });
+            const panel = document.getElementById('typeTuner');
+            const head = document.getElementById('typeTunerHead');
+            const toggle = document.getElementById('typeTunerToggle');
+            if (panel && head && toggle) {
+                head.addEventListener('click', () => {
+                    panel.classList.toggle('collapsed');
+                    toggle.textContent = panel.classList.contains('collapsed') ? '+' : '−';
+                });
+            }
+        })();
+        // ── Theme (defaults to light, remembers your choice) ──
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+        } else {
+            document.body.classList.remove('dark');
+        }
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+            });
+        }
+
+
+        // ── Copy email to clipboard ──
+        const emailCopyBtn = document.getElementById('emailCopy');
+        if (emailCopyBtn) {
+            const EMAIL = 'icrvenkovic@gmail.com';
+            emailCopyBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(EMAIL);
+                    } else {
+                        const ta = document.createElement('textarea');
+                        ta.value = EMAIL; ta.style.position = 'fixed'; ta.style.opacity = '0';
+                        document.body.appendChild(ta); ta.focus(); ta.select();
+                        document.execCommand('copy'); document.body.removeChild(ta);
+                    }
+                    emailCopyBtn.classList.add('copied');
+                    emailCopyBtn.setAttribute('title', 'Copied!');
+                    setTimeout(() => {
+                        emailCopyBtn.classList.remove('copied');
+                        emailCopyBtn.setAttribute('title', 'Copy email');
+                    }, 1500);
+                } catch (err) { console.warn('copy failed', err); }
+            });
+        }
+
+        // ── About drawer ──
+        (function () {
+            const overlay  = document.getElementById('aboutOverlay');
+            const openBtn  = document.getElementById('aboutOpen');
+            const closeBtnA = document.getElementById('aboutClose');
+            const backdropA = document.getElementById('aboutBackdrop');
+            function openAbout()  { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+            function closeAbout() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+            openBtn.addEventListener('click', openAbout);
+            closeBtnA.addEventListener('click', closeAbout);
+            backdropA.addEventListener('click', closeAbout);
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeAbout(); });
+        })();
+
+        // ── Custom circular cursor (à la rachelchen.tech) ──
+        (function () {
+            if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+            const dot = document.createElement('div');
+            dot.className = 'cursor-dot';
+            document.body.appendChild(dot);
+
+            let x = 0, y = 0;
+            document.addEventListener('mousemove', e => {
+                x = e.clientX; y = e.clientY;
+                dot.style.left = (x - dot.offsetWidth / 2) + 'px';
+                dot.style.top = (y - dot.offsetHeight / 2) + 'px';
+                dot.classList.add('is-visible');
+            }, { passive: true });
+            document.addEventListener('mouseleave', () => dot.classList.remove('is-visible'));
+
+            const HOVER_SELECTOR = 'a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link, [role="button"]';
+            document.addEventListener('mouseover', e => {
+                if (e.target.closest(HOVER_SELECTOR)) dot.classList.add('is-hover');
+            });
+            document.addEventListener('mouseout', e => {
+                if (e.target.closest(HOVER_SELECTOR) && !e.relatedTarget?.closest(HOVER_SELECTOR)) dot.classList.remove('is-hover');
+            });
+
+            // Re-center the dot on itself whenever its size changes (hover growth)
+            const ro = new ResizeObserver(() => {
+                dot.style.left = (x - dot.offsetWidth / 2) + 'px';
+                dot.style.top = (y - dot.offsetHeight / 2) + 'px';
+            });
+            ro.observe(dot);
+        })();
+
+        // ── Lightbox (Spectral Hues page zoom) ──
+        (function () {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            if (!lightbox || !lightboxImg) return;
+            lightbox.addEventListener('click', () => { lightbox.classList.remove('open'); });
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && lightbox.classList.contains('open')) { lightbox.classList.remove('open'); }
+            });
+            document.querySelectorAll('.spectral-page').forEach(block => {
+                const img = block.querySelector('img');
+                if (!img) return;
+                block.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightbox.classList.add('open');
+                });
+            });
+        })();
+    </script>
+
+
+</body>
+</html>
