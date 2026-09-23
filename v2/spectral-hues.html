@@ -67,7 +67,7 @@
             --eyebrow-lh: 1.2;
             --title-size: 36px;
             --title-tracking: -0.015em;
-            --title-weight: 700;
+            --title-weight: 600;
             --title-lh: 1.2;
             --tags-size: 12px;
             --tags-tracking: -0.001em;
@@ -75,7 +75,7 @@
             --tags-lh: 1.5;
             --desc-size: 15px;
             --desc-tracking: -0.0125em;
-            --desc-weight: 500;
+            --desc-weight: 400;
             --desc-lh: 1.59;
         }
 
@@ -144,7 +144,8 @@
            block: icon buttons at w-7/h-7 (28px), gap-1 (4px), pulled -6px to
            optically align the icon glyphs with the text above them ── */
         .nav-bottom { margin-top: auto; padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
-        .nav-photo { width: 111px; height: 111px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--border); }
+        .nav-photo { width: 111px; height: 111px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--border); margin-bottom: 14px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .nav-photo:hover { transform: scale(1.045); box-shadow: 0 0 0 3px color-mix(in srgb, #2BE2AE 45%, transparent); }
         .nav-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
         .nav-social { display: flex; align-items: center; gap: 4px; margin-left: -6px; }
         .nav-social-icon {
@@ -830,7 +831,7 @@
         }
         /* TEMP: top-bar type tuner panel — remove before shipping */
         .typetuner {
-            display: none; /* hidden — values finalized; change to flex to bring the tuner back */
+            display: none; /* hidden — values finalized; change to block to bring the tuner back */
             position: fixed; top: 16px; right: 16px; z-index: 70;
             width: 272px; max-height: calc(100vh - 32px); overflow-y: auto;
             background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
@@ -1223,7 +1224,7 @@
                 <div class="typetuner-group-label">Title</div>
                 <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--title-size" data-unit="px" min="16" max="80" step="1" value="36"><span class="typetuner-val">36px</span></label>
                 <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--title-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.5"><span class="typetuner-val">-1.5%</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--title-weight" data-unit="" min="300" max="800" step="50" value="700"><span class="typetuner-val">700</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--title-weight" data-unit="" min="300" max="800" step="50" value="600"><span class="typetuner-val">600</span></label>
                 <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--title-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.2"><span class="typetuner-val">1.2</span></label>
             </div>
             <div class="typetuner-group">
@@ -1237,7 +1238,7 @@
                 <div class="typetuner-group-label">Description</div>
                 <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--desc-size" data-unit="px" min="10" max="32" step="1" value="15"><span class="typetuner-val">15px</span></label>
                 <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--desc-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.25"><span class="typetuner-val">-1.25%</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--desc-weight" data-unit="" min="300" max="800" step="50" value="500"><span class="typetuner-val">500</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--desc-weight" data-unit="" min="300" max="800" step="50" value="400"><span class="typetuner-val">400</span></label>
                 <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--desc-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.59"><span class="typetuner-val">1.59</span></label>
             </div>
         </div>
@@ -1263,16 +1264,16 @@
             <p class="spectral-desc">A brochure for 'Spectral Hues', a Palo Alto Art Center exhibition exploring color through five contemporary painters. Featuring Anne Appleby, Leo Bersamina, Omar Chacon, Freddy Chandra &amp; Ammy Ellingson.</p>
         </div>
         <div class="spectral-images">
-            <div class="spectral-page"><img src="images/spectral-hues/page-01.png" alt="Spectral Hues brochure — page 01" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-02.png" alt="Spectral Hues brochure — page 02" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-03.png" alt="Spectral Hues brochure — page 03" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-04.png" alt="Spectral Hues brochure — page 04" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-05.png" alt="Spectral Hues brochure — page 05" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-06.png" alt="Spectral Hues brochure — page 06" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-07.png" alt="Spectral Hues brochure — page 07" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-08.png" alt="Spectral Hues brochure — page 08" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-09.png" alt="Spectral Hues brochure — page 09" loading="lazy"></div>
-            <div class="spectral-page"><img src="images/spectral-hues/page-10.png" alt="Spectral Hues brochure — page 10" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-01.webp" alt="Spectral Hues brochure — page 01" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-02.webp" alt="Spectral Hues brochure — page 02" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-03.webp" alt="Spectral Hues brochure — page 03" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-04.webp" alt="Spectral Hues brochure — page 04" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-05.webp" alt="Spectral Hues brochure — page 05" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-06.webp" alt="Spectral Hues brochure — page 06" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-07.webp" alt="Spectral Hues brochure — page 07" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-08.webp" alt="Spectral Hues brochure — page 08" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-09.webp" alt="Spectral Hues brochure — page 09" loading="lazy"></div>
+            <div class="spectral-page"><img src="images/spectral-hues/page-10.webp" alt="Spectral Hues brochure — page 10" loading="lazy"></div>
         </div>
     </div>
 
