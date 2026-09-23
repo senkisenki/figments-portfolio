@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brand Buddy — Ian Crvenkovic</title>
-    <meta name="description" content="Lead Graphic Designer case study: Amazon product imagery and art direction for e-commerce brands.">
+    <meta name="description" content="Lead Graphic Designer case study: Amazon product imagery and art direction for e-commerce brands, by Ian Crvenkovic.">
     <meta name="author" content="Ian Crvenkovic">
     <meta property="og:title" content="Brand Buddy — Ian Crvenkovic">
     <meta property="og:description" content="Lead Graphic Designer case study: Amazon product imagery and art direction for e-commerce brands.">
@@ -60,6 +60,23 @@
             /* Home grid tile shape (temp tuner) — width÷height, higher = more horizontal.
                1.75 matches jessenyberg.design's project-cover tiles (363×207 ≈ 1.75). */
             --tile-ratio: 1.75;
+            /* Top bar type — finalized via the tuner */
+            --eyebrow-size: 15px;
+            --eyebrow-tracking: 0em;
+            --eyebrow-weight: 600;
+            --eyebrow-lh: 1.2;
+            --title-size: 36px;
+            --title-tracking: -0.015em;
+            --title-weight: 600;
+            --title-lh: 1.2;
+            --tags-size: 12px;
+            --tags-tracking: -0.001em;
+            --tags-weight: 800;
+            --tags-lh: 1.5;
+            --desc-size: 15px;
+            --desc-tracking: -0.0125em;
+            --desc-weight: 400;
+            --desc-lh: 1.59;
         }
 
         /* ── Dark mode ── */
@@ -762,6 +779,133 @@
         }
         .modal-image-full { display: none; }
 
+        /* ── Spectral Hues (editorial case study) — same capped/adjustable
+           width as other subpages, controlled by the Subpage Width tuner ── */
+        .spectral-header {
+            display: flex;
+            gap: 57px;
+            align-items: flex-start;
+            width: 100%;
+            margin: 0 0 40px;
+        }
+        .spectral-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            width: 420px;
+            flex-shrink: 0;
+        }
+        .spectral-eyebrow {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: var(--eyebrow-weight);
+            font-size: var(--eyebrow-size);
+            letter-spacing: var(--eyebrow-tracking);
+            line-height: var(--eyebrow-lh);
+            color: var(--text);
+        }
+        .spectral-title {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: var(--title-weight);
+            font-size: var(--title-size);
+            letter-spacing: var(--title-tracking);
+            line-height: var(--title-lh);
+            color: var(--text);
+        }
+        .spectral-tags {
+            font-family: 'Space Mono', monospace;
+            font-weight: var(--tags-weight);
+            font-size: var(--tags-size);
+            letter-spacing: var(--tags-tracking);
+            line-height: var(--tags-lh);
+            color: var(--text);
+        }
+        .spectral-desc {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: var(--desc-weight);
+            font-size: var(--desc-size);
+            letter-spacing: var(--desc-tracking);
+            line-height: var(--desc-lh);
+            color: var(--text);
+            flex: 1;
+            padding-top: 10px;
+        }
+        /* TEMP: top-bar type tuner panel — remove before shipping */
+        .typetuner {
+            display: none; /* hidden — values finalized; change to block to bring the tuner back */
+            position: fixed; top: 16px; right: 16px; z-index: 70;
+            width: 272px; max-height: calc(100vh - 32px); overflow-y: auto;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+            scrollbar-width: thin;
+        }
+        .typetuner-head {
+            position: sticky; top: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 12px; border-bottom: 1px solid var(--border);
+            background: var(--bg); cursor: pointer; color: var(--text);
+            border-radius: 10px 10px 0 0;
+        }
+        .typetuner-toggle {
+            background: none; border: none; color: var(--muted);
+            font-family: 'Space Mono', monospace; font-size: 14px; line-height: 1;
+            cursor: pointer; padding: 0 2px;
+        }
+        .typetuner-body { padding: 12px; display: flex; flex-direction: column; gap: 16px; }
+        .typetuner.collapsed .typetuner-body { display: none; }
+        .typetuner-group { display: flex; flex-direction: column; gap: 6px; }
+        .typetuner-group-label {
+            color: var(--text); font-size: 11px; letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 2px;
+        }
+        .typetuner-row { display: flex; align-items: center; gap: 8px; }
+        .typetuner-row .typetuner-prop { width: 60px; flex-shrink: 0; color: var(--muted); }
+        .typetuner-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--text); }
+        .typetuner-val { width: 56px; flex-shrink: 0; text-align: right; color: var(--text); }
+        .spectral-images { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .spectral-page {
+            width: 100%;
+            aspect-ratio: 2150 / 1700;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+        .spectral-page img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.15s ease; }
+        .spectral-page:hover img { opacity: 0.92; }
+
+        /* ── Brand Buddy (client-stack case study) — same header treatment as
+           Spectral Hues, but the image body is a 2-col grid per client instead
+           of a single stacked column. Grid gap (both axes) matches the 10px
+           gap used between Spectral Hues' stacked images. ── */
+        .bb-client-head { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .bb-kicker {
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            line-height: 1.2;
+            color: var(--text);
+            white-space: nowrap;
+        }
+        .bb-client-desc {
+            font-family: 'Schibsted Grotesk', sans-serif;
+            font-weight: var(--desc-weight);
+            font-size: var(--desc-size);
+            letter-spacing: var(--desc-tracking);
+            line-height: var(--desc-lh);
+            color: var(--text);
+            max-width: 800px;
+        }
+        .bb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .bb-grid .spectral-page { aspect-ratio: 1 / 1; }
+        .bb-client + .bb-client { margin-top: 52px; padding-top: 52px; border-top: 1px solid var(--border); }
+        @media (max-width: 600px) {
+            .bb-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 900px) {
+            .spectral-header { flex-direction: column; gap: 18px; }
+            .spectral-header-left { width: 100%; }
+            .spectral-desc { padding-top: 0; }
+        }
+
         /* ── Carousel ── */
         .carousel-wrapper {
             position: relative;
@@ -841,6 +985,29 @@
             opacity: 1;
             transform: scale(1);
         }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.38); border: none; color: #fff;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10; transition: background 0.15s ease, opacity 0.2s ease;
+            backdrop-filter: blur(4px);
+            opacity: 0; pointer-events: none;
+        }
+        .lightbox.open .lightbox-nav { opacity: 1; pointer-events: auto; }
+        .lightbox-nav:hover { background: rgba(0,0,0,0.62); }
+        .lightbox-nav svg { width: 20px; height: 20px; }
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+        .lightbox-nav.is-hidden { display: none; }
+        .lightbox-counter {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            font-size: 12px; font-family: 'Space Mono', monospace; color: rgba(255,255,255,0.75);
+            background: rgba(0,0,0,0.38); padding: 4px 10px; border-radius: 999px;
+            backdrop-filter: blur(4px); pointer-events: none;
+            opacity: 0; transition: opacity 0.2s ease;
+        }
+        .lightbox.open .lightbox-counter { opacity: 1; }
 
         /* ── Gallery (one-off pieces) ── */
         .gallery { margin-top: var(--gap-section); }
@@ -1090,6 +1257,44 @@
         <span class="tileratio-tuner-val" id="tileRatioVal">1.75</span>
     </div>
 
+    <!-- Top-bar type tuner (Eyebrow / Title / Tags / Description) -->
+    <div class="typetuner" id="typeTuner">
+        <div class="typetuner-head" id="typeTunerHead">
+            <span>Top Bar Type</span>
+            <button class="typetuner-toggle" id="typeTunerToggle" aria-hidden="true">−</button>
+        </div>
+        <div class="typetuner-body" id="typeTunerBody">
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Eyebrow</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--eyebrow-size" data-unit="px" min="8" max="40" step="1" value="15"><span class="typetuner-val">15px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--eyebrow-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="0"><span class="typetuner-val">0%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--eyebrow-weight" data-unit="" min="300" max="800" step="50" value="600"><span class="typetuner-val">600</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--eyebrow-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.2"><span class="typetuner-val">1.2</span></label>
+            </div>
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Title</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--title-size" data-unit="px" min="16" max="80" step="1" value="36"><span class="typetuner-val">36px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--title-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.5"><span class="typetuner-val">-1.5%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--title-weight" data-unit="" min="300" max="800" step="50" value="600"><span class="typetuner-val">600</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--title-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.2"><span class="typetuner-val">1.2</span></label>
+            </div>
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Tags</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--tags-size" data-unit="px" min="8" max="32" step="1" value="12"><span class="typetuner-val">12px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--tags-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-0.1"><span class="typetuner-val">-0.1%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--tags-weight" data-unit="" min="300" max="800" step="50" value="800"><span class="typetuner-val">800</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--tags-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.5"><span class="typetuner-val">1.5</span></label>
+            </div>
+            <div class="typetuner-group">
+                <div class="typetuner-group-label">Description</div>
+                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--desc-size" data-unit="px" min="10" max="32" step="1" value="15"><span class="typetuner-val">15px</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--desc-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.25"><span class="typetuner-val">-1.25%</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--desc-weight" data-unit="" min="300" max="800" step="50" value="400"><span class="typetuner-val">400</span></label>
+                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--desc-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.59"><span class="typetuner-val">1.59</span></label>
+            </div>
+        </div>
+    </div>
+
     <!-- Say hello (bottom-right) -->
     <div class="hello-fab">
         <a class="hello-link" href="mailto:icrvenkovic@gmail.com">Say hello!</a>
@@ -1099,31 +1304,58 @@
         </button>
     </div>
 
-    <!-- Case study -->
-    <div class="case-study" style="--accent:#09ACB4">
-        <div class="modal-header">
-            <div class="modal-header-left">
-                <div class="modal-role">Lead Graphic Designer</div>
-                <h1 class="modal-title">Brand Buddy</h1>
-                <div class="modal-tags">[Art Direction, E-commerce]</div>
+    <!-- Brand Buddy (client-stack case study) -->
+    <div id="brand-buddy">
+        <div class="spectral-header">
+            <div class="spectral-header-left">
+                <div class="spectral-eyebrow">Lead Graphic Designer</div>
+                <h1 class="spectral-title">Brand Buddy</h1>
+                <div class="spectral-tags">Art Direction, E-Commerce</div>
             </div>
-            <p class="modal-description">During my time at Brand Buddy, I led the creative direction for Amazon product imagery across a diverse portfolio of e-commerce clients. Each required its own visual language, and my role was to define that direction, meeting each brand where it was while pushing it further.</p>
+            <p class="spectral-desc">During my time at Brand Buddy, I led the creative direction for Amazon product imagery across a diverse portfolio of e-commerce clients. Each required its own visual language, and my role was to define that direction, meeting each brand where it was while pushing it further.</p>
         </div>
-        <div class="modal-images">
-            <div class="modal-image-block">
-                <div class="modal-image-eyebrow"><span class="eyebrow-num">01</span> Rick's Picks</div>
-                <img class="modal-image" src="images/brand-buddy/bb-1.webp" alt="Rick's Picks" loading="lazy">
-                <span class="modal-image-caption">Rick's Picks is a Brooklyn-based artisanal pickle brand known for bold flavors and all-natural ingredients. I designed multiple sets of Amazon product images across their pickle jars and snacking pouches, with the goal of creating visuals that felt like a natural extension of the brand rather than generic e-commerce assets. Working within an existing but underdeveloped visual identity, I shaped the design language across the series, selecting typography, adapting copy from the team's copywriter, and compositing each image to do a specific job.</span>
+
+        <div class="bb-client">
+            <div class="bb-client-head">
+                <div class="bb-kicker">01 Rick&rsquo;s Picks</div>
+                <p class="bb-client-desc">Rick's Picks is a Brooklyn-based artisanal pickle brand known for bold flavors and all-natural ingredients. I designed multiple sets of Amazon product images across their pickle jars and snacking pouches, with the goal of creating visuals that felt like a natural extension of the brand rather than generic e-commerce.</p>
             </div>
-            <div class="modal-image-block">
-                <div class="modal-image-eyebrow"><span class="eyebrow-num">02</span> Clean Nutrition Co.</div>
-                <img class="modal-image" src="images/brand-buddy/bb-2.webp" alt="Clean Nutrition Co." loading="lazy">
-                <span class="modal-image-caption">Clean Nutrition Co. is a New Zealand-based protein and supplement brand built around natural, additive-free ingredients. The visual challenge was similar to Rick's Picks: an established but underdeveloped identity that needed to be pushed further. With only isolated product shots provided, I sourced and composited all lifestyle photography, building each scene from scratch around the product. The result is a set of Amazon images that lean into the brand's clean, performance-driven positioning without losing the warmth of its natural origins.</span>
+            <div class="bb-grid">
+                <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-01.webp" alt="Rick's Picks Amazon product image 1" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-02.webp" alt="Rick's Picks Amazon product image 2" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-03.webp" alt="Rick's Picks Amazon product image 3" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-04.webp" alt="Rick's Picks Amazon product image 4" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-05.webp" alt="Rick's Picks Amazon product image 5" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-06.webp" alt="Rick's Picks Amazon product image 6" loading="lazy"></div>
             </div>
-            <div class="modal-image-block">
-                <div class="modal-image-eyebrow"><span class="eyebrow-num">03</span> Supernola</div>
-                <img class="modal-image" src="images/brand-buddy/bb-3.webp" alt="Supernola" loading="lazy">
-                <span class="modal-image-caption">Supernola is a plant-based superfood snack brand with a bold, energetic identity built around clean ingredients and sustainability. As with Clean Nutrition Co., only isolated product shots were provided, so I sourced all lifestyle photography and built each scene from scratch. The brand's existing personality gave more visual room to play with, resulting in a set that leans into strong color, varied layouts, and messaging that covers everything from ingredient transparency to environmental values.</span>
+        </div>
+
+        <div class="bb-client">
+            <div class="bb-client-head">
+                <div class="bb-kicker">02 Clean Nutrition</div>
+                <p class="bb-client-desc">Clean Nutrition Co. is a New Zealand-based protein and supplement brand built around natural, additive-free ingredients. With only isolated product shots to start from, I sourced and composited all lifestyle photography, pushing their underdeveloped identity into something cleaner and more performance-driven.</p>
+            </div>
+            <div class="bb-grid">
+                <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-01.webp" alt="Clean Nutrition Amazon product image 1" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-02.webp" alt="Clean Nutrition Amazon product image 2" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-03.webp" alt="Clean Nutrition Amazon product image 3" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-04.webp" alt="Clean Nutrition Amazon product image 4" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-05.webp" alt="Clean Nutrition Amazon product image 5" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-06.webp" alt="Clean Nutrition Amazon product image 6" loading="lazy"></div>
+            </div>
+        </div>
+
+        <div class="bb-client">
+            <div class="bb-client-head">
+                <div class="bb-kicker">03 Supernola</div>
+                <p class="bb-client-desc">Supernola is a plant-based superfood snack brand with a bold, energetic identity built around clean ingredients and sustainability. Working from isolated product shots, I built every lifestyle scene from scratch, leaning into strong color and varied layouts across the set.</p>
+            </div>
+            <div class="bb-grid">
+                <div class="spectral-page"><img src="images/brand-buddy/squares/supernola-01.webp" alt="Supernola Amazon product image 1" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/supernola-02.webp" alt="Supernola Amazon product image 2" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/supernola-03.webp" alt="Supernola Amazon product image 3" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/supernola-04.webp" alt="Supernola Amazon product image 4" loading="lazy"></div>
+                <div class="spectral-page"><img src="images/brand-buddy/squares/supernola-05.webp" alt="Supernola Amazon product image 5" loading="lazy"></div>
             </div>
         </div>
     </div>
@@ -1133,7 +1365,14 @@
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image" title="Previous (←)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
         <img id="lightboxImg" src="" alt="">
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image" title="Next (→)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <span class="lightbox-counter" id="lightboxCounter"></span>
     </div>
 
     <!-- ── About drawer ── -->
@@ -1212,6 +1451,37 @@
                 document.documentElement.style.setProperty('--tile-ratio', slider.value);
                 val.textContent = slider.value;
             });
+        })();
+        // Top-bar type tuner — generic wiring for every slider in the panel
+        (function () {
+            const root = document.documentElement;
+            document.querySelectorAll('#typeTunerBody input[type="range"]').forEach(input => {
+                const varName = input.dataset.var;
+                const unit = input.dataset.unit || '';
+                const isTracking = input.dataset.mode === 'tracking';
+                const valEl = input.parentElement.querySelector('.typetuner-val');
+                const update = () => {
+                    if (isTracking) {
+                        // Figma expresses letter spacing as % of font-size — 1% = 0.01em,
+                        // so storing it as em keeps it proportional if size changes too.
+                        root.style.setProperty(varName, (parseFloat(input.value) / 100) + 'em');
+                        if (valEl) valEl.textContent = input.value + '%';
+                    } else {
+                        root.style.setProperty(varName, input.value + unit);
+                        if (valEl) valEl.textContent = input.value + unit;
+                    }
+                };
+                input.addEventListener('input', update);
+            });
+            const panel = document.getElementById('typeTuner');
+            const head = document.getElementById('typeTunerHead');
+            const toggle = document.getElementById('typeTunerToggle');
+            if (panel && head && toggle) {
+                head.addEventListener('click', () => {
+                    panel.classList.toggle('collapsed');
+                    toggle.textContent = panel.classList.contains('collapsed') ? '+' : '−';
+                });
+            }
         })();
         // ── Theme (defaults to light, remembers your choice) ──
         const savedTheme = localStorage.getItem('theme');
@@ -1300,21 +1570,52 @@
             ro.observe(dot);
         })();
 
-        // ── Lightbox (case-study image zoom) ──
+        // ── Lightbox (case-study image zoom, with prev/next navigation) ──
         (function () {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
+            const prevBtn = document.getElementById('lightboxPrev');
+            const nextBtn = document.getElementById('lightboxNext');
+            const counter = document.getElementById('lightboxCounter');
             if (!lightbox || !lightboxImg) return;
+
+            const ITEM_SELECTOR = '.spectral-page';
+            let items = [];
+            let index = 0;
+
+            function collectItems() {
+                return Array.from(document.querySelectorAll(ITEM_SELECTOR))
+                    .map(el => el.querySelector('img'))
+                    .filter(img => img && img.offsetParent !== null);
+            }
+            function show(i) {
+                if (!items.length) return;
+                index = (i + items.length) % items.length;
+                const img = items[index];
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                const multi = items.length > 1;
+                if (counter) counter.textContent = multi ? `${index + 1} / ${items.length}` : '';
+                if (prevBtn) prevBtn.classList.toggle('is-hidden', !multi);
+                if (nextBtn) nextBtn.classList.toggle('is-hidden', !multi);
+            }
+
             lightbox.addEventListener('click', () => { lightbox.classList.remove('open'); });
+            if (prevBtn) prevBtn.addEventListener('click', e => { e.stopPropagation(); show(index - 1); });
+            if (nextBtn) nextBtn.addEventListener('click', e => { e.stopPropagation(); show(index + 1); });
             document.addEventListener('keydown', e => {
-                if (e.key === 'Escape' && lightbox.classList.contains('open')) { lightbox.classList.remove('open'); }
+                if (!lightbox.classList.contains('open')) return;
+                if (e.key === 'Escape') { lightbox.classList.remove('open'); }
+                else if (e.key === 'ArrowRight') { show(index + 1); }
+                else if (e.key === 'ArrowLeft') { show(index - 1); }
             });
-            document.querySelectorAll('.modal-image-block').forEach(block => {
+            document.querySelectorAll(ITEM_SELECTOR).forEach(block => {
                 const img = block.querySelector('img');
                 if (!img) return;
                 block.addEventListener('click', () => {
-                    lightboxImg.src = img.src;
-                    lightboxImg.alt = img.alt;
+                    items = collectItems();
+                    const i = items.indexOf(img);
+                    show(i >= 0 ? i : 0);
                     lightbox.classList.add('open');
                 });
             });
