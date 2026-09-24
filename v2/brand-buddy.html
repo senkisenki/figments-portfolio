@@ -206,8 +206,20 @@
             transition: color 0.15s ease;
         }
         .nav-menu-link:hover { color: var(--muted); }
-        .nav-menu-link.is-bayes { color: #2BE2AE; }
-        .nav-menu-link.is-bayes:hover { color: #2BE2AE; opacity: 0.8; }
+        /* ── Active nav state — driven by the currentPageNav script below,
+           which tags whichever link matches the current page with
+           .is-active. Bayes/Brand Buddy/Logos each get their own project
+           accent color (matching the Home tile + card-hover colors
+           elsewhere); pages without a dedicated accent (Figments) just get
+           a bolder weight so "current page" still reads clearly. ── */
+        .nav-menu-link.is-active { font-weight: 600; }
+        .nav-menu-link.is-active:hover { opacity: 0.82; color: var(--text); }
+        .nav-menu-link.nav-accent-bayes.is-active { color: #2BE2AE; }
+        .nav-menu-link.nav-accent-bayes.is-active:hover { color: #2BE2AE; }
+        .nav-menu-link.nav-accent-bb.is-active { color: #09ACB4; }
+        .nav-menu-link.nav-accent-bb.is-active:hover { color: #09ACB4; }
+        .nav-menu-link.nav-accent-logos.is-active { color: #FF8A3D; }
+        .nav-menu-link.nav-accent-logos.is-active:hover { color: #FF8A3D; }
         .nav-about {
             display: none; /* parked per v2 Home design — About drawer code kept intact, just unreachable from the sidebar for now */
             align-self: center;
@@ -1196,11 +1208,11 @@
         <nav class="nav-menu">
             <div class="nav-menu-group">
                 <span class="nav-menu-heading">Previously at</span>
-                <a href="bayes-esports.html" class="nav-menu-link is-bayes">Bayes Esports</a>
-                <a href="brand-buddy.html" class="nav-menu-link">Brand Buddy</a>
+                <a href="bayes-esports.html" class="nav-menu-link nav-accent-bayes">Bayes Esports</a>
+                <a href="brand-buddy.html" class="nav-menu-link nav-accent-bb">Brand Buddy</a>
             </div>
             <div class="nav-menu-group">
-                <a href="logos-branding.html" class="nav-menu-link">Logos/Branding</a>
+                <a href="logos-branding.html" class="nav-menu-link nav-accent-logos">Logos/Branding</a>
                 <a href="#" class="nav-menu-link">More Client Work</a>
                 <a href="figments.html" class="nav-menu-link">Figments</a>
             </div>
@@ -1482,6 +1494,18 @@
                     toggle.textContent = panel.classList.contains('collapsed') ? '+' : '−';
                 });
             }
+        })();
+        // ── Active nav state — highlight whichever sidebar link matches
+        // the current page (accent color if the project has one, bold
+        // weight otherwise). Replaces the old always-on Bayes green. ──
+        (function () {
+            const current = location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-menu-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href !== '#' && href === current) {
+                    link.classList.add('is-active');
+                }
+            });
         })();
         // ── Theme (defaults to light, remembers your choice) ──
         const savedTheme = localStorage.getItem('theme');
