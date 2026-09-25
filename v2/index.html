@@ -10,7 +10,7 @@
     <meta property="og:description" content="Graphic designer based in Berlin. Selected work across brand identity, art direction, and logo design.">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'Avara';
@@ -147,6 +147,7 @@
         }
         .nav-social-icon:hover { color: var(--text); background-color: color-mix(in srgb, var(--text) 5%, transparent); }
         .nav-social-icon svg { width: 17px; height: 17px; }
+        .nav-social-icon[aria-label="Instagram"] { display: none; }
         .nav-copyright { font-size: 12px; color: var(--muted); }
         .nav-hamburger { display: none; background: none; border: none; padding: 0; }
 
@@ -325,61 +326,6 @@
         .fp-bayes.lit::after { width: 100%; background-color: #2BE2AE; }
         .fp-bb.lit::after { width: 100%; background-color: #09ACB4; }
         .project-card.linked-hover { border-color: color-mix(in srgb, var(--border) 60%, var(--muted)); }
-        /* TEMP: Avara font-size tuner — remove before shipping */
-        .avara-tuner {
-            display: none; /* hidden — remove this line to bring the tuner back */
-            position: fixed; bottom: 16px; left: 16px; z-index: 60;
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .avara-tuner input[type="range"] { width: 120px; accent-color: var(--text); }
-        .avara-tuner .avara-tuner-val { color: var(--text); min-width: 34px; text-align: right; }
-        /* TEMP: content-width tuner — remove before shipping */
-        .width-tuner {
-            display: none; /* hidden — remove this line to bring the tuner back */
-            position: fixed; bottom: 16px; left: 16px; z-index: 60;
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .width-tuner input[type="range"] { width: 160px; accent-color: var(--text); }
-        .width-tuner .width-tuner-val { color: var(--text); min-width: 44px; text-align: right; }
-        /* Bayes Esports gradient speed control */
-        .speed-tuner {
-            display: none; /* hidden — change to flex to bring the tuner back */
-            position: fixed; bottom: 16px; left: 16px; z-index: 60;
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .speed-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
-        .speed-tuner .speed-tuner-val { color: var(--text); min-width: 34px; text-align: right; }
-        /* TEMP: nav menu link font-size tuner — remove before shipping */
-        .navfont-tuner {
-            position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 60;
-            display: none; /* hidden — change to flex to bring the tuner back */
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .navfont-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
-        .navfont-tuner .navfont-tuner-val { color: var(--text); min-width: 40px; text-align: right; }
-        /* TEMP: home tile aspect-ratio tuner — remove before shipping */
-        .tileratio-tuner {
-            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 60;
-            display: none; /* hidden — change to flex to bring the tuner back */
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .tileratio-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
-        .tileratio-tuner .tileratio-tuner-val { color: var(--text); min-width: 40px; text-align: right; }
         /* Say hello fab (bottom-right) */
         .hello-link { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
         .hello-link:hover { color: var(--text); }
@@ -1348,41 +1294,6 @@
     <div class="feed-wrapper">
     <main class="feed">
 
-    <!-- TEMP: Avara font-size tuner — remove before shipping -->
-    <div class="avara-tuner">
-        <span>Aa Avara</span>
-        <input type="range" id="avaraSizeSlider" min="12" max="40" step="0.5" value="22">
-        <span class="avara-tuner-val" id="avaraSizeVal">22px</span>
-    </div>
-
-    <!-- Subpage width control — live-adjusts the case-study content column width. Hidden on Home (Home is fluid and ignores --content-w). -->
-    <div class="width-tuner">
-        <span>Subpage Width</span>
-        <input type="range" id="contentWidthSlider" min="600" max="1400" step="10" value="1010">
-        <span class="width-tuner-val" id="contentWidthVal">1010px</span>
-    </div>
-
-    <!-- TEMP: nav menu link font-size tuner — remove before shipping -->
-    <div class="navfont-tuner">
-        <span>Nav Aa</span>
-        <input type="range" id="navFontSlider" min="10" max="22" step="0.5" value="13">
-        <span class="navfont-tuner-val" id="navFontVal">13px</span>
-    </div>
-
-    <!-- Bayes Esports gradient speed control -->
-    <div class="speed-tuner">
-        <span>Gradient Speed</span>
-        <input type="range" id="gradientSpeedSlider" min="0.2" max="2" step="0.1" value="0.5">
-        <span class="speed-tuner-val" id="gradientSpeedVal">0.5x</span>
-    </div>
-
-    <!-- TEMP: home tile aspect-ratio tuner — remove before shipping -->
-    <div class="tileratio-tuner">
-        <span>Tile W:H</span>
-        <input type="range" id="tileRatioSlider" min="1" max="3" step="0.05" value="1.75">
-        <span class="tileratio-tuner-val" id="tileRatioVal">1.75</span>
-    </div>
-
     <!-- Home (landing grid) -->
     <div id="home">
         <div class="home-grid">
@@ -1455,60 +1366,6 @@
 
 
     <script>
-        // TEMP: Avara font-size tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('avaraSizeSlider');
-            const val = document.getElementById('avaraSizeVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--avara-size', slider.value + 'px');
-                val.textContent = slider.value + 'px';
-            });
-        })();
-
-        // TEMP: content-width tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('contentWidthSlider');
-            const val = document.getElementById('contentWidthVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--content-w', slider.value + 'px');
-                val.textContent = slider.value + 'px';
-            });
-        })();
-
-        // TEMP: nav menu link font-size tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('navFontSlider');
-            const val = document.getElementById('navFontVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--nav-font-size', slider.value + 'px');
-                val.textContent = slider.value + 'px';
-            });
-        })();
-
-        // Bayes Esports gradient speed control
-        (function () {
-            const slider = document.getElementById('gradientSpeedSlider');
-            const val = document.getElementById('gradientSpeedVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--tile-speed', slider.value);
-                val.textContent = slider.value + 'x';
-            });
-        })();
-
-        // TEMP: home tile aspect-ratio tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('tileRatioSlider');
-            const val = document.getElementById('tileRatioVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--tile-ratio', slider.value);
-                val.textContent = slider.value;
-            });
-        })();
         // ── Active nav state — highlight whichever sidebar link matches
         // the current page (accent color if the project has one, bold
         // weight otherwise). Replaces the old always-on Bayes green. ──

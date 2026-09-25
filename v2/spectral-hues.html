@@ -10,7 +10,7 @@
     <meta property="og:description" content="Editorial brochure design for Spectral Hues, a Palo Alto Art Center exhibition.">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'Avara';
@@ -164,6 +164,7 @@
         }
         .nav-social-icon:hover { color: var(--text); background-color: color-mix(in srgb, var(--text) 5%, transparent); }
         .nav-social-icon svg { width: 17px; height: 17px; }
+        .nav-social-icon[aria-label="Instagram"] { display: none; }
         .nav-copyright { font-size: 12px; color: var(--muted); }
         .nav-hamburger { display: none; background: none; border: none; padding: 0; }
 
@@ -319,50 +320,6 @@
         .fp-bayes.lit::after { width: 100%; background-color: #2BE2AE; }
         .fp-bb.lit::after { width: 100%; background-color: #09ACB4; }
         .project-card.linked-hover { border-color: color-mix(in srgb, var(--border) 60%, var(--muted)); }
-        /* TEMP: Avara font-size tuner — remove before shipping */
-        .avara-tuner {
-            display: none; /* hidden — remove this line to bring the tuner back */
-            position: fixed; bottom: 16px; left: 16px; z-index: 60;
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .avara-tuner input[type="range"] { width: 120px; accent-color: var(--text); }
-        .avara-tuner .avara-tuner-val { color: var(--text); min-width: 34px; text-align: right; }
-        /* TEMP: content-width tuner — remove before shipping */
-        .width-tuner {
-            display: none; /* hidden — change to flex to bring the tuner back */
-            position: fixed; bottom: 16px; left: 16px; z-index: 60;
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .width-tuner input[type="range"] { width: 160px; accent-color: var(--text); }
-        .width-tuner .width-tuner-val { color: var(--text); min-width: 44px; text-align: right; }
-        /* TEMP: nav menu link font-size tuner — remove before shipping */
-        .navfont-tuner {
-            position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 60;
-            display: none; /* hidden — change to flex to bring the tuner back */
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .navfont-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
-        .navfont-tuner .navfont-tuner-val { color: var(--text); min-width: 40px; text-align: right; }
-        /* TEMP: home tile aspect-ratio tuner — remove before shipping */
-        .tileratio-tuner {
-            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 60;
-            display: none; /* hidden — change to flex to bring the tuner back */
-            align-items: center; gap: 10px;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-            padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-        }
-        .tileratio-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
-        .tileratio-tuner .tileratio-tuner-val { color: var(--text); min-width: 40px; text-align: right; }
         /* Say hello fab (bottom-right) */
         .hello-link { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
         .hello-link:hover { color: var(--text); }
@@ -888,39 +845,6 @@
             flex: 1;
             padding-top: 10px;
         }
-        /* TEMP: top-bar type tuner panel — remove before shipping */
-        .typetuner {
-            display: none; /* hidden — values finalized; change to block to bring the tuner back */
-            position: fixed; top: 16px; right: 16px; z-index: 70;
-            width: 272px; max-height: calc(100vh - 32px); overflow-y: auto;
-            background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
-            scrollbar-width: thin;
-        }
-        .typetuner-head {
-            position: sticky; top: 0;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 12px; border-bottom: 1px solid var(--border);
-            background: var(--bg); cursor: pointer; color: var(--text);
-            border-radius: 10px 10px 0 0;
-        }
-        .typetuner-toggle {
-            background: none; border: none; color: var(--muted);
-            font-family: 'Space Mono', monospace; font-size: 14px; line-height: 1;
-            cursor: pointer; padding: 0 2px;
-        }
-        .typetuner-body { padding: 12px; display: flex; flex-direction: column; gap: 16px; }
-        .typetuner.collapsed .typetuner-body { display: none; }
-        .typetuner-group { display: flex; flex-direction: column; gap: 6px; }
-        .typetuner-group-label {
-            color: var(--text); font-size: 11px; letter-spacing: 0.06em;
-            text-transform: uppercase; margin-bottom: 2px;
-        }
-        .typetuner-row { display: flex; align-items: center; gap: 8px; }
-        .typetuner-row .typetuner-prop { width: 60px; flex-shrink: 0; color: var(--muted); }
-        .typetuner-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--text); }
-        .typetuner-val { width: 56px; flex-shrink: 0; text-align: right; color: var(--text); }
         .spectral-images { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .spectral-page {
             width: 100%;
@@ -1376,72 +1300,6 @@
     <div class="feed-wrapper">
     <main class="feed">
 
-    <!-- TEMP: Avara font-size tuner — remove before shipping -->
-    <div class="avara-tuner">
-        <span>Aa Avara</span>
-        <input type="range" id="avaraSizeSlider" min="12" max="40" step="0.5" value="22">
-        <span class="avara-tuner-val" id="avaraSizeVal">22px</span>
-    </div>
-
-    <!-- Subpage width control -->
-    <div class="width-tuner">
-        <span>Subpage Width</span>
-        <input type="range" id="contentWidthSlider" min="600" max="1400" step="10" value="1010">
-        <span class="width-tuner-val" id="contentWidthVal">1010px</span>
-    </div>
-
-    <!-- TEMP: nav menu link font-size tuner — remove before shipping -->
-    <div class="navfont-tuner">
-        <span>Nav Aa</span>
-        <input type="range" id="navFontSlider" min="10" max="22" step="0.5" value="13">
-        <span class="navfont-tuner-val" id="navFontVal">13px</span>
-    </div>
-
-    <!-- TEMP: home tile aspect-ratio tuner — remove before shipping -->
-    <div class="tileratio-tuner">
-        <span>Tile W:H</span>
-        <input type="range" id="tileRatioSlider" min="1" max="3" step="0.05" value="1.75">
-        <span class="tileratio-tuner-val" id="tileRatioVal">1.75</span>
-    </div>
-
-    <!-- Top-bar type tuner (Eyebrow / Title / Tags / Description) -->
-    <div class="typetuner" id="typeTuner">
-        <div class="typetuner-head" id="typeTunerHead">
-            <span>Top Bar Type</span>
-            <button class="typetuner-toggle" id="typeTunerToggle" aria-hidden="true">−</button>
-        </div>
-        <div class="typetuner-body" id="typeTunerBody">
-            <div class="typetuner-group">
-                <div class="typetuner-group-label">Eyebrow</div>
-                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--eyebrow-size" data-unit="px" min="8" max="40" step="1" value="15"><span class="typetuner-val">15px</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--eyebrow-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="0"><span class="typetuner-val">0%</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--eyebrow-weight" data-unit="" min="300" max="800" step="50" value="600"><span class="typetuner-val">600</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--eyebrow-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.2"><span class="typetuner-val">1.2</span></label>
-            </div>
-            <div class="typetuner-group">
-                <div class="typetuner-group-label">Title</div>
-                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--title-size" data-unit="px" min="16" max="80" step="1" value="36"><span class="typetuner-val">36px</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--title-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.5"><span class="typetuner-val">-1.5%</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--title-weight" data-unit="" min="300" max="800" step="50" value="600"><span class="typetuner-val">600</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--title-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.2"><span class="typetuner-val">1.2</span></label>
-            </div>
-            <div class="typetuner-group">
-                <div class="typetuner-group-label">Tags</div>
-                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--tags-size" data-unit="px" min="8" max="32" step="1" value="12"><span class="typetuner-val">12px</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--tags-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-0.1"><span class="typetuner-val">-0.1%</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--tags-weight" data-unit="" min="300" max="800" step="50" value="800"><span class="typetuner-val">800</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--tags-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.5"><span class="typetuner-val">1.5</span></label>
-            </div>
-            <div class="typetuner-group">
-                <div class="typetuner-group-label">Description</div>
-                <label class="typetuner-row"><span class="typetuner-prop">Size</span><input type="range" data-var="--desc-size" data-unit="px" min="10" max="32" step="1" value="15"><span class="typetuner-val">15px</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Width</span><input type="range" data-var="--desc-tracking" data-mode="tracking" min="-10" max="5" step="0.1" value="-1.25"><span class="typetuner-val">-1.25%</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Weight</span><input type="range" data-var="--desc-weight" data-unit="" min="300" max="800" step="50" value="400"><span class="typetuner-val">400</span></label>
-                <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--desc-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.59"><span class="typetuner-val">1.59</span></label>
-            </div>
-        </div>
-    </div>
-
     <!-- Spectral Hues (editorial case study) -->
     <div id="spectral-hues">
         <div class="spectral-header">
@@ -1515,80 +1373,6 @@
 
 
     <script>
-        // TEMP: Avara font-size tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('avaraSizeSlider');
-            const val = document.getElementById('avaraSizeVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--avara-size', slider.value + 'px');
-                val.textContent = slider.value + 'px';
-            });
-        })();
-
-        // TEMP: content-width tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('contentWidthSlider');
-            const val = document.getElementById('contentWidthVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--content-w', slider.value + 'px');
-                val.textContent = slider.value + 'px';
-            });
-        })();
-
-        // TEMP: nav menu link font-size tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('navFontSlider');
-            const val = document.getElementById('navFontVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--nav-font-size', slider.value + 'px');
-                val.textContent = slider.value + 'px';
-            });
-        })();
-
-        // TEMP: home tile aspect-ratio tuner — remove before shipping
-        (function () {
-            const slider = document.getElementById('tileRatioSlider');
-            const val = document.getElementById('tileRatioVal');
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                document.documentElement.style.setProperty('--tile-ratio', slider.value);
-                val.textContent = slider.value;
-            });
-        })();
-        // Top-bar type tuner — generic wiring for every slider in the panel
-        (function () {
-            const root = document.documentElement;
-            document.querySelectorAll('#typeTunerBody input[type="range"]').forEach(input => {
-                const varName = input.dataset.var;
-                const unit = input.dataset.unit || '';
-                const isTracking = input.dataset.mode === 'tracking';
-                const valEl = input.parentElement.querySelector('.typetuner-val');
-                const update = () => {
-                    if (isTracking) {
-                        // Figma expresses letter spacing as % of font-size — 1% = 0.01em,
-                        // so storing it as em keeps it proportional if size changes too.
-                        root.style.setProperty(varName, (parseFloat(input.value) / 100) + 'em');
-                        if (valEl) valEl.textContent = input.value + '%';
-                    } else {
-                        root.style.setProperty(varName, input.value + unit);
-                        if (valEl) valEl.textContent = input.value + unit;
-                    }
-                };
-                input.addEventListener('input', update);
-            });
-            const panel = document.getElementById('typeTuner');
-            const head = document.getElementById('typeTunerHead');
-            const toggle = document.getElementById('typeTunerToggle');
-            if (panel && head && toggle) {
-                head.addEventListener('click', () => {
-                    panel.classList.toggle('collapsed');
-                    toggle.textContent = panel.classList.contains('collapsed') ? '+' : '−';
-                });
-            }
-        })();
         // ── Active nav state — highlight whichever sidebar link matches
         // the current page (accent color if the project has one, bold
         // weight otherwise). Replaces the old always-on Bayes green. ──
