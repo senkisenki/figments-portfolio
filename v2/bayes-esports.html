@@ -937,12 +937,23 @@
            stacked images and grid rows. 10px gap throughout, matching the
            gap used between Spectral Hues' stacked images. ── */
         .cs-section-head { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .cs-section-head summary { list-style: none; cursor: default; }
+        .cs-section-head summary::-webkit-details-marker { display: none; }
         .cs-kicker {
             font-family: 'Space Mono', monospace;
             font-size: 14px;
             line-height: 1.2;
             color: var(--text);
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dd-chevron { display: none; width: 11px; height: 11px; flex-shrink: 0; color: var(--muted); transition: transform 0.2s ease; }
+        @media (max-width: 900px) {
+            .cs-section-head summary { cursor: pointer; }
+            .dd-chevron { display: inline-block; }
+            .cs-section-head[open] .dd-chevron { transform: rotate(180deg); }
         }
         .cs-desc {
             font-family: 'Schibsted Grotesk', sans-serif;
@@ -1219,7 +1230,7 @@
         .mnav-hello { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -6px; }
         .mnav-menu { display: flex; flex-direction: column; gap: 18px; }
         .mnav-group { display: flex; flex-direction: column; gap: 12px; }
-        .mnav-heading { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); opacity: 0.5; }
+        .mnav-heading { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 400; letter-spacing: 0.03em; color: var(--muted); opacity: 0.5; }
         .mnav-menu .nav-menu-link { font-size: 17px; }
         .mnav-desc { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
         .mnav-social { display: flex; align-items: center; gap: 4px; margin-left: -6px; }
@@ -1483,10 +1494,10 @@
         </div>
 
         <div class="cs-section">
-            <div class="cs-section-head">
-                <div class="cs-kicker">01 Social Media</div>
+            <details class="cs-section-head" open>
+                <summary class="cs-kicker">01 Social Media<svg class="dd-chevron" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
                 <p class="cs-desc">I led the visual direction for Bayes Esports across our social channels. Over time, the work grew from day-to-day content production into a broader strategy that brought consistency and coherence to our social presence.</p>
-            </div>
+            </details>
             <div class="cs-stack">
                 <div class="spectral-page" style="aspect-ratio: 1010 / 170;"><img src="images/bayes-pages/brand-cover-business2025-01.webp" alt="Bayes Esports LinkedIn banner — The Leading Data Ecosystem in Esports, variant 1" loading="lazy"></div>
                 <div class="spectral-page" style="aspect-ratio: 1010 / 170;"><img src="images/bayes-pages/brand-cover-business2025-02.webp" alt="Bayes Esports LinkedIn banner — The Leading Data Ecosystem in Esports, variant 2" loading="lazy"></div>
@@ -1502,10 +1513,10 @@
         </div>
 
         <div class="cs-section">
-            <div class="cs-section-head">
-                <div class="cs-kicker">02 One-Pagers</div>
+            <details class="cs-section-head" open>
+                <summary class="cs-kicker">02 One-Pagers<svg class="dd-chevron" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
                 <p class="cs-desc">These one-pagers were designed to introduce Bayes Esports products to potential partners, translating technical features into clear, visually digestible formats. Shared across outreach and events, each piece was built to communicate product value quickly and make a strong first impression.</p>
-            </div>
+            </details>
             <div class="cs-row-2">
                 <div class="spectral-page" style="aspect-ratio: 500 / 590;"><img src="images/bayes-pages/onepager-leading-game-titles.webp" alt="One-pager — The Three Leading Game Titles" loading="lazy"></div>
                 <div class="spectral-page" style="aspect-ratio: 500 / 590;"><img src="images/bayes-pages/onepager-bayes-widget.webp" alt="One-pager — Bayes Widget" loading="lazy"></div>
@@ -1513,10 +1524,10 @@
         </div>
 
         <div class="cs-section">
-            <div class="cs-section-head">
-                <div class="cs-kicker">03 Booth Design</div>
+            <details class="cs-section-head" open>
+                <summary class="cs-kicker">03 Booth Design<svg class="dd-chevron" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
                 <p class="cs-desc">For major industry trade shows, I led the visual design of our three-wall conference booths, which meant thinking beyond screen and into physical space. That shift required considering how the brand would read from a distance as well as up close, and balancing both in a single layout. I was involved from the initial concept through to the final print-ready files, with input on both the graphics and the physical layout of the space.</p>
-            </div>
+            </details>
             <div class="cs-stack">
                 <div class="spectral-page" style="aspect-ratio: 1010 / 570;"><img src="images/bayes-pages/booth-official-data-is-live.webp" alt="Trade show booth design — Official Data Is Live" loading="lazy"></div>
             </div>
@@ -1815,6 +1826,13 @@
                     lightbox.classList.add('open');
                 });
             });
+        })();
+
+        // ── Collapse the section-desc dropdowns by default on mobile ──
+        (function () {
+            if (window.matchMedia('(max-width: 900px)').matches) {
+                document.querySelectorAll('.cs-section-head[open]').forEach(d => d.removeAttribute('open'));
+            }
         })();
     </script>
 

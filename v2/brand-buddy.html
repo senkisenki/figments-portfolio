@@ -936,12 +936,23 @@
            of a single stacked column. Grid gap (both axes) matches the 10px
            gap used between Spectral Hues' stacked images. ── */
         .bb-client-head { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .bb-client-head summary { list-style: none; cursor: default; }
+        .bb-client-head summary::-webkit-details-marker { display: none; }
         .bb-kicker {
             font-family: 'Space Mono', monospace;
             font-size: 14px;
             line-height: 1.2;
             color: var(--text);
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dd-chevron { display: none; width: 11px; height: 11px; flex-shrink: 0; color: var(--muted); transition: transform 0.2s ease; }
+        @media (max-width: 900px) {
+            .bb-client-head summary { cursor: pointer; }
+            .dd-chevron { display: inline-block; }
+            .bb-client-head[open] .dd-chevron { transform: rotate(180deg); }
         }
         .bb-client-desc {
             font-family: 'Schibsted Grotesk', sans-serif;
@@ -1218,7 +1229,7 @@
         .mnav-hello { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -6px; }
         .mnav-menu { display: flex; flex-direction: column; gap: 18px; }
         .mnav-group { display: flex; flex-direction: column; gap: 12px; }
-        .mnav-heading { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); opacity: 0.5; }
+        .mnav-heading { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 400; letter-spacing: 0.03em; color: var(--muted); opacity: 0.5; }
         .mnav-menu .nav-menu-link { font-size: 17px; }
         .mnav-desc { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
         .mnav-social { display: flex; align-items: center; gap: 4px; margin-left: -6px; }
@@ -1482,10 +1493,10 @@
         </div>
 
         <div class="bb-client">
-            <div class="bb-client-head">
-                <div class="bb-kicker">01 Rick&rsquo;s Picks</div>
+            <details class="bb-client-head" open>
+                <summary class="bb-kicker">01 Rick&rsquo;s Picks<svg class="dd-chevron" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
                 <p class="bb-client-desc">Rick's Picks is a Brooklyn-based artisanal pickle brand known for bold flavors and all-natural ingredients. I designed multiple sets of Amazon product images across their pickle jars and snacking pouches, with the goal of creating visuals that felt like a natural extension of the brand rather than generic e-commerce.</p>
-            </div>
+            </details>
             <div class="bb-grid">
                 <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-01.webp" alt="Rick's Picks Amazon product image 1" loading="lazy"></div>
                 <div class="spectral-page"><img src="images/brand-buddy/squares/ricks-picks-02.webp" alt="Rick's Picks Amazon product image 2" loading="lazy"></div>
@@ -1497,10 +1508,10 @@
         </div>
 
         <div class="bb-client">
-            <div class="bb-client-head">
-                <div class="bb-kicker">02 Clean Nutrition</div>
+            <details class="bb-client-head" open>
+                <summary class="bb-kicker">02 Clean Nutrition<svg class="dd-chevron" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
                 <p class="bb-client-desc">Clean Nutrition Co. is a New Zealand-based protein and supplement brand built around natural, additive-free ingredients. With only isolated product shots to start from, I sourced and composited all lifestyle photography, pushing their underdeveloped identity into something cleaner and more performance-driven.</p>
-            </div>
+            </details>
             <div class="bb-grid">
                 <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-01.webp" alt="Clean Nutrition Amazon product image 1" loading="lazy"></div>
                 <div class="spectral-page"><img src="images/brand-buddy/squares/clean-nutrition-02.webp" alt="Clean Nutrition Amazon product image 2" loading="lazy"></div>
@@ -1512,10 +1523,10 @@
         </div>
 
         <div class="bb-client">
-            <div class="bb-client-head">
-                <div class="bb-kicker">03 Supernola</div>
+            <details class="bb-client-head" open>
+                <summary class="bb-kicker">03 Supernola<svg class="dd-chevron" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
                 <p class="bb-client-desc">Supernola is a plant-based superfood snack brand with a bold, energetic identity built around clean ingredients and sustainability. Working from isolated product shots, I built every lifestyle scene from scratch, leaning into strong color and varied layouts across the set.</p>
-            </div>
+            </details>
             <div class="bb-grid">
                 <div class="spectral-page"><img src="images/brand-buddy/squares/supernola-01.webp" alt="Supernola Amazon product image 1" loading="lazy"></div>
                 <div class="spectral-page"><img src="images/brand-buddy/squares/supernola-02.webp" alt="Supernola Amazon product image 2" loading="lazy"></div>
@@ -1818,6 +1829,13 @@
                     lightbox.classList.add('open');
                 });
             });
+        })();
+
+        // ── Collapse the client-desc dropdowns by default on mobile ──
+        (function () {
+            if (window.matchMedia('(max-width: 900px)').matches) {
+                document.querySelectorAll('.bb-client-head[open]').forEach(d => d.removeAttribute('open'));
+            }
         })();
     </script>
 
