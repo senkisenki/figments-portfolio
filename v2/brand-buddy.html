@@ -204,6 +204,7 @@
             font-weight: 400;
             letter-spacing: 0.03em;
             color: var(--muted);
+            opacity: 0.5;
         }
         .nav-menu-link {
             display: block;
@@ -241,6 +242,7 @@
             letter-spacing: 0.03em;
             color: var(--muted);
             white-space: nowrap;
+            opacity: 0.5;
         }
         .nav-about {
             display: none; /* parked per v2 Home design — About drawer code kept intact, just unreachable from the sidebar for now */
@@ -1216,7 +1218,7 @@
         .mnav-hello { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -6px; }
         .mnav-menu { display: flex; flex-direction: column; gap: 18px; }
         .mnav-group { display: flex; flex-direction: column; gap: 12px; }
-        .mnav-heading { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+        .mnav-heading { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); opacity: 0.5; }
         .mnav-menu .nav-menu-link { font-size: 17px; }
         .mnav-desc { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
         .mnav-social { display: flex; align-items: center; gap: 4px; margin-left: -6px; }
@@ -1240,6 +1242,15 @@
             .nav-photo { display: none; }
             .nav-social a.nav-social-icon { display: none; }
             .nav-copyright { display: none; }
+            .nav-left { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); margin: 0; }
+            .nav-social .theme-toggle { display: none; }
+            .nav-hamburger {
+                position: fixed; left: 20px; bottom: 20px; z-index: 55;
+                width: 44px; height: 44px;
+                display: flex; align-items: center; justify-content: center;
+                background: var(--bg); border: 1px solid var(--border); border-radius: 50%;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+            }
             .feed { max-width: 620px; padding: 32px 24px 40px; }
             .nav-star { display: none; }
             .bio-line { font-size: 20px; }
@@ -1380,6 +1391,10 @@
                     <a href="#" target="_blank" rel="noopener" class="nav-social-icon" aria-label="Instagram">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
                     </a>
+                    <button class="theme-toggle nav-social-icon" aria-label="Toggle light/dark theme" title="Toggle theme">
+                        <svg class="icon-sun" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 0.75v2M8 13.25v2M15.25 8h-2M2.75 8h-2M13.03 2.97l-1.41 1.41M4.38 11.62l-1.41 1.41M13.03 13.03l-1.41-1.41M4.38 4.38L2.97 2.97" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        <svg class="icon-moon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 9.2A6 6 0 1 1 6.8 2a4.7 4.7 0 0 0 7.2 7.2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+                    </button>
                 </div>
                 <span class="mnav-copyright">© 2026 Ian Crvenkovic</span>
             </div>
@@ -1653,13 +1668,12 @@
         } else {
             document.body.classList.remove('dark');
         }
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
+        document.querySelectorAll('.theme-toggle').forEach((themeToggle) => {
             themeToggle.addEventListener('click', () => {
                 document.body.classList.toggle('dark');
                 localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
             });
-        }
+        });
 
 
         // ── Copy email to clipboard ──
