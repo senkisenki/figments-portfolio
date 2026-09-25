@@ -144,9 +144,16 @@
            block: icon buttons at w-7/h-7 (28px), gap-1 (4px), pulled -6px to
            optically align the icon glyphs with the text above them ── */
         .nav-bottom { margin-top: auto; padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
-        .nav-photo { width: 111px; height: 111px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--border); margin-bottom: 14px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .nav-photo:hover { transform: scale(1.045); box-shadow: 0 0 0 3px color-mix(in srgb, #2BE2AE 45%, transparent); }
+        .nav-photo { position: relative; width: 111px; height: 111px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--border); margin-bottom: 14px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .nav-photo:hover, .nav-photo:focus-within { transform: scale(1.045); box-shadow: 0 0 0 3px color-mix(in srgb, #2BE2AE 45%, transparent); }
         .nav-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
+        .nav-photo-hello { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; background: rgba(6,17,13,0.72); opacity: 0; transition: opacity 0.2s ease; }
+        .nav-photo:hover .nav-photo-hello, .nav-photo:focus-within .nav-photo-hello { opacity: 1; }
+        .nav-photo-hello .hello-link { color: #fff; }
+        .nav-photo-hello .hello-link:hover { color: #2BE2AE; }
+        .nav-photo-hello .hello-copy { color: rgba(255,255,255,0.75); }
+        .nav-photo-hello .hello-copy:hover { color: #fff; }
+        .nav-photo-hello .hello-copy.copied { color: #2BE2AE; }
         .nav-social { display: flex; align-items: center; gap: 4px; margin-left: -6px; }
         .nav-social-icon {
             width: 28px; height: 28px;
@@ -158,6 +165,7 @@
         .nav-social-icon:hover { color: var(--text); background-color: color-mix(in srgb, var(--text) 5%, transparent); }
         .nav-social-icon svg { width: 17px; height: 17px; }
         .nav-copyright { font-size: 12px; color: var(--muted); }
+        .nav-hamburger { display: none; background: none; border: none; padding: 0; }
 
         /* ── Feed (main column) — centered within the space to the right of the sidebar ── */
         .feed {
@@ -220,6 +228,19 @@
         .nav-menu-link.nav-accent-bb.is-active:hover { color: #09ACB4; }
         .nav-menu-link.nav-accent-logos.is-active { color: #FF8A3D; }
         .nav-menu-link.nav-accent-logos.is-active:hover { color: #FF8A3D; }
+        .nav-menu-link-soon {
+            display: flex !important;
+            align-items: baseline;
+            gap: 7px;
+        }
+        .nav-soon-badge {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            color: var(--muted);
+            white-space: nowrap;
+        }
         .nav-about {
             display: none; /* parked per v2 Home design — About drawer code kept intact, just unreachable from the sidebar for now */
             align-self: center;
@@ -243,10 +264,10 @@
         .nav-desc .fp-bayes:hover { color: #2BE2AE; }
         .nav-desc .fp-bb:hover { color: #09ACB4; }
         /* ── Custom circular cursor (à la rachelchen.tech) ── */
-        body, a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link { cursor: none; }
+        body, a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link, .spectral-page { cursor: none; }
         input, textarea, select, [contenteditable] { cursor: auto; }
         @media (hover: none), (pointer: coarse) {
-            body, a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link { cursor: auto; }
+            body, a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link, .spectral-page { cursor: auto; }
         }
         .cursor-dot {
             position: fixed;
@@ -257,14 +278,36 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0;
-            transition: width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, opacity 0.2s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: width 0.2s ease-out, height 0.2s ease-out, padding 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, opacity 0.2s ease-out;
         }
         .cursor-dot.is-visible { opacity: 1; }
         .cursor-dot.is-hover {
-            width: 36px; height: 36px;
-            background: transparent;
-            border: 1.5px solid #2BE2AE;
+            width: 32px; height: 32px;
+            background: #2BE2AE;
+            border: none;
         }
+        .cursor-dot.is-image {
+            width: auto;
+            height: 40px;
+            padding: 0 18px;
+            background: #2BE2AE;
+            border: none;
+        }
+        .cursor-dot-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #06110d;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            white-space: nowrap;
+        }
+        .cursor-dot.is-image .cursor-dot-label { opacity: 1; }
         @media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
 
         /* linked hover: card <-> name text */
@@ -286,8 +329,9 @@
         .avara-tuner .avara-tuner-val { color: var(--text); min-width: 34px; text-align: right; }
         /* TEMP: content-width tuner — remove before shipping */
         .width-tuner {
+            display: none; /* hidden — change to flex to bring the tuner back */
             position: fixed; bottom: 16px; left: 16px; z-index: 60;
-            display: flex; align-items: center; gap: 10px;
+            align-items: center; gap: 10px;
             background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
             padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
             font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
@@ -317,7 +361,6 @@
         .tileratio-tuner input[type="range"] { width: 140px; accent-color: var(--text); }
         .tileratio-tuner .tileratio-tuner-val { color: var(--text); min-width: 40px; text-align: right; }
         /* Say hello fab (bottom-right) */
-        .hello-fab { position: fixed; bottom: 16px; right: 16px; z-index: 60; display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.45); }
         .hello-link { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-decoration: none; transition: color 0.15s ease; }
         .hello-link:hover { color: var(--text); }
         .hello-copy { background: none; border: none; cursor: pointer; color: var(--muted); display: inline-flex; align-items: center; padding: 0; transition: color 0.15s ease; }
@@ -339,6 +382,7 @@
             transition: opacity 0.15s ease;
         }
         .nav-name:hover { opacity: 0.7; }
+        .nav-name-mark { display: block; width: 148px; height: auto; color: var(--text); }
         .nav-logo-test { display: none; } /* SVG wordmark parked in favor of plain-text logo per v2 Home design — remove this line to bring it back */
         .nav-logo { height: 25.3px; width: auto; color: var(--text); flex-shrink: 0; }
         .nav-logo-hidden { display: none; }
@@ -880,7 +924,6 @@
             aspect-ratio: 2150 / 1700;
             border: 1px solid var(--border);
             overflow: hidden;
-            cursor: zoom-in;
         }
         .spectral-page img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.15s ease; }
         .spectral-page:hover img { opacity: 0.92; }
@@ -1139,8 +1182,49 @@
         .about-link .arr { color: var(--muted); font-size: 12px; }
         .about-copy { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
 
+        /* ── Mobile nav drawer ── */
+        .mnav-overlay { position: fixed; inset: 0; z-index: 600; pointer-events: none; }
+        .mnav-overlay.open { pointer-events: auto; }
+        .mnav-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.35s ease; }
+        .mnav-overlay.open .mnav-backdrop { background: rgba(0,0,0,0.55); }
+        .mnav-panel {
+            position: absolute;
+            top: 16px; left: 16px; bottom: 16px;
+            width: min(300px, calc(100vw - 32px));
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+            transform: translateX(calc(-100% - 32px));
+            transition: transform 0.42s cubic-bezier(0.4, 0, 0.1, 1);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .mnav-overlay.open .mnav-panel { transform: translateX(0); }
+        .mnav-head { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 20px 22px 12px; }
+        .mnav-title { font-size: 18px; font-weight: 400; color: var(--text); }
+        .mnav-close {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); border: none; cursor: pointer;
+            color: var(--text); font-size: 13px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s ease;
+        }
+        .mnav-close:hover { background: rgba(255,255,255,0.16); }
+        .mnav-body { flex: 1 1 auto; overflow-y: auto; padding: 6px 22px 24px; scrollbar-width: thin; display: flex; flex-direction: column; gap: 22px; }
+        .mnav-photo { width: 76px; height: 76px; border-radius: 50%; overflow: hidden; margin: 4px auto 0; background: var(--border); }
+        .mnav-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
+        .mnav-hello { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -6px; }
+        .mnav-menu { display: flex; flex-direction: column; gap: 18px; }
+        .mnav-group { display: flex; flex-direction: column; gap: 12px; }
+        .mnav-heading { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+        .mnav-menu .nav-menu-link { font-size: 17px; }
+        .mnav-desc { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
+        .mnav-social { display: flex; align-items: center; gap: 4px; margin-left: -6px; }
+        .mnav-copyright { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
         /* ── Tablet ── */
         @media (max-width: 900px) {
+            .nav-hamburger { display: inline-flex; }
             .sidebar {
                 position: sticky; top: 0; left: 0; right: auto; z-index: 50;
                 width: 100%; height: auto;
@@ -1200,10 +1284,14 @@
     <aside class="sidebar">
         <div class="sidebar-inner">
         <div class="nav-left">
-            <a href="index.html" class="nav-name">Ian Crvenkovic</a>
+            <a href="index.html" class="nav-name" aria-label="Ian Crvenkovic — Home">
+                <svg class="nav-name-mark" viewBox="0 0 327.46 25.7" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M3.03,22.68L83.38,3.03M83.38,22.68L163.73,3.03v19.65L244.08,3.03v19.65L324.43,3.03" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.05"/>
+                </svg>
+            </a>
         </div>
         <div class="nav-right">
-            <div class="nav-desc">A designer based in Berlin.</div>
+            <div class="nav-desc">Ian Crvenkovic is a designer based in Berlin.</div>
             <button class="nav-about" id="aboutOpen">More About Me</button>
         </div>
         <nav class="nav-menu">
@@ -1213,16 +1301,27 @@
                 <a href="brand-buddy.html" class="nav-menu-link nav-accent-bb">Brand Buddy</a>
             </div>
             <div class="nav-menu-group">
-                <a href="logos-branding.html" class="nav-menu-link nav-accent-logos">Logos/Branding</a>
-                <a href="#" class="nav-menu-link">More Client Work</a>
+                <a href="#" class="nav-menu-link nav-menu-link-soon">Soft Power<span class="nav-soon-badge">Coming soon</span></a>
+                <a href="spectral-hues.html" class="nav-menu-link">Spectral Hues</a>
+                <a href="logos-branding.html" class="nav-menu-link nav-accent-logos">Logos &amp; Branding</a>
                 <a href="figments.html" class="nav-menu-link">Figments</a>
             </div>
         </nav>
         <div class="nav-bottom">
             <div class="nav-photo">
                 <img src="images/about/ian-sky.jpg" alt="Ian Crvenkovic" loading="lazy">
+                <div class="nav-photo-hello">
+                    <a class="hello-link" href="mailto:icrvenkovic@gmail.com">Say hello!</a>
+                    <button class="hello-copy" aria-label="Copy email address" title="Copy email">
+                        <svg class="icon-copy" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="icon-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
             </div>
             <div class="nav-social">
+                <button class="nav-hamburger nav-social-icon" id="mnavOpen" aria-label="Open menu">
+                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </button>
                 <a href="https://www.linkedin.com/in/ian-crvenkovic-93a03393" target="_blank" rel="noopener" class="nav-social-icon" aria-label="LinkedIn">
                     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.56V9h3.554v11.452z"/></svg>
                 </a>
@@ -1238,6 +1337,52 @@
         </div>
         </div>
     </aside>
+
+    <!-- ── Mobile nav drawer (hamburger) ── -->
+    <div class="mnav-overlay" id="mnavOverlay">
+        <div class="mnav-backdrop" id="mnavBackdrop"></div>
+        <aside class="mnav-panel" role="dialog" aria-label="Site navigation">
+            <div class="mnav-head">
+                <span class="mnav-title">Menu</span>
+                <button class="mnav-close" id="mnavClose" aria-label="Close">✕</button>
+            </div>
+            <div class="mnav-body">
+                <div class="mnav-photo">
+                    <img src="images/about/ian-sky.jpg" alt="Ian Crvenkovic" loading="lazy">
+                </div>
+                <div class="mnav-hello">
+                    <a class="hello-link" href="mailto:icrvenkovic@gmail.com">Say hello!</a>
+                    <button class="hello-copy" aria-label="Copy email address" title="Copy email">
+                        <svg class="icon-copy" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="icon-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
+                <div class="mnav-desc">Ian Crvenkovic is a designer based in Berlin.</div>
+                <nav class="mnav-menu">
+                    <div class="mnav-group">
+                        <span class="mnav-heading">Previously at</span>
+                        <a href="bayes-esports.html" class="nav-menu-link nav-accent-bayes">Bayes Esports</a>
+                        <a href="brand-buddy.html" class="nav-menu-link nav-accent-bb">Brand Buddy</a>
+                    </div>
+                    <div class="mnav-group">
+                        <a href="#" class="nav-menu-link nav-menu-link-soon">Soft Power<span class="nav-soon-badge">Coming soon</span></a>
+                        <a href="spectral-hues.html" class="nav-menu-link">Spectral Hues</a>
+                        <a href="logos-branding.html" class="nav-menu-link nav-accent-logos">Logos &amp; Branding</a>
+                        <a href="figments.html" class="nav-menu-link">Figments</a>
+                    </div>
+                </nav>
+                <div class="mnav-social">
+                    <a href="https://www.linkedin.com/in/ian-crvenkovic-93a03393" target="_blank" rel="noopener" class="nav-social-icon" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.56V9h3.554v11.452z"/></svg>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener" class="nav-social-icon" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                </div>
+                <span class="mnav-copyright">© 2026 Ian Crvenkovic</span>
+            </div>
+        </aside>
+    </div>
 
     <div class="feed-wrapper">
     <main class="feed">
@@ -1306,15 +1451,6 @@
                 <label class="typetuner-row"><span class="typetuner-prop">Line hgt</span><input type="range" data-var="--desc-lh" data-unit="" min="0.9" max="2.2" step="0.01" value="1.59"><span class="typetuner-val">1.59</span></label>
             </div>
         </div>
-    </div>
-
-    <!-- Say hello (bottom-right) -->
-    <div class="hello-fab">
-        <a class="hello-link" href="mailto:icrvenkovic@gmail.com">Say hello!</a>
-        <button class="hello-copy" id="emailCopy" aria-label="Copy email address" title="Copy email">
-            <svg class="icon-copy" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <svg class="icon-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
     </div>
 
     <!-- Bayes Esports (multi-section case study) -->
@@ -1521,8 +1657,7 @@
 
 
         // ── Copy email to clipboard ──
-        const emailCopyBtn = document.getElementById('emailCopy');
-        if (emailCopyBtn) {
+        document.querySelectorAll('.hello-copy').forEach((emailCopyBtn) => {
             const EMAIL = 'icrvenkovic@gmail.com';
             emailCopyBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
@@ -1543,7 +1678,7 @@
                     }, 1500);
                 } catch (err) { console.warn('copy failed', err); }
             });
-        }
+        });
 
         // ── About drawer ──
         (function () {
@@ -1559,11 +1694,31 @@
             document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeAbout(); });
         })();
 
+        // ── Mobile nav drawer (hamburger) ──
+        (function () {
+            const overlay = document.getElementById('mnavOverlay');
+            const openBtn = document.getElementById('mnavOpen');
+            const closeBtn = document.getElementById('mnavClose');
+            const backdrop = document.getElementById('mnavBackdrop');
+            if (!overlay || !openBtn) return;
+            function openMnav()  { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+            function closeMnav() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+            openBtn.addEventListener('click', openMnav);
+            closeBtn.addEventListener('click', closeMnav);
+            backdrop.addEventListener('click', closeMnav);
+            overlay.querySelectorAll('.nav-menu-link').forEach(link => link.addEventListener('click', closeMnav));
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeMnav(); });
+        })();
+
         // ── Custom circular cursor (à la rachelchen.tech) ──
         (function () {
             if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
             const dot = document.createElement('div');
             dot.className = 'cursor-dot';
+            const dotLabel = document.createElement('span');
+            dotLabel.className = 'cursor-dot-label';
+            dotLabel.textContent = 'Open';
+            dot.appendChild(dotLabel);
             document.body.appendChild(dot);
 
             let x = 0, y = 0;
@@ -1576,11 +1731,14 @@
             document.addEventListener('mouseleave', () => dot.classList.remove('is-visible'));
 
             const HOVER_SELECTOR = 'a, button, .home-tile, .project-card, .gtile, .gallery-tab, .nav-menu-link, [role="button"]';
+            const IMAGE_SELECTOR = '.spectral-page';
             document.addEventListener('mouseover', e => {
                 if (e.target.closest(HOVER_SELECTOR)) dot.classList.add('is-hover');
+                if (e.target.closest(IMAGE_SELECTOR)) dot.classList.add('is-image');
             });
             document.addEventListener('mouseout', e => {
                 if (e.target.closest(HOVER_SELECTOR) && !e.relatedTarget?.closest(HOVER_SELECTOR)) dot.classList.remove('is-hover');
+                if (e.target.closest(IMAGE_SELECTOR) && !e.relatedTarget?.closest(IMAGE_SELECTOR)) dot.classList.remove('is-image');
             });
 
             // Re-center the dot on itself whenever its size changes (hover growth)
